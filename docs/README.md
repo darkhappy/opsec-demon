@@ -70,3 +70,6 @@ Read the [operating manual](../README.md), [contributor guide](../CONTRIBUTING.m
 - [Editor and agent tooling catalog](../TOOLING.md)
 - [Implementation architecture](../ARCHITECTURE.md)
 - [Local operations](../OPERATIONS.md)
+
+- [GitHub badge saturation and public embed dossier](../GITHUBS.md)
+- [Upstream README ornament reconnaissance](github/SOURCES.md)
