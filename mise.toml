@@ -6,22 +6,22 @@ starship = "1.26.0"
 [tasks.build]
 description = "Build the optimized demon shell"
 run = "sh scripts/build.sh"
-run_windows = "cargo +1.93.1-x86_64-pc-windows-gnu build --release --locked"
+run_windows = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rust-windows.ps1 build --release --locked"
 
 [tasks.test]
 description = "Run shell tests"
 run = "cargo test"
-run_windows = "cargo +1.93.1-x86_64-pc-windows-gnu test --locked"
+run_windows = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rust-windows.ps1 test --locked"
 
 [tasks.check]
 description = "Check formatting and lint the shell"
 run = "cargo fmt --check && cargo clippy --all-targets -- -D warnings"
-run_windows = ["cargo +1.93.1-x86_64-pc-windows-gnu fmt --check", "cargo +1.93.1-x86_64-pc-windows-gnu clippy --all-targets --locked -- -D warnings"]
+run_windows = ["powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rust-windows.ps1 fmt --check", "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rust-windows.ps1 clippy --all-targets --locked -- -D warnings"]
 
 [tasks.run]
 description = "Enter the demon shell"
 run = "cargo run --release --"
-run_windows = "cargo +1.93.1-x86_64-pc-windows-gnu run --release -- --gui"
+run_windows = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rust-windows.ps1 run --release -- --gui"
 
 
 [tasks.font]

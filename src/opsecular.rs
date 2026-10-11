@@ -3,7 +3,7 @@ use std::collections::BTreeSet;
 
 pub const MAINFRAME: &str = "OPSECULAR97::LARP-CITY::MAINFRAME";
 
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct Desktop {
     booted: bool,
     bin: BTreeSet<String>,
@@ -14,6 +14,11 @@ pub struct Desktop {
 }
 
 impl Desktop {
+    #[cfg(windows)]
+    pub fn status(&self) -> String {
+        self.clone().command(&[]).expect("status is infallible")
+    }
+
     pub fn command(&mut self, args: &[String]) -> Result<String, String> {
         let words: Vec<_> = args.iter().map(String::as_str).collect();
         match words.as_slice() {

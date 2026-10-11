@@ -4,6 +4,10 @@ mod completion;
 mod countries;
 #[cfg(windows)]
 mod desktop;
+#[cfg(windows)]
+mod desktop_gpu;
+#[cfg(windows)]
+mod desktop_session;
 mod discord;
 mod discord_profile;
 #[cfg(windows)]

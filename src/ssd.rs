@@ -42,6 +42,11 @@ impl Ssd {
         )
     }
 
+    #[cfg(windows)]
+    pub fn blasting(&self) -> bool {
+        self.blast_started.is_some()
+    }
+
     pub fn status(&self) -> String {
         let phase = if self.blast_started.is_some() {
             "ASCII DETONATION / dancing debris"

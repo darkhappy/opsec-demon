@@ -6,6 +6,69 @@ use std::process::Command;
 const TRACK: &[u8] = include_bytes!("../assets/audio/nightfall.wav");
 
 #[cfg(windows)]
+pub fn pcm_window(seconds: f64) -> Vec<f64> {
+    // The bundled score has a canonical 44-byte stereo PCM16 WAV header (tested below).
+    let frames = (TRACK.len() - 44) / 4;
+    let start = (seconds.max(0.0) * 44_100.0) as usize % frames;
+    (0..512)
+        .map(|i| {
+            let offset = 44 + ((start + i) % frames) * 4;
+            let left = i16::from_le_bytes([TRACK[offset], TRACK[offset + 1]]) as f64;
+            let right = i16::from_le_bytes([TRACK[offset + 2], TRACK[offset + 3]]) as f64;
+            (left + right) / 65_536.0
+        })
+        .collect()
+}
+
+/// Windows owns an asynchronous loop over immutable, embedded PCM data.
+#[cfg(windows)]
+#[derive(Default)]
+pub struct LoopPlayer {
+    playing: bool,
+}
+#[cfg(windows)]
+#[link(name = "winmm")]
+unsafe extern "system" {
+    fn PlaySoundW(sound: *const u8, module: *mut std::ffi::c_void, flags: u32) -> i32;
+}
+#[cfg(windows)]
+impl LoopPlayer {
+    pub fn playing(&self) -> bool {
+        self.playing
+    }
+    pub fn set(&mut self, enabled: bool) -> io::Result<()> {
+        if enabled == self.playing {
+            return Ok(());
+        }
+        // SND_ASYNC | SND_MEMORY | SND_LOOP | SND_NODEFAULT. TRACK lives for the process.
+        let ok = unsafe {
+            PlaySoundW(
+                if enabled {
+                    TRACK.as_ptr()
+                } else {
+                    std::ptr::null()
+                },
+                std::ptr::null_mut(),
+                if enabled { 0x000f } else { 0 },
+            )
+        };
+        if ok == 0 {
+            return Err(io::Error::other(
+                "Windows could not start/stop the soundtrack on the default audio output",
+            ));
+        }
+        self.playing = enabled;
+        Ok(())
+    }
+}
+#[cfg(windows)]
+impl Drop for LoopPlayer {
+    fn drop(&mut self) {
+        let _ = self.set(false);
+    }
+}
+
+#[cfg(windows)]
 pub fn bundled_player(device: Option<&str>) -> io::Result<Command> {
     let stamp = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)

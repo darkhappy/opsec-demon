@@ -9,6 +9,11 @@ license = "MIT"
 [dependencies]
 serde_json = "1.0"
 
+[target.'cfg(windows)'.dependencies]
+eframe = { version = "=0.33.3", default-features = false, features = ["wgpu", "default_fonts"] }
+png = "=0.18.1"
+pollster = "=0.4.0"
+
 [profile.release]
 lto = true
 codegen-units = 1
