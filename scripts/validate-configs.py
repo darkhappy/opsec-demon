@@ -1,6 +1,7 @@
 """Dependency-free shape checks; optional PyYAML covers non-template YAML."""
 from pathlib import Path
 import json
+from html.parser import HTMLParser
 import re
 import tomllib
 import xml.etree.ElementTree as ET
@@ -11,6 +12,16 @@ try:
     import yaml
 except ImportError:
     yaml = None
+
+class ImageReferences(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.sources = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() == 'img':
+            self.sources.extend(value for name, value in attrs if name == 'src' and value)
+
 
 checked = 0
 for path in ROOT.rglob('*'):
@@ -30,7 +41,11 @@ for path in ROOT.rglob('*'):
         list(yaml.safe_load_all(path.read_text()))
         checked += 1
     elif path.suffix == '.md':
-        for target in re.findall(r'\[[^\]\n]+\]\(([^)]+)\)', path.read_text()):
+        document = path.read_text()
+        images = ImageReferences()
+        images.feed(document)
+        targets = re.findall(r'\[[^\]\n]+\]\(([^)]+)\)', document) + images.sources
+        for target in targets:
             if target.startswith(('https:', 'http:', '#', 'mailto:')):
                 continue
             target = target.split('#')[0]
