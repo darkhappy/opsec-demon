@@ -4,10 +4,10 @@ mod completion;
 mod countries;
 mod discord;
 mod discord_profile;
-mod dsp;
-mod expansion;
 #[cfg(windows)]
 mod discord_windows;
+mod dsp;
+mod expansion;
 mod job;
 mod metrics;
 mod music;
@@ -519,8 +519,6 @@ impl Shell {
             Some(value) => value.clone(),
             None => env::var("OPSEC_DEMON_AUDIO_DEVICE").ok(),
         };
-        let mut command = soundtrack::player(path, device.as_deref())?;
-        self.apply_environment(&mut command);
         #[cfg(windows)]
         let mut command = if args.len() == 1 {
             soundtrack::bundled_player(device.as_deref())?
@@ -528,6 +526,8 @@ impl Shell {
             soundtrack::player(path, device.as_deref())?
         };
         #[cfg(not(windows))]
+        let mut command = soundtrack::player(path, device.as_deref())?;
+        self.apply_environment(&mut command);
         Ok(command)
     }
 
@@ -985,6 +985,7 @@ impl Shell {
                         .and_then(Clone::clone)
                         .map(PathBuf::from)
                         .or_else(|| env::var_os("HOME").map(PathBuf::from))
+                        .or_else(|| env::var_os("USERPROFILE").map(PathBuf::from))
                         .ok_or_else(|| io::Error::other("HOME is not set"))
                 };
                 let path = match args.get(1).map(String::as_str) {
@@ -996,7 +997,6 @@ impl Shell {
                     Some(path) if path.starts_with("~/") => home()?.join(&path[2..]),
                     Some(path) => PathBuf::from(path),
                 };
-                        .or_else(|| env::var_os("USERPROFILE").map(PathBuf::from))
                 let previous = env::current_dir()?;
                 env::set_current_dir(path)?;
                 self.previous_dir = Some(previous);
@@ -1359,6 +1359,39 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg(windows)]
+    fn windows_commands_preserve_quotes_pipes_status_and_session_environment() {
+        let mut shell = Shell::new(false);
+        shell.discord.update("demon", false, 0);
+        assert_eq!(shell.execute("export OPSEC_WIN_TEST='hello twin'"), 0);
+        let output = shell
+            .command("echo %OPSEC_WIN_TEST%|findstr twin")
+            .output()
+            .unwrap();
+        assert!(output.status.success());
+        assert_eq!(
+            String::from_utf8(output.stdout).unwrap().trim(),
+            "hello twin"
+        );
+        assert_eq!(shell.command("exit /B 7").status().unwrap().code(), Some(7));
+        assert_eq!(
+            words(r#"cd "C:\Users\operator\space folder""#).unwrap(),
+            vec!["cd", r"C:\Users\operator\space folder"]
+        );
+        let output = shell.command(r#"echo "quoted text""#).output().unwrap();
+        assert_eq!(
+            String::from_utf8(output.stdout).unwrap().trim(),
+            r#""quoted text""#
+        );
+        shell.execute("unset OPSEC_WIN_TEST");
+        let output = shell
+            .command("if defined OPSEC_WIN_TEST (exit /B 1) else (exit /B 0)")
+            .status()
+            .unwrap();
+        assert!(output.success());
+    }
+
+    #[test]
     fn builtin_arguments_preserve_quotes_escapes_and_empty_strings() {
         assert_eq!(
             words(r#"cd "space path" '' escaped\ space"#).unwrap(),
@@ -1395,39 +1428,6 @@ mod tests {
         peer.set_read_timeout(Some(Duration::from_millis(50)))
             .unwrap();
         assert!(uplink.ping().is_err());
-    #[test]
-    #[cfg(windows)]
-    fn windows_commands_preserve_quotes_pipes_status_and_session_environment() {
-        let mut shell = Shell::new(false);
-        shell.discord.update("demon", false, 0);
-        assert_eq!(shell.execute("export OPSEC_WIN_TEST='hello twin'"), 0);
-        let output = shell
-            .command("echo %OPSEC_WIN_TEST%|findstr twin")
-            .output()
-            .unwrap();
-        assert!(output.status.success());
-        assert_eq!(
-            String::from_utf8(output.stdout).unwrap().trim(),
-            "hello twin"
-        );
-        assert_eq!(shell.command("exit /B 7").status().unwrap().code(), Some(7));
-        assert_eq!(
-            words(r#"cd "C:\Users\operator\space folder""#).unwrap(),
-            vec!["cd", r"C:\Users\operator\space folder"]
-        );
-        let output = shell.command(r#"echo "quoted text""#).output().unwrap();
-        assert_eq!(
-            String::from_utf8(output.stdout).unwrap().trim(),
-            r#""quoted text""#
-        );
-        shell.execute("unset OPSEC_WIN_TEST");
-        let output = shell
-            .command("if defined OPSEC_WIN_TEST (exit /B 1) else (exit /B 0)")
-            .status()
-            .unwrap();
-        assert!(output.success());
-    }
-
         let error = peer.read(&mut [0; 1]).unwrap_err();
         assert!(matches!(
             error.kind(),
