@@ -1,0 +1,6 @@
+steps:
+  - label: ':imp: Deus Ex Machina'
+    command: sh scripts/ci.sh
+    agents:
+      queue: linux-rust-python
+    artifact_paths: target/release/opsec-demon
