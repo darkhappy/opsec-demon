@@ -1,0 +1,10 @@
+image: rust:1.93.1-bookworm
+pipelines:
+  default:
+    - step:
+        name: Deus Ex Machina / Bitbucket
+        script:
+          - apt-get update && apt-get install -y --no-install-recommends python3
+          - sh scripts/ci.sh
+        artifacts:
+          - target/release/opsec-demon
