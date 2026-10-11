@@ -898,7 +898,7 @@ unsafe extern "system" fn procedure(window: Handle, message: u32, w: usize, l: i
             0x14 => 1, // WM_ERASEBKGND: double-buffered paint owns the background
             0x113 => {
                 deck.collect();
-                if deck.closed || (deck.smoke && deck.started.elapsed() > Duration::from_secs(5)) {
+                if deck.closed || (deck.smoke && deck.started.elapsed() > Duration::from_secs(10)) {
                     DestroyWindow(window);
                 } else {
                     InvalidateRect(window, null_mut(), 0);
@@ -1117,6 +1117,7 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
         }
         let mut message = Message::default();
         let mut fullscreen = false;
+        let mut rendered = false;
         let mut previous = Rect::default();
         loop {
             let result = GetMessageW(&mut message, null_mut(), 0, 0);
@@ -1166,14 +1167,15 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
             DispatchMessageW(&message);
             if deck.smoke && deck.smoke_ok && !deck.music.contains("probing playback") {
                 preview(window, &deck)?;
+                rendered = true;
                 DestroyWindow(window);
             }
         }
         let _ = deck.requests.send(Request::Stop);
         let _ = worker.join();
-        if smoke && !deck.smoke_ok {
+        if smoke && (!deck.smoke_ok || !rendered) {
             return Err(io::Error::other(
-                "GUI smoke did not receive native command output",
+                "GUI smoke did not finish native command output and frame capture",
             ));
         }
         Ok(0)

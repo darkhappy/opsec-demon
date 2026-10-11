@@ -14,9 +14,10 @@ Invoke-Check 'discord preview' 'SIM'
 Invoke-Check 'rips list' '[SYNTH AUDIO]'
 & $binary --plain -c 'exit 7'
 if ($LASTEXITCODE -ne 7) { throw 'Exit status was lost' }
+$preview = Join-Path $repoRoot 'target/desktop-4k.bmp'
+if (Test-Path -LiteralPath $preview) { Remove-Item -LiteralPath $preview }
 & $binary --gui-smoke
 if ($LASTEXITCODE -ne 0) { throw 'Native desktop smoke failed' }
-$preview = Join-Path $repoRoot 'target/desktop-4k.bmp'
 $bytes = [System.IO.File]::ReadAllBytes($preview)
 if ([BitConverter]::ToInt32($bytes, 18) -ne 3840 -or [Math]::Abs([BitConverter]::ToInt32($bytes, 22)) -ne 2160) {
     throw 'Desktop preview is not 3840 x 2160'
