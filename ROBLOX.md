@@ -1,5 +1,15 @@
 # Roblox / the Krillion annex
 
+The annex now creates an anchored `OpSecULAR97Mainframe` terminal in Workspace,
+with `MainframeId`, `OperatingSystem`, `SerialBus`, and `City` attributes. Approach
+and activate its proximity prompt to identify the shared mainframe and print a local
+SIM connection to Larp City, the serial loopback, Lost Signals, and Krillion's invented
+support stats into Studio's console. A surface display and player briefing show the
+operator interface, Recycle Bin and WSL 中文 labels, and fire emojis. These Roblox
+labels are props; the interactive recycle bin and Chinese console live in the Rust
+`opsecular` command. There is no external mainframe service, serial-device connection,
+original Tama-soft game integration, or network bridge to the Rust process.
+
 Install Rokit 1.2.0 from its official releases and place it on PATH. This optional annex
 is independent of Cargo and has no upload/deployment step.
 

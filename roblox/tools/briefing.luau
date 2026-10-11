@@ -1,3 +1,6 @@
 local identity = require("../src/shared/Identity")
 assert(identity.clearance == "FICTIONAL / ABYSS-999")
+assert(identity.os == "OpSecULAR 97")
+assert(identity.mainframe == "OPSECULAR97::LARP-CITY::MAINFRAME")
+assert(identity.serial == "SIM / LOOPBACK")
 print(identity.operation .. " / " .. identity.callsign)
