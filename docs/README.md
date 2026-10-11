@@ -58,3 +58,15 @@ Read the [operating manual](../README.md), [contributor guide](../CONTRIBUTING.m
 - [Conclave worksheet intake](field-notes/advancedttk.md)
 - [Finite shot sequence audit](field-notes/sequence-ttk.md)
 - [Extraction and terminal recovery](field-notes/terminal-restoration.md)
+
+## Expanded control-room manuals
+
+- [Actual metrics, local shell timings, and comparison limits](../METRICS.md)
+- [Original branching visual novel and fictional analysis](../NOVEL.md)
+- [Original soundtrack and Focusrite USB audio setup](../AUDIO.md)
+- [Docker, Compose, Kubernetes, and Helm](../CONTAINERS.md)
+- [Twenty CI platform adapters](../CI_PLATFORMS.md)
+- [Roblox tooling and project](../ROBLOX.md)
+- [Editor and agent tooling catalog](../TOOLING.md)
+- [Implementation architecture](../ARCHITECTURE.md)
+- [Local operations](../OPERATIONS.md)
