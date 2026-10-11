@@ -1,0 +1,24 @@
+replicaCount: 1
+image:
+  repository: opsec-demon
+  tag: local
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+service:
+  type: ClusterIP
+  port: 9090
+podAnnotations: {}
+resources:
+  requests: {cpu: 25m, memory: 16Mi}
+  limits: {cpu: 250m, memory: 64Mi}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+serviceMonitor:
+  enabled: false
+  interval: 30s
+  labels: {}
+networkPolicy:
+  enabled: false
