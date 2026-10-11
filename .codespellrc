@@ -1,0 +1,3 @@
+[codespell]
+skip = .git,target,Cargo.lock,assets/audio
+ignore-words-list = crate,nd,rokit,krillion,luau
