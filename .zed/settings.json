@@ -1,0 +1,13 @@
+{
+  "tab_size": 4,
+  "file_scan_exclusions": [
+    "**/target",
+    "**/.git",
+    "**/node_modules"
+  ],
+  "languages": {
+    "Rust": {
+      "format_on_save": "on"
+    }
+  }
+}
