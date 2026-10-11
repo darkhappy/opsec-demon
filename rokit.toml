@@ -1,0 +1,9 @@
+# Rokit >= 1.2.0; optional Roblox annex, independent of Cargo.
+[tools]
+rojo = "rojo-rbx/rojo@7.7.0"
+wally = "UpliftGames/wally@0.3.2"
+selene = "Kampfkarren/selene@0.31.0"
+stylua = "JohnnyMorganz/StyLua@2.5.2"
+lune = "lune-org/lune@0.10.4"
+luau-lsp = "JohnnyMorganz/luau-lsp@1.69.0"
+darklua = "seaofvoices/darklua@0.19.0"
