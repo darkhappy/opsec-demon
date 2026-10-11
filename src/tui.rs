@@ -511,6 +511,35 @@ impl Deck {
                     screen.panel(x, y, w, h, kind.label());
                     self.response_graph(&mut screen, (x + 1, y + 1, w - 2, h - 2), *kind);
                 }
+            } else if self.graph_index == 7 {
+                screen.panel(
+                    transcript_w,
+                    lower_y,
+                    graph_w,
+                    lower_h,
+                    " LOST SIGNALS / VISUAL NOVEL ",
+                );
+                let page = shell.novel.page();
+                let lines: Vec<_> = page
+                    .lines()
+                    .flat_map(|line| wrap_line(line, graph_w.saturating_sub(4)))
+                    .collect();
+                for (row, line) in lines.iter().take(lower_h.saturating_sub(3)).enumerate() {
+                    screen.put(
+                        transcript_w + 2,
+                        lower_y + 1 + row,
+                        graph_w.saturating_sub(4),
+                        line,
+                        2,
+                    );
+                }
+                screen.put(
+                    transcript_w + 2,
+                    lower_y + lower_h.saturating_sub(2),
+                    graph_w.saturating_sub(4),
+                    "PgUp/PgDn: full text in transcript",
+                    3,
+                );
             } else if self.graph_index == 6 {
                 screen.panel(
                     transcript_w,
@@ -1709,6 +1738,9 @@ impl Deck {
             shell.scene = "sdvx".into();
             self.arcade_play = true;
             self.log("[SIM SDVX PLAY] ASDF/J K buttons; Q/E left knob; U/O right knob; Enter or ` returns to shell");
+        } else if command.trim() == "graph novel" {
+            self.graph_index = 7;
+            self.log("[NOVEL] Lost Signals story tab selected");
         } else if command.trim() == "graph metrics" || command.trim() == "metrics" {
             self.graph_index = 6;
             self.log("[METRICS] actual session counters selected");
@@ -1719,7 +1751,7 @@ impl Deck {
             self.graph_index = 4;
             self.log("[ROOM] RT60 / idealized Sabine decay displayed");
         } else if command.trim() == "graph next" {
-            self.graph_index = (self.graph_index + 1) % 7;
+            self.graph_index = (self.graph_index + 1) % 8;
         } else if command.trim() == "cinematic" {
             self.intro = true;
             self.boot_started = Instant::now();
@@ -1736,6 +1768,9 @@ impl Deck {
             shell.last_status = shell.execute(&command);
             shell.color = color;
             let output = shell.transcript.borrow_mut().take().unwrap_or_default();
+            if command.split_whitespace().next() == Some("novel") && shell.last_status == 0 {
+                self.graph_index = 7;
+            }
             for line in output {
                 if line.contains("SIM SSD DETONATION") {
                     self.transition = Some(Instant::now());
@@ -2095,7 +2130,7 @@ pub fn run(shell: &mut Shell, intro: bool) -> io::Result<u8> {
                 }
                 12 => deck.local(shell),
                 6 => {
-                    deck.graph_index = (deck.graph_index + 1) % 7;
+                    deck.graph_index = (deck.graph_index + 1) % 8;
                     deck.log(format!(
                         "[PANEL] {}",
                         Response::ALL
@@ -2105,8 +2140,10 @@ pub fn run(shell: &mut Shell, intro: bool) -> io::Result<u8> {
                                 "RT60 / ROOM DECAY"
                             } else if deck.graph_index == 5 {
                                 "HEADPHONE EQ / UNMEASURED"
-                            } else {
+                            } else if deck.graph_index == 6 {
                                 "METRICS / ACTUAL SESSION"
+                            } else {
+                                "LOST SIGNALS / VISUAL NOVEL"
                             })
                     ));
                 }
@@ -2284,6 +2321,19 @@ mod tests {
         assert_ne!(noise(13), noise(14));
         assert!(Model::default().value(Response::Magnitude, 20.0).abs() < 0.1);
         assert!(Model::default().value(Response::Magnitude, 20000.0) < -40.0);
+    }
+
+    #[test]
+    fn novel_tab_shows_story_and_keeps_full_transcript_navigation() {
+        let mut shell = Shell::new(false);
+        shell.novel.command(&["start".into()]).unwrap();
+        let mut deck = Deck::new(false);
+        deck.graph_index = 7;
+        deck.size = (140, 44);
+        let frame = deck.render(&shell);
+        assert!(frame.contains("VISUAL NOVEL"));
+        assert!(frame.contains("STATION WITHOUT A NAME"));
+        assert!(frame.contains("PgUp/PgDn"));
     }
 
     #[test]
