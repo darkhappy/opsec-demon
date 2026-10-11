@@ -558,6 +558,12 @@ extra slots on its first Christmas command; already used bites stay used until
 refill. On the next day's command, the tray returns to five slots. If the date
 cannot be read, the tray keeps its current size (five for a new session).
 
+On Christmas Day, `mascot mo-krill` (or launch with `--mo-krill`) dresses Mo as
+Santa, with little elf Krill on his back carrying yoggies. The festive ASCII
+illustration includes Santa's hat and beard, an elf hat, and berry gifts.
+The terminal portrait follows the same local-date Christmas state as the tray;
+after a date change, run a `yoggies` command to refresh both.
+
 ## Silent band, effects pedal, and headphone profiles
 
 The normal right panel shows an original Beatles ASCII tribute and the SDVX

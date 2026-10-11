@@ -62,6 +62,10 @@ impl Yoggies {
         }
     }
 
+    pub fn is_christmas(&self) -> bool {
+        self.ready.len() == CHRISTMAS_COUNT
+    }
+
     pub fn status(&self) -> String {
         let tray: String = self
             .ready
@@ -177,8 +181,10 @@ mod tests {
             ready: vec![true; COUNT],
         };
         tray.refresh(Some("2026-12-24"));
+        assert!(!tray.is_christmas());
         tray.execute(&args(&["use", "1"])).unwrap();
         tray.refresh(Some("2026-12-25"));
+        assert!(tray.is_christmas());
         assert_eq!(tray.ready.len(), CHRISTMAS_COUNT);
         assert!(!tray.ready[0]);
         assert!(tray.status().contains("9/10 ready / CHRISTMAS BONUS"));
@@ -201,6 +207,7 @@ mod tests {
         assert_eq!(tray.ready.len(), CHRISTMAS_COUNT);
         for date in ["2026-12-26", "2026-12-31", "2027-01-01"] {
             tray.refresh(Some(date));
+            assert!(!tray.is_christmas());
             assert_eq!(tray.ready.len(), COUNT);
             assert!(tray.execute(&args(&["use", "10"])).is_err());
         }

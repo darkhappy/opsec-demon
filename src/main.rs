@@ -786,6 +786,15 @@ impl Shell {
                     self.mascot = name.clone();
                 }
                 out!(self, "[MASCOT] {} // tunnel crew on standby", self.mascot);
+                if self.mascot == "mo-krill" && self.yoggies.is_christmas() {
+                    out!(
+                        self,
+                        "[SIM MASCOT] Santa Mo carries elf Krill and Christmas yoggies"
+                    );
+                    for line in theater::CHRISTMAS_MO_KRILL {
+                        out!(self, "{line}");
+                    }
+                }
             }
             "poopsec" if args.len() <= 2 => {
                 self.poopsec = match args.get(1).map(String::as_str) {

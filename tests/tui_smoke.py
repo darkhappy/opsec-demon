@@ -282,6 +282,9 @@ def christmas_yoggies():
             session.expect(b'EXECUTE >')
             session.send(b'yoggies all\r')
             session.expect(b'YOGGIE 10 / creamy shell')
+            session.send(b'mascot mo-krill\r')
+            session.expect(b'Santa Mo carries elf Krill and Christmas yoggies')
+            session.expect(b'SANTA MO & ELF KRILL')
             session.send(b'yoggies use 10\r')
             session.expect(b'YOGGIE 10 / NOM')
             session.send(b'yoggies status\r')
@@ -291,6 +294,7 @@ def christmas_yoggies():
             clock.write_text("#!/bin/sh\nprintf '2026-12-26\\n'\n")
             session.send(b'yoggies status\r')
             session.expect(b'[OOOOO] 5/5 ready')
+            session.expect(b'TUNNEL RATS / BURROW')
             session.finish()
             print('Christmas yoggies: ten slots, bonus bite use, refill, and next-day rollover passed.')
         finally:
