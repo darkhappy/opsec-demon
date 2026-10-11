@@ -1,0 +1,112 @@
+{
+  "checked_at_utc": "2026-10-11T06:30:44.750696+00:00",
+  "scope": "Public URL availability snapshot; HTTP 200 SVG can still contain a service error card.",
+  "results": [
+    {
+      "name": "typing",
+      "url": "https://readme-typing-svg.demolab.com/?font=Fira+Code&size=24&duration=2200&pause=750&color=72FFAD&center=true&vCenter=true&width=1000&lines=ABYSS-999+%2F%2F+GITHUB+ORNAMENT+DIRECTORATE%3BTWEETER+HAS+ENTERED+THE+STAR+CHAMBER%3BKRILLION+REQUESTS+ADDITIONAL+BADGES%3BREAL+SHELL.+FICTIONAL+CLEARANCE.",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "svg_markup_seen": true,
+      "checked_bytes": 10534
+    },
+    {
+      "name": "star_history",
+      "url": "https://api.star-history.com/svg?repos=darkhappy/opsec-demon&type=Date&theme=dark",
+      "status": 200,
+      "content_type": "image/svg+xml;charset=utf-8",
+      "svg_markup_seen": true,
+      "checked_bytes": 62856
+    },
+    {
+      "name": "star_timeline",
+      "url": "https://api.star-history.com/svg?repos=darkhappy/opsec-demon&type=Timeline&theme=dark",
+      "status": 200,
+      "content_type": "image/svg+xml;charset=utf-8",
+      "svg_markup_seen": true,
+      "checked_bytes": 63486
+    },
+    {
+      "name": "reference_stars",
+      "url": "https://api.star-history.com/svg?repos=fish-shell/fish-shell,starship/starship,junegunn/fzf,sharkdp/bat&type=Date&theme=dark",
+      "status": 200,
+      "content_type": "image/svg+xml;charset=utf-8",
+      "svg_markup_seen": true,
+      "checked_bytes": 65536
+    },
+    {
+      "name": "reference_badge_stars",
+      "url": "https://api.star-history.com/svg?repos=badges/shields,star-history/star-history,DenverCoder1/readme-typing-svg&type=Timeline&theme=dark",
+      "status": 200,
+      "content_type": "image/svg+xml;charset=utf-8",
+      "svg_markup_seen": true,
+      "checked_bytes": 65536
+    },
+    {
+      "name": "stats",
+      "url": "https://github-stats-extended.vercel.app/api?username=darkhappy&show_icons=true&theme=radical&hide_border=true",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "svg_markup_seen": true,
+      "checked_bytes": 7855
+    },
+    {
+      "name": "languages",
+      "url": "https://github-stats-extended.vercel.app/api/top-langs/?username=darkhappy&layout=compact&theme=radical&hide_border=true",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "svg_markup_seen": true,
+      "checked_bytes": 5896
+    },
+    {
+      "name": "pin",
+      "url": "https://github-stats-extended.vercel.app/api/pin/?username=darkhappy&repo=opsec-demon&theme=radical&hide_border=true",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "svg_markup_seen": true,
+      "checked_bytes": 3380
+    },
+    {
+      "name": "streak",
+      "url": "https://streak-stats.demolab.com/?user=darkhappy&theme=radical&hide_border=true",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "svg_markup_seen": true,
+      "checked_bytes": 7063
+    },
+    {
+      "name": "activity",
+      "url": "https://github-readme-activity-graph.vercel.app/graph?username=darkhappy&bg_color=080c13&color=72ffad&line=ff4265&point=51e0ff&area=true&hide_border=true",
+      "status": 402,
+      "error": "HTTP error"
+    },
+    {
+      "name": "trophies",
+      "url": "https://github-profile-trophy.vercel.app/?username=darkhappy&theme=radical&no-frame=true&row=1&column=6",
+      "status": 402,
+      "error": "HTTP error"
+    },
+    {
+      "name": "icons",
+      "url": "https://skillicons.dev/icons?i=rust,bash,git,github,gitlab,docker,kubernetes,prometheus,vscode,idea,neovim,vim,lua,robloxstudio&theme=dark&perline=7",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "svg_markup_seen": true,
+      "checked_bytes": 38809
+    },
+    {
+      "name": "views",
+      "url": "https://komarev.com/ghpvc/?username=darkhappy&label=profile+image+requests&color=ff4265&style=for-the-badge",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "svg_markup_seen": true,
+      "checked_bytes": 664
+    },
+    {
+      "name": "rank",
+      "url": "https://api.star-history.com/badge?repo=darkhappy/opsec-demon&type=rank&theme=dark",
+      "status": 404,
+      "error": "HTTP error"
+    }
+  ]
+}
