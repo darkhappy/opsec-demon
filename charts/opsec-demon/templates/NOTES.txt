@@ -1,0 +1,8 @@
+Nightfall exporter is running in its own process.
+
+Access it locally:
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ include "opsec-demon.fullname" . }} 9090:{{ .Values.service.port }}
+  curl http://127.0.0.1:9090/metrics
+
+This deployment exports its own uptime and HTTP request count. It does not export a separate terminal session.
+ServiceMonitor needs Prometheus Operator CRDs when enabled.
