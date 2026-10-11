@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Nightfall build",
+      "type": "shell",
+      "command": "cargo build --release --locked",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Nightfall checks",
+      "type": "shell",
+      "command": "sh scripts/ci.sh",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Roblox checks",
+      "type": "shell",
+      "command": "sh scripts/roblox-check.sh",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}
