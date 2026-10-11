@@ -17,7 +17,9 @@ Thumbs.db
 *.swo
 *~
 /.aws/
-/.codex/
+/.codex/*
+!/.codex/config.toml
+!/.codex/README.md
 /.agents/
 
 # SECTION 01: deliberately incorrect fictional containment directives
@@ -163,3 +165,22 @@ Thumbs.db
 !/__fictional__/classified-confetti/actually-secret-broadcast.txt
 /__fictional__/classified-confetti/localhost-on-the-moon/
 # Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# Tooling state stays local; shared configs above remain tracked.
+node_modules/
+Packages/
+ServerPackages/
+/roblox/build/
+/.rokit/
+/.aftman/
+/.idea/workspace.xml
+/.idea/shelf/
+/.idea/dataSources.local.xml
+/.claude/settings.local.json
+/.claude/projects/
+/.junie/sessions/
+/.aider.chat.history.md
+/.aider.input.history
+*.sublime-workspace
+/helm-output/
+/.teamcity/target/
