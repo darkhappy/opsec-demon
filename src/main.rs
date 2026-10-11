@@ -2,6 +2,8 @@ mod advancedttk;
 mod arcade;
 mod completion;
 mod countries;
+#[cfg(windows)]
+mod desktop;
 mod discord;
 mod discord_profile;
 #[cfg(windows)]
@@ -1209,6 +1211,8 @@ fn run() -> io::Result<u8> {
     let mut banner = true;
     let mut instant = false;
     let mut force_tui = false;
+    let mut gui = false;
+    let mut gui_smoke = false;
     let mut line_shell = false;
     let mut poopsec = false;
     let mut mo_krill = false;
@@ -1225,6 +1229,11 @@ fn run() -> io::Result<u8> {
             "--no-banner" => banner = false,
             "--instant" => instant = true,
             "--tui" => force_tui = true,
+            "--gui" => gui = true,
+            "--gui-smoke" => {
+                gui = true;
+                gui_smoke = true;
+            }
             "--shell" => line_shell = true,
             "--poopsec" => poopsec = true,
             "--mo-krill" => mo_krill = true,
@@ -1242,7 +1251,7 @@ fn run() -> io::Result<u8> {
             }
             "--help" | "-h" => {
                 println!(
-                    "Usage: opsec-demon [--plain] [--no-banner] [--instant] [--tui|--shell] [--poopsec] [--mo-krill|--chinese-demon] [--egg] [--nerd-font] [--prostreet|--vulcan] [--mcp-expansion] [-c COMMAND]\n       opsec-demon --metrics-server IP:PORT\n\n{HELP}"
+                    "Usage: opsec-demon [--plain] [--no-banner] [--instant] [--gui|--tui|--shell] [--poopsec] [--mo-krill|--chinese-demon] [--egg] [--nerd-font] [--prostreet|--vulcan] [--mcp-expansion] [-c COMMAND]\n       opsec-demon --metrics-server IP:PORT\n\n{HELP}"
                 );
                 return Ok(0);
             }
@@ -1252,6 +1261,19 @@ fn run() -> io::Result<u8> {
             }
             _ => return Err(io::Error::other(format!("unknown option: {argument}"))),
         }
+    }
+    if gui && (line_shell || force_tui || command.is_some()) {
+        return Err(io::Error::other(
+            "--gui cannot be combined with --shell, --tui, or -c",
+        ));
+    }
+    if gui && !cfg!(windows) {
+        return Err(io::Error::other("the native desktop requires Windows"));
+    }
+    if cfg!(windows) && force_tui {
+        return Err(io::Error::other(
+            "use --gui or --shell on Windows; the legacy TUI requires Unix",
+        ));
     }
     let interactive = io::stdin().is_terminal() && io::stdout().is_terminal() && command.is_none();
     let color = interactive
@@ -1286,6 +1308,12 @@ fn run() -> io::Result<u8> {
         let status = shell.execute(&command);
         return Ok(shell.exit.unwrap_or(status.clamp(0, 255) as u8));
     }
+    #[cfg(windows)]
+    if gui || (!line_shell && !force_tui) {
+        return desktop::run(shell, gui_smoke);
+    }
+    #[cfg(not(windows))]
+    let _ = gui_smoke;
     shell.update_discord();
     if interactive
         && env::var_os("DISCORD_APPLICATION_ID").is_some()
