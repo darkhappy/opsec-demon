@@ -1,0 +1,348 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="752" viewBox="0 0 1140 752" role="img" aria-labelledby="title"><title id="title">TERMINAL-METRICS</title>
+<rect width="1140" height="752" rx="12" fill="#080c13"/>
+<text x="16" y="24" font-family="monospace" font-size="12" fill="#a5b7c9">TERMINAL-METRICS / ACTUAL ANSI FRAME / DEMO PROMPT + MUSIC</text>
+<text x="10" y="48" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="18" y="48" xml:space="preserve" font-family="monospace" font-size="13" textLength="744" lengthAdjust="spacingAndGlyphs" fill="#5fff00">&gt;_ OPSEC / NIGHTFALL   ▰▰▰   NIGHTWRAITH / SIM HOI4 PHI | idle | 0 complete / PEDAL UP LARP 0</text>
+<text x="762" y="48" xml:space="preserve" font-family="monospace" font-size="13" textLength="360" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                             </text>
+<text x="10" y="64" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="18" y="64" xml:space="preserve" font-family="monospace" font-size="13" textLength="344" lengthAdjust="spacingAndGlyphs" fill="#808080">UPLINK ONLINE  /  3 ops  /  exit 0  /  1.2s</text>
+<text x="362" y="64" xml:space="preserve" font-family="monospace" font-size="13" textLength="760" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                               </text>
+<text x="10" y="80" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="18" y="80" xml:space="preserve" font-family="monospace" font-size="13" textLength="488" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">DEMO MUSIC | Playing | NIGHTWRAITH - Mainframe After Midnight</text>
+<text x="506" y="80" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                       </text>
+<text x="690" y="80" xml:space="preserve" font-family="monospace" font-size="13" textLength="312" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">SIM SSD 480GB / 4.5% per roll / FICTION</text>
+<text x="1002" y="80" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">               </text>
+<text x="10" y="96" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">╭─</text>
+<text x="26" y="96" xml:space="preserve" font-family="monospace" font-size="13" textLength="88" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  TWEETER  </text>
+<text x="114" y="96" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#808080">────────────────────╮╭─</text>
+<text x="298" y="96" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  DAEMON SCRIPT / SIM  </text>
+<text x="482" y="96" xml:space="preserve" font-family="monospace" font-size="13" textLength="384" lengthAdjust="spacingAndGlyphs" fill="#808080">─────────────────────────────────────────────╮╭─</text>
+<text x="866" y="96" xml:space="preserve" font-family="monospace" font-size="13" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  MATRIX  </text>
+<text x="946" y="96" xml:space="preserve" font-family="monospace" font-size="13" textLength="176" lengthAdjust="spacingAndGlyphs" fill="#808080">─────────────────────╮</text>
+<text x="10" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#5fff00">    /\     /\</text>
+<text x="130" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                  </text>
+<text x="274" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="298" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="296" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ sigilctl --decode --seed EA70</text>
+<text x="594" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="248" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                               </text>
+<text x="842" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#5fff00">BEATLES / ASCII TRIBUTE</text>
+<text x="1042" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="72" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">         </text>
+<text x="1114" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="112" lengthAdjust="spacingAndGlyphs" fill="#5fff00">   (())   (())</text>
+<text x="138" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="136" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                 </text>
+<text x="274" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="298" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] CF14 :: daemon cycle complete</text>
+<text x="578" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="264" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                 </text>
+<text x="842" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="136" lengthAdjust="spacingAndGlyphs" fill="#5fff00"> o    o    o    o</text>
+<text x="994" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">               </text>
+<text x="1114" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#5fff00">    |  o o  |</text>
+<text x="130" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                  </text>
+<text x="274" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="298" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="296" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ sigilctl --decode --seed EA70</text>
+<text x="594" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="248" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                               </text>
+<text x="842" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#5fff00">\|\  \|\  \|\  \|\</text>
+<text x="1002" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="112" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">              </text>
+<text x="1114" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  .-=========-.</text>
+<text x="146" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                </text>
+<text x="274" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="298" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] CF14 :: daemon cycle complete</text>
+<text x="578" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="264" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                 </text>
+<text x="842" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="160" lengthAdjust="spacingAndGlyphs" fill="#5fff00">\|=&gt; &lt;|=  \|=&gt; (===)</text>
+<text x="1018" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">            </text>
+<text x="1114" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  |  (( O ))  |</text>
+<text x="146" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                </text>
+<text x="274" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="160" lengthAdjust="spacingAndGlyphs" fill="#5fff00">/ \  / \  / \ |DRUM|</text>
+<text x="1018" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">            </text>
+<text x="1114" y="176" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  |  (( o ))  |</text>
+<text x="146" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                </text>
+<text x="274" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="176" lengthAdjust="spacingAndGlyphs" fill="#5fff00">JOHN PAUL GEORGE RINGO</text>
+<text x="1034" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">          </text>
+<text x="1114" y="192" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  &#x27;-----------&#x27;</text>
+<text x="146" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                </text>
+<text x="274" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#5fff00">SIM / SILENT STAGE</text>
+<text x="1002" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="112" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">              </text>
+<text x="1114" y="208" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#5fff00">TWEETER / SPEAKER DEMON</text>
+<text x="210" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="64" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">        </text>
+<text x="274" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="192" lengthAdjust="spacingAndGlyphs" fill="#5fff00">SOUND VOLTEX / SIM BOARD</text>
+<text x="1050" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="64" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">        </text>
+<text x="1114" y="224" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="256" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                </text>
+<text x="274" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="168" lengthAdjust="spacingAndGlyphs" fill="#afffaf">  (|)             (|)</text>
+<text x="1026" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="88" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">           </text>
+<text x="1114" y="240" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">GHOST IN THE WIRES</text>
+<text x="170" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">             </text>
+<text x="274" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#afffaf"> LEFT 050%   RIGHT 050%</text>
+<text x="1042" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="72" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">         </text>
+<text x="1114" y="256" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="240" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">EMPTY NEST | egg start to purc</text>
+<text x="266" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="274" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="168" lengthAdjust="spacingAndGlyphs" fill="#afffaf"> [A] [S] [D\o/F] / BT</text>
+<text x="1026" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="88" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">           </text>
+<text x="1114" y="272" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="192" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">Carrying penalties: none</text>
+<text x="218" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="56" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">       </text>
+<text x="274" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="160" lengthAdjust="spacingAndGlyphs" fill="#afffaf">   [J FX-L] |  FX-R]</text>
+<text x="1018" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">            </text>
+<text x="1114" y="288" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="232" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">Wallet 2400 souls | 0 hatched</text>
+<text x="258" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
+<text x="274" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="552" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                     </text>
+<text x="842" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="152" lengthAdjust="spacingAndGlyphs" fill="#afffaf">COMBO 00000/ \ORE 0</text>
+<text x="1010" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">             </text>
+<text x="1114" y="304" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">Permanent: none</text>
+<text x="146" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                </text>
+<text x="274" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="298" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="416" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">APPLE [SIM] CHALK SIGILS / tracing subway ward [05%]</text>
+<text x="714" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                </text>
+<text x="842" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#afffaf">TYPE sdvx play TO ENTER</text>
+<text x="1042" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="72" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">         </text>
+<text x="1114" y="320" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="256" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                </text>
+<text x="274" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="290" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="298" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#5fff00">I&#x27;M IN. // SIM:LINK // LOCAL SIMULATOR</text>
+<text x="602" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="240" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                              </text>
+<text x="842" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="858" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">/</text>
+<text x="866" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#5fff00">E</text>
+<text x="874" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">0</text>
+<text x="882" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="890" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">E</text>
+<text x="898" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
+<text x="914" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">+ * POW! * +</text>
+<text x="1010" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">:</text>
+<text x="1018" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
+<text x="1034" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">C</text>
+<text x="1042" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
+<text x="1058" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#005f00">&lt;F</text>
+<text x="1074" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="24" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">   </text>
+<text x="1098" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">+</text>
+<text x="1106" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="1114" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="352" xml:space="preserve" font-family="monospace" font-size="13" textLength="1112" lengthAdjust="spacingAndGlyphs" fill="#808080">╰────────────────────────────────╯╰─────────────────────────────────────────────────────────────────────╯╰────────────────────────────────╯</text>
+<text x="10" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">╭─</text>
+<text x="26" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="176" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  COMMAND TRANSCRIPT  </text>
+<text x="202" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="488" lengthAdjust="spacingAndGlyphs" fill="#808080">──────────────────────────────────────────────────────────╮╭─</text>
+<text x="690" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="224" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  METRICS / ACTUAL SESSION  </text>
+<text x="914" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="208" lengthAdjust="spacingAndGlyphs" fill="#808080">─────────────────────────╮</text>
+<text x="10" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="424" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">MAINFRAME CONNECTION ESTABLISHED // SIM ECHO 0.102 ms</text>
+<text x="450" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="216" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                           </text>
+<text x="666" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Uptime: 1.2s</text>
+<text x="786" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="328" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                         </text>
+<text x="1114" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="480" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">ORACLE: THE CITY HAS A MILLION TERMINALS. THIS ONE IS YOURS.</text>
+<text x="506" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="160" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                    </text>
+<text x="666" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Render ticks: 35</text>
+<text x="818" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="296" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                     </text>
+<text x="1114" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="176" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">$ callsign NIGHTWRAITH</text>
+<text x="202" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="464" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                          </text>
+<text x="666" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="168" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Average ticks/s: 28.2</text>
+<text x="858" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="256" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                </text>
+<text x="1114" y="416" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="440" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[IDENTITY] NIGHTWRAITH // the mainframe knows your name</text>
+<text x="466" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="200" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                         </text>
+<text x="666" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="192" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Successful operations: 3</text>
+<text x="882" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="232" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                             </text>
+<text x="1114" y="432" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">$ theme venom</text>
+<text x="130" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="536" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                   </text>
+<text x="666" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">History entries: 5</text>
+<text x="834" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                   </text>
+<text x="1114" y="448" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[PALETTE] venom</text>
+<text x="146" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="520" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                 </text>
+<text x="666" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="168" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Transcript events: 12</text>
+<text x="858" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="256" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                </text>
+<text x="1114" y="464" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">$ music demo</text>
+<text x="122" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="544" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                    </text>
+<text x="666" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="216" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Child command active: false</text>
+<text x="906" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="208" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                          </text>
+<text x="1114" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[MUSIC] demo enabled / fictional track</text>
+<text x="330" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="336" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                          </text>
+<text x="666" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Terminal: 140 x 44</text>
+<text x="834" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                   </text>
+<text x="1114" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">$ mascot tweeter</text>
+<text x="154" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="512" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                </text>
+<text x="666" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="690" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="272" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">Session values; no remote scraping</text>
+<text x="962" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="152" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                   </text>
+<text x="1114" y="512" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="528" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="528" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="528" xml:space="preserve" font-family="monospace" font-size="13" textLength="336" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[MASCOT] tweeter // tunnel crew on standby</text>
+<text x="362" y="528" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                      </text>
+<text x="666" y="528" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="528" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="528" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="544" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="544" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="544" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">$ graph metrics</text>
+<text x="146" y="544" xml:space="preserve" font-family="monospace" font-size="13" textLength="520" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                 </text>
+<text x="666" y="544" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="544" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="544" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="560" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="560" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="560" xml:space="preserve" font-family="monospace" font-size="13" textLength="336" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[METRICS] actual session counters selected</text>
+<text x="362" y="560" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                      </text>
+<text x="666" y="560" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="560" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="560" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="576" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="576" xml:space="preserve" font-family="monospace" font-size="13" textLength="648" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                 </text>
+<text x="666" y="576" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="576" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="576" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="592" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="592" xml:space="preserve" font-family="monospace" font-size="13" textLength="648" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                 </text>
+<text x="666" y="592" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="592" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="592" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="648" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                 </text>
+<text x="666" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="624" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="624" xml:space="preserve" font-family="monospace" font-size="13" textLength="648" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                 </text>
+<text x="666" y="624" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="624" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="624" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="640" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="640" xml:space="preserve" font-family="monospace" font-size="13" textLength="648" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                 </text>
+<text x="666" y="640" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="640" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="640" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="656" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="656" xml:space="preserve" font-family="monospace" font-size="13" textLength="648" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                 </text>
+<text x="666" y="656" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
+<text x="682" y="656" xml:space="preserve" font-family="monospace" font-size="13" textLength="432" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                      </text>
+<text x="1114" y="656" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="672" xml:space="preserve" font-family="monospace" font-size="13" textLength="1112" lengthAdjust="spacingAndGlyphs" fill="#808080">╰─────────────────────────────────────────────────────────────────────────────────╯╰──────────────────────────────────────────────────────╯</text>
+<text x="10" y="688" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">╭─</text>
+<text x="26" y="688" xml:space="preserve" font-family="monospace" font-size="13" textLength="88" lengthAdjust="spacingAndGlyphs" fill="#5fff00">  EXECUTE  </text>
+<text x="114" y="688" xml:space="preserve" font-family="monospace" font-size="13" textLength="1008" lengthAdjust="spacingAndGlyphs" fill="#808080">─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮</text>
+<text x="10" y="704" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="704" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="704" xml:space="preserve" font-family="monospace" font-size="13" textLength="576" lengthAdjust="spacingAndGlyphs" fill="#808080">/home/darkhappy/repositories/opsec-demon | nightfall [k8s: demo-context]</text>
+<text x="602" y="704" xml:space="preserve" font-family="monospace" font-size="13" textLength="512" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                </text>
+<text x="1114" y="704" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="720" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="18" y="720" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="26" y="720" xml:space="preserve" font-family="monospace" font-size="13" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#5fff00">EXECUTE &gt; </text>
+<rect x="106" y="708" width="8" height="16" fill="#afffaf"/>
+<text x="106" y="720" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#000000"> </text>
+<text x="114" y="720" xml:space="preserve" font-family="monospace" font-size="13" textLength="1000" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                                                             </text>
+<text x="1114" y="720" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
+<text x="10" y="736" xml:space="preserve" font-family="monospace" font-size="13" textLength="1112" lengthAdjust="spacingAndGlyphs" fill="#808080">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</text>
+</svg>
