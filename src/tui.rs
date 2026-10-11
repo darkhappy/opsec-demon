@@ -46,7 +46,7 @@ impl Terminal {
 
     fn suspend(&mut self) -> io::Result<()> {
         if self.active {
-            print!("\x1b[?25h\x1b[?1049l");
+            print!("\x1b[?2026l\x1b[?7h\x1b[0m\x1b[?25h\x1b[?1049l");
             io::stdout().flush()?;
             stty(&[&self.saved])?;
             self.active = false;
@@ -60,7 +60,7 @@ impl Drop for Terminal {
         if self.active {
             // Restore input even when output has become unavailable.
             let _ = stty(&[&self.saved]);
-            let _ = io::stdout().write_all(b"\x1b[?25h\x1b[?1049l");
+            let _ = io::stdout().write_all(b"\x1b[?2026l\x1b[?7h\x1b[0m\x1b[?25h\x1b[?1049l");
             let _ = io::stdout().flush();
         }
     }
@@ -1917,9 +1917,13 @@ impl Canvas {
     }
 
     fn render(&self, shell: &Shell) -> String {
-        let mut frame = String::from("\x1b[H");
+        // Keep the terminal from displaying half a frame or wrapping wide glyphs.
+        // Absolute row positioning avoids scrolling if the window shrinks between
+        // size polls. Unsupported synchronized-output mode is ignored by terminals.
+        let mut frame = String::from("\x1b[?2026h\x1b[?7l\x1b[H");
         let mut previous = u8::MAX;
         for (index, row) in self.cells.iter().enumerate() {
+            frame.push_str(&format!("\x1b[{};1H", index + 1));
             for &(character, style) in row {
                 if shell.color && style != previous {
                     frame.push_str("\x1b[0;");
@@ -1951,13 +1955,11 @@ impl Canvas {
                 frame.push(character);
             }
             frame.push_str("\x1b[K");
-            if index + 1 < self.cells.len() {
-                frame.push_str("\r\n");
-            }
         }
         if shell.color {
             frame.push_str("\x1b[0m");
         }
+        frame.push_str("\x1b[?7h\x1b[?2026l");
         frame
     }
 }
@@ -2038,8 +2040,12 @@ pub fn run(shell: &mut Shell, intro: bool) -> io::Result<u8> {
                 print!("\x07");
             }
         }
-        print!("{}", deck.render(shell));
-        io::stdout().flush()?;
+        {
+            let frame = deck.render(shell);
+            let mut output = io::stdout().lock();
+            output.write_all(frame.as_bytes())?;
+            output.flush()?;
+        }
         let mut input = [0u8; 256];
         let count = stdin.lock().read(&mut input)?;
         if count == 0 && deck.tick.saturating_sub(deck.escape_tick) > 9 {
@@ -2336,10 +2342,26 @@ mod tests {
         for size in [(20, 8), (80, 24), (120, 40)] {
             deck.size = size;
             let frame = deck.render(&shell);
-            assert_eq!(frame.split("\r\n").count(), size.1);
+            assert!(!frame.contains(['\r', '\n']));
+            for row in 1..=size.1 {
+                assert!(frame.contains(&format!("\x1b[{row};1H")));
+            }
             assert!(frame.contains("EXECUTE >"));
         }
         assert_eq!(safe_line("evil\x1b\n\x07text", 30), "eviltext");
+    }
+
+    #[test]
+    fn frames_bracket_redraws_and_wide_output_cannot_trigger_linefeed_scrolling() {
+        let shell = Shell::new(false);
+        let mut canvas = Canvas::new(79, 44);
+        canvas.put(0, 0, 79, &"界🎵".repeat(40), 1);
+        let frame = canvas.render(&shell);
+        assert!(frame.starts_with("\x1b[?2026h\x1b[?7l\x1b[H"));
+        assert!(frame.ends_with("\x1b[?7h\x1b[?2026l"));
+        assert!(!frame.contains(['\r', '\n']));
+        assert!(!frame.contains("\x1b[2J"));
+        assert!(frame.contains("\x1b[44;1H"));
     }
 
     #[test]
