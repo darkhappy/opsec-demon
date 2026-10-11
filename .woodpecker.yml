@@ -1,0 +1,6 @@
+steps:
+  - name: deus-ex-machina
+    image: rust:1.93.1-bookworm
+    commands:
+      - apt-get update && apt-get install -y --no-install-recommends python3
+      - sh scripts/ci.sh
