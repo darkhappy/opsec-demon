@@ -1,0 +1,21 @@
+{
+  "repository": "darkhappy/opsec-demon",
+  "profile": "darkhappy",
+  "state": "Anticipated public slug; no Git remote is configured. Profile cards cover the account, not this shell.",
+  "images": {
+    "typing": "https://readme-typing-svg.demolab.com/?font=Fira+Code&size=24&duration=2200&pause=750&color=72FFAD&center=true&vCenter=true&width=1000&lines=ABYSS-999+%2F%2F+GITHUB+ORNAMENT+DIRECTORATE%3BTWEETER+HAS+ENTERED+THE+STAR+CHAMBER%3BKRILLION+REQUESTS+ADDITIONAL+BADGES%3BREAL+SHELL.+FICTIONAL+CLEARANCE.",
+    "star_history": "https://api.star-history.com/svg?repos=darkhappy/opsec-demon&type=Date&theme=dark",
+    "star_timeline": "https://api.star-history.com/svg?repos=darkhappy/opsec-demon&type=Timeline&theme=dark",
+    "reference_stars": "https://api.star-history.com/svg?repos=fish-shell/fish-shell,starship/starship,junegunn/fzf,sharkdp/bat&type=Date&theme=dark",
+    "reference_badge_stars": "https://api.star-history.com/svg?repos=badges/shields,star-history/star-history,DenverCoder1/readme-typing-svg&type=Timeline&theme=dark",
+    "stats": "https://github-stats-extended.vercel.app/api?username=darkhappy&show_icons=true&theme=radical&hide_border=true",
+    "languages": "https://github-stats-extended.vercel.app/api/top-langs/?username=darkhappy&layout=compact&theme=radical&hide_border=true",
+    "pin": "https://github-stats-extended.vercel.app/api/pin/?username=darkhappy&repo=opsec-demon&theme=radical&hide_border=true",
+    "streak": "https://streak-stats.demolab.com/?user=darkhappy&theme=radical&hide_border=true",
+    "activity": "https://github-readme-activity-graph.vercel.app/graph?username=darkhappy&bg_color=080c13&color=72ffad&line=ff4265&point=51e0ff&area=true&hide_border=true",
+    "trophies": "https://github-profile-trophy.vercel.app/?username=darkhappy&theme=radical&no-frame=true&row=1&column=6",
+    "icons": "https://skillicons.dev/icons?i=rust,bash,git,github,gitlab,docker,kubernetes,prometheus,vscode,idea,neovim,vim,lua,robloxstudio&theme=dark&perline=7",
+    "views": "https://komarev.com/ghpvc/?username=darkhappy&label=profile+image+requests&color=ff4265&style=for-the-badge",
+    "rank": "https://api.star-history.com/badge?repo=darkhappy/opsec-demon&type=rank&theme=dark"
+  }
+}
