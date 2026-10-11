@@ -25,8 +25,8 @@
 <text x="130" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                  </text>
 <text x="274" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="320" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ salamat --signal-ack --seed 19FA</text>
-<text x="618" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="224" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                            </text>
+<text x="298" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="360" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ construct --load-operator --seed 403C</text>
+<text x="658" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                       </text>
 <text x="842" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#00ffff">BEATLES / ASCII TRIBUTE</text>
 <text x="1042" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="72" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">         </text>
@@ -37,7 +37,7 @@
 <text x="122" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="152" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                   </text>
 <text x="274" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] 1EA7 :: daemon cycle complete</text>
+<text x="298" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] A5AE :: daemon cycle complete</text>
 <text x="578" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="264" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                 </text>
 <text x="842" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="136" lengthAdjust="spacingAndGlyphs" fill="#5fff00"> o    o    o    o</text>
@@ -49,8 +49,8 @@
 <text x="138" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="136" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                 </text>
 <text x="274" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="320" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ salamat --signal-ack --seed 19FA</text>
-<text x="618" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="224" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                            </text>
+<text x="298" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="360" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ construct --load-operator --seed 403C</text>
+<text x="658" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                       </text>
 <text x="842" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#5fff00">\|\  \|\  \|\  \|\</text>
 <text x="1002" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="112" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">              </text>
@@ -61,7 +61,7 @@
 <text x="154" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="120" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">               </text>
 <text x="274" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] 1EA7 :: daemon cycle complete</text>
+<text x="298" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] A5AE :: daemon cycle complete</text>
 <text x="578" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="264" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                 </text>
 <text x="842" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="160" lengthAdjust="spacingAndGlyphs" fill="#5fff00">\|=&gt; &lt;|=  \|=&gt; (===)</text>
@@ -172,16 +172,21 @@
 <text x="298" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#5fff00">I&#x27;M IN. // SIM:LINK // LOCAL SIMULATOR</text>
 <text x="602" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="240" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                              </text>
 <text x="842" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
-<text x="858" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
-<text x="874" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">/</text>
-<text x="882" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
-<text x="898" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">E</text>
-<text x="906" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#5fff00">=</text>
+<text x="858" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">:</text>
+<text x="866" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="32" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">    </text>
+<text x="898" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#afffaf">0</text>
+<text x="906" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
 <text x="914" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">+ * POW! * +</text>
-<text x="1010" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#afffaf">=</text>
-<text x="1018" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="1026" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">E</text>
-<text x="1034" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">          </text>
+<text x="1010" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="1018" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#5fff00">+</text>
+<text x="1026" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="1034" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#afffaf">A</text>
+<text x="1042" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="1050" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#afffaf">0</text>
+<text x="1058" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
+<text x="1074" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#afffaf">&gt;</text>
+<text x="1082" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="24" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">   </text>
+<text x="1106" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">1</text>
 <text x="1114" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="10" y="352" xml:space="preserve" font-family="monospace" font-size="13" textLength="1112" lengthAdjust="spacingAndGlyphs" fill="#808080">╰────────────────────────────────╯╰─────────────────────────────────────────────────────────────────────╯╰────────────────────────────────╯</text>
 <text x="10" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">╭─</text>
@@ -195,7 +200,7 @@
 <text x="146" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="520" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                 </text>
 <text x="666" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="682" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="690" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="368" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">LOST SIGNALS / 01 / THE STATION WITHOUT A NAME</text>
+<text x="690" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="368" lengthAdjust="spacingAndGlyphs" fill="#00ffff">LOST SIGNALS / 01 / THE STATION WITHOUT A NAME</text>
 <text x="1058" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="56" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">       </text>
 <text x="1114" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="10" y="400" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
@@ -248,7 +253,7 @@
 <text x="1114" y="480" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="10" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="18" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="26" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">&quot;You dropped this tomorrow,&quot; they say.</text>
+<text x="26" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#afffaf">&quot;You dropped this tomorrow,&quot; they say.</text>
 <text x="330" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="336" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                          </text>
 <text x="666" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="682" y="496" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
@@ -305,7 +310,7 @@
 <text x="1114" y="592" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="10" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="18" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="26" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="632" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">&quot;There is an exit,&quot; they answer. &quot;Whether it leads outside depends on what you </text>
+<text x="26" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="632" lengthAdjust="spacingAndGlyphs" fill="#afffaf">&quot;There is an exit,&quot; they answer. &quot;Whether it leads outside depends on what you </text>
 <text x="658" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
 <text x="666" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="682" y="608" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
