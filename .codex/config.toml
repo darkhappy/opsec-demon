@@ -1,0 +1,4 @@
+# Project defaults load only in a trusted repository.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
