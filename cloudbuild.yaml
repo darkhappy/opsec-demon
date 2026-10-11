@@ -1,0 +1,7 @@
+steps:
+  - name: rust:1.93.1-bookworm
+    entrypoint: sh
+    args:
+      - -c
+      - apt-get update && apt-get install -y --no-install-recommends python3 && sh scripts/ci.sh
+timeout: 900s
