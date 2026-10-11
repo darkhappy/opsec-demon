@@ -315,6 +315,43 @@ configured files; it does not claim twenty hosted builds passed. Regenerate the 
 charts with `python3 scripts/github-telemetry.py`. Each snapshot names its basis revision,
 so later documentation commits do not silently change the plotted historical counts.
 
+## STAR CHAMBER // EXTERNAL GITHUB TELEMETRY
+
+[Open the full GITHUBS ornament dossier](GITHUBS.md) for the complete badge and embed armory.
+These hosted images read public GitHub data. Repository cards use the anticipated
+`darkhappy/opsec-demon` slug; profile cards cover the `darkhappy` account. Provider SVGs
+can display missing-data cards, and GitHub caches images. There is still no configured
+Git remote or publication from this workspace.
+
+### OPSEC DEMON // calendar and aligned star growth
+
+<img src="https://api.star-history.com/svg?repos=darkhappy/opsec-demon&amp;type=Date&amp;theme=dark" alt="Hosted OPSEC DEMON repository star history by date" width="1100" />
+<img src="https://api.star-history.com/svg?repos=darkhappy/opsec-demon&amp;type=Timeline&amp;theme=dark" alt="Hosted OPSEC DEMON star timeline aligned to the first star" width="1100" />
+
+### Foreign constellations // popular terminal projects
+
+<img src="https://api.star-history.com/svg?repos=fish-shell/fish-shell,starship/starship,junegunn/fzf,sharkdp/bat&amp;type=Date&amp;theme=dark" alt="Public star histories of fish, Starship, fzf, and bat; design references only" width="1100" />
+<img src="https://api.star-history.com/svg?repos=badges/shields,star-history/star-history,DenverCoder1/readme-typing-svg&amp;type=Timeline&amp;theme=dark" alt="Public star timelines of Shields, Star History, and Typing SVG" width="1100" />
+
+These graphs concern other repositories. Stars indicate interest; they do not compare
+shell speed or security. The source projects are linked in [the reconnaissance catalog](docs/github/SOURCES.md).
+
+<details open>
+<summary><strong>OPERATOR DOSSIER // ACCOUNT STATS, STREAK, LANGUAGES, REPOSITORY PIN</strong></summary>
+
+<img src="https://github-stats-extended.vercel.app/api?username=darkhappy&amp;show_icons=true&amp;theme=radical&amp;hide_border=true" alt="Public darkhappy account statistics; not shell session counters" width="550" />
+<img src="https://streak-stats.demolab.com/?user=darkhappy&amp;theme=radical&amp;hide_border=true" alt="Public darkhappy account contribution streak; not shell usage" width="550" />
+<img src="https://github-stats-extended.vercel.app/api/top-langs/?username=darkhappy&amp;layout=compact&amp;theme=radical&amp;hide_border=true" alt="Public darkhappy account language statistics; not this repository file census" width="480" />
+<img src="https://github-stats-extended.vercel.app/api/pin/?username=darkhappy&amp;repo=opsec-demon&amp;theme=radical&amp;hide_border=true" alt="Hosted pin card for the anticipated OPSEC DEMON repository" width="480" />
+
+</details>
+
+Stats cards use [GitHub Stats Extended](https://github.com/stats-organization/github-stats-extended);
+streaks use [Streak Stats](https://github.com/DenverCoder1/github-readme-streak-stats).
+Star charts use [Star History](https://github.com/star-history/star-history).
+The [availability snapshot](docs/github/embed-probe.json) records the public URL checks;
+unavailable trophy, activity, and rank images are catalogued in GITHUBS.md for later setup.
+
 ## FIELD MANUAL // ACTUAL OPERATING INSTRUCTIONS
 
 
