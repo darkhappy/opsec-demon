@@ -7,5 +7,6 @@ done
 stylua --check roblox
 selene roblox/src
 lune run roblox/tools/briefing.luau
+lune run roblox/tools/session-tests.luau
 mkdir -p roblox/build
 rojo build default.project.json --output roblox/build/nightfall.rbxlx

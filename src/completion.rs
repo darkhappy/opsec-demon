@@ -2,13 +2,32 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::env;
 use std::fs;
+#[cfg(unix)]
 use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 
 const CHOICE_LIMIT: usize = 512;
 const ENTRY_LIMIT: usize = 4096;
+#[cfg(unix)]
+fn executable(_path: &Path, metadata: &fs::Metadata) -> bool {
+    metadata.permissions().mode() & 0o111 != 0
+}
+
+#[cfg(windows)]
+fn executable(path: &Path, _metadata: &fs::Metadata) -> bool {
+    path.extension()
+        .and_then(|s| s.to_str())
+        .is_some_and(|ext| {
+            ["exe", "com", "bat", "cmd"]
+                .iter()
+                .any(|candidate| ext.eq_ignore_ascii_case(candidate))
+        })
+}
 const BUILTINS: &[&str] = &[
+    "rips",
+    "opsecular",
     "help",
+    "discord",
     "novel",
     "soundtrack",
     "dac",
@@ -33,6 +52,7 @@ const BUILTINS: &[&str] = &[
     "ritual",
     "bido",
     "bucket",
+    "yoggies",
     "tailscale",
     "icons",
     "doctor",
@@ -107,7 +127,7 @@ pub fn complete_with_environment(
                         if name.starts_with(&word)
                             && !name.chars().any(char::is_control)
                             && entry.metadata().ok().is_some_and(|metadata| {
-                                metadata.is_file() && metadata.permissions().mode() & 0o111 != 0
+                                metadata.is_file() && executable(&entry.path(), &metadata)
                             })
                         {
                             Some(name)
@@ -292,12 +312,21 @@ fn word_end(text: &str, start: usize, cursor: usize) -> usize {
 
 fn decode(text: &str) -> (String, Option<char>) {
     let (mut word, mut quote, mut escaped) = (String::new(), None, false);
-    for character in text.chars() {
+    let mut characters = text.chars().peekable();
+    while let Some(character) = characters.next() {
         if escaped {
             word.push(character);
             escaped = false;
         } else if character == '\\' && quote != Some('\'') {
-            escaped = true;
+            if cfg!(windows)
+                && characters
+                    .peek()
+                    .is_some_and(|next| !matches!(next, ' ' | '\'' | '"' | '\\'))
+            {
+                word.push(character);
+            } else {
+                escaped = true;
+            }
         } else if let Some(mark) = quote {
             if character == mark {
                 quote = None;
@@ -363,8 +392,14 @@ mod tests {
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
                 .as_nanos();
-            let path =
-                env::temp_dir().join(format!("opsec-completion-{}-{unique}", std::process::id()));
+            let root = if cfg!(windows) {
+                env::current_dir().unwrap().join("target")
+            } else {
+                env::temp_dir()
+            };
+            fs::create_dir_all(&root).unwrap();
+            let path = root.join(format!("opsec-completion-{}-{unique}", std::process::id()));
+            let path = PathBuf::from(path.to_string_lossy().replace('\\', "/"));
             fs::create_dir(&path).unwrap();
             Self(path)
         }
@@ -456,6 +491,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn session_environment_controls_path_and_home_without_global_changes() {
         let directory = Directory::new();
         let name = "opsec_unique_session_binary";

@@ -286,8 +286,7 @@ mod tests {
     fn held_five_minutes_breaks_even_and_rewards_five_buffs() {
         let mut egg = Egg::new();
         egg.start().unwrap();
-        let completed = Instant::now();
-        egg.held_since = Some(completed - Duration::from_secs(300));
+        let completed = egg.held_since.unwrap() + Duration::from_secs(300);
         egg.hatch_started = Some(completed - HATCH_CHANNEL);
         let event = egg.tick_at(completed + Duration::from_secs(60)).unwrap();
         assert!(event.contains("+800 souls"));

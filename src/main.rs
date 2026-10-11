@@ -2,13 +2,21 @@ mod advancedttk;
 mod arcade;
 mod completion;
 mod countries;
+#[cfg(windows)]
+mod desktop;
+mod discord;
+mod discord_profile;
+#[cfg(windows)]
+mod discord_windows;
 mod dsp;
 mod expansion;
 mod job;
 mod metrics;
 mod music;
 mod novel;
+mod opsecular;
 mod prompt;
+mod rips;
 mod ritual;
 mod room;
 mod simulations;
@@ -17,6 +25,7 @@ mod ssd;
 mod stage;
 mod theater;
 mod tui;
+mod yoggies;
 
 use std::cell::RefCell;
 use std::collections::BTreeMap;
@@ -30,7 +39,12 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 const HELP: &str = "OPSEC DEMON // command uplink
+  opsecular [desktop|boot|terminal|wsl|recycle|operator|spirit|support|poutine|weep] SIM OS
   help                   show this console
+  rips [list|siiva|render ID FILE.wav] original album and SiIvaGunner listening links
+  discord [status|on [ID]|off|preview|load FILE|reset] local IPC, maximal SIM presence
+  discord type playing|listening|watching|competing; display name|state|details
+  discord timer elapsed|off|SECONDS  SIM ritual countdown (1..86400)
   novel [start|next|choose 1|2|status|reset] original Lost Signals story
   psyche                 fictional story-character analysis
   soundtrack [status|render FILE.wav|play [FILE.wav]] original demon score
@@ -44,6 +58,7 @@ const HELP: &str = "OPSEC DEMON // command uplink
   bido [status]          perform the invented Little Bido technique
   bucket [ls|put|get|rm|sync|status]  club-penguin B2 simulation
   tailscale [milk|routes|churn]     fictional dairy mesh
+  yoggies [show|all|holidays|status|use [NUMBER]|refill] fictional seasonal berry tray
   expansion [status|expand|allocate GB|release GB]  512 GB virtual MCP bank
   mcp                    alias for the expansion simulator
   mode [demon|prostreet|vulcan|sdvx]    select the animated ASCII scene
@@ -83,7 +98,7 @@ const HELP: &str = "OPSEC DEMON // command uplink
   history                show this session's commands; never saved to disk
   clear                  clear the terminal
   exit [0..255]          leave the shell
-  Any other command runs through /bin/sh, including pipes and redirects.
+  Other commands: /bin/sh on Unix; cmd.exe /D /S /C on Windows (real execution).
   TUI: music [status|live|demo], graph next, shell COMMAND for interactive apps.
   TUI keys: Ctrl-F graph, Ctrl-T Mo & Krill, Ctrl-X explosion, PgUp/PgDn output.
   This is a themed shell, not an anonymity or security boundary.";
@@ -172,6 +187,7 @@ struct Shell {
     bucket: simulations::Bucket,
     bido: simulations::Bido,
     milk: simulations::MilkMesh,
+    yoggies: yoggies::Yoggies,
     nerd_font: bool,
     expansion: expansion::Expansion,
     scene: String,
@@ -183,6 +199,8 @@ struct Shell {
     countries: countries::Countries,
     stage: stage::Stage,
     novel: novel::Novel,
+    discord: discord::Presence,
+    desktop: opsecular::Desktop,
 }
 
 macro_rules! out {
@@ -226,6 +244,7 @@ impl Shell {
             bucket: simulations::Bucket::new(),
             bido: simulations::Bido::new(),
             milk: simulations::MilkMesh::new(),
+            yoggies: yoggies::Yoggies::new(),
             nerd_font: false,
             expansion: expansion::Expansion::new(),
             scene: "demon".into(),
@@ -237,6 +256,8 @@ impl Shell {
             countries: countries::Countries::new(),
             stage: stage::Stage::new(),
             novel: novel::Novel::default(),
+            discord: discord::Presence::new(),
+            desktop: opsecular::Desktop::default(),
         }
     }
 
@@ -450,21 +471,37 @@ impl Shell {
     }
 
     fn command(&self, line: &str) -> Command {
+        #[cfg(unix)]
         let mut command = Command::new("/bin/sh");
+        #[cfg(unix)]
         command.args(["-c", line]);
+        #[cfg(windows)]
+        let mut command = Command::new("cmd.exe");
+        #[cfg(windows)]
+        {
+            use std::os::windows::process::CommandExt;
+            command.raw_arg(format!("/D /S /C \"{line}\""));
+        }
         self.apply_environment(&mut command);
         command
     }
 
     fn interactive_shell(&self) -> io::Result<i32> {
+        #[cfg(unix)]
         let program = self
             .environment
             .get("SHELL")
             .and_then(Clone::clone)
             .or_else(|| env::var("SHELL").ok())
             .unwrap_or_else(|| "/bin/sh".into());
+        #[cfg(unix)]
         let mut command = Command::new(program);
+        #[cfg(unix)]
         command.arg("-i");
+        #[cfg(windows)]
+        let mut command = Command::new("cmd.exe");
+        #[cfg(windows)]
+        command.arg("/D");
         self.apply_environment(&mut command);
         Ok(command.status()?.code().unwrap_or(130))
     }
@@ -484,6 +521,13 @@ impl Shell {
             Some(value) => value.clone(),
             None => env::var("OPSEC_DEMON_AUDIO_DEVICE").ok(),
         };
+        #[cfg(windows)]
+        let mut command = if args.len() == 1 {
+            soundtrack::bundled_player(device.as_deref())?
+        } else {
+            soundtrack::player(path, device.as_deref())?
+        };
+        #[cfg(not(windows))]
         let mut command = soundtrack::player(path, device.as_deref())?;
         self.apply_environment(&mut command);
         Ok(command)
@@ -494,7 +538,33 @@ impl Shell {
         if status == 0 && !line.trim().is_empty() {
             self.operations = self.operations.saturating_add(1);
         }
+        self.update_discord();
         status
+    }
+
+    fn update_discord(&self) {
+        self.discord.update_snapshot(discord::Snapshot {
+            scene: self.scene.clone(),
+            poopsec: self.poopsec,
+            operations: self.operations,
+            mascot: self.mascot.clone(),
+            mission: self.mission,
+            yoggies: self.yoggies.presence_counts(),
+            lore: vec![
+                self.yoggies.status(),
+                self.egg.status(),
+                self.arcade.status(),
+                self.stage.status(),
+                self.expansion.status(),
+                self.ritual.status(),
+                self.ssd.line(),
+                format!(
+                    "MISSION {} // {}",
+                    self.mission + 1,
+                    theater::MISSIONS[self.mission].0
+                ),
+            ],
+        });
     }
 
     fn execute_inner(&mut self, line: &str) -> i32 {
@@ -549,7 +619,40 @@ impl Shell {
             out!(self, "{event}");
         }
         match args[0].as_str() {
+            "rips" => match args
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>()
+                .as_slice()
+            {
+                ["rips"] | ["rips", "list"] => out!(self, "{}", rips::catalog()),
+                ["rips", "siiva"] => out!(self, "{}", rips::siiva_catalog()),
+                ["rips", "render", id, path] => {
+                    let id = id.parse::<usize>().map_err(io::Error::other)?;
+                    rips::render(id, path)?;
+                    out!(self, "[SYNTH AUDIO] Rendered track {id} to {path}");
+                }
+                _ => {
+                    return Err(io::Error::other(
+                        "usage: rips [list|siiva|render ID FILE.wav]",
+                    ));
+                }
+            },
+            "opsecular" => out!(
+                self,
+                "{}",
+                self.desktop.command(&args[1..]).map_err(io::Error::other)?
+            ),
             "help" if args.len() == 1 => out!(self, "{HELP}"),
+            "discord" => {
+                self.update_discord();
+                let id = self
+                    .environment
+                    .get("DISCORD_APPLICATION_ID")
+                    .cloned()
+                    .unwrap_or_else(|| env::var("DISCORD_APPLICATION_ID").ok());
+                out!(self, "{}", self.discord.command(&args[1..], id)?);
+            }
             "soundtrack" => match args
                 .iter()
                 .map(String::as_str)
@@ -671,6 +774,11 @@ impl Shell {
                     out!(self, "{line}");
                 }
             }
+            "yoggies" => {
+                for line in self.yoggies.command(&args[1..]).map_err(io::Error::other)? {
+                    out!(self, "{line}");
+                }
+            }
             "tailscale" => {
                 for line in self.milk.command(&args[1..]).map_err(io::Error::other)? {
                     out!(self, "{line}");
@@ -718,6 +826,15 @@ impl Shell {
                     self.mascot = name.clone();
                 }
                 out!(self, "[MASCOT] {} // tunnel crew on standby", self.mascot);
+                if self.mascot == "mo-krill" && self.yoggies.is_christmas() {
+                    out!(
+                        self,
+                        "[SIM MASCOT] Santa Mo carries elf Krill and Christmas yoggies"
+                    );
+                    for line in theater::CHRISTMAS_MO_KRILL {
+                        out!(self, "{line}");
+                    }
+                }
             }
             "poopsec" if args.len() <= 2 => {
                 self.poopsec = match args.get(1).map(String::as_str) {
@@ -870,6 +987,7 @@ impl Shell {
                         .and_then(Clone::clone)
                         .map(PathBuf::from)
                         .or_else(|| env::var_os("HOME").map(PathBuf::from))
+                        .or_else(|| env::var_os("USERPROFILE").map(PathBuf::from))
                         .ok_or_else(|| io::Error::other("HOME is not set"))
                 };
                 let path = match args.get(1).map(String::as_str) {
@@ -965,6 +1083,9 @@ fn is_builtin(line: &str) -> bool {
     matches!(
         line.split_whitespace().next().unwrap_or(""),
         "help"
+            | "rips"
+            | "discord"
+            | "opsecular"
             | "soundtrack"
             | "dac"
             | "novel"
@@ -990,6 +1111,7 @@ fn is_builtin(line: &str) -> bool {
             | "ritual"
             | "bido"
             | "bucket"
+            | "yoggies"
             | "tailscale"
             | "icons"
             | "doctor"
@@ -1030,12 +1152,21 @@ fn words(line: &str) -> io::Result<Vec<String>> {
     let mut quote = None;
     let mut escaped = false;
     let mut active = false;
-    for character in line.chars() {
+    let mut characters = line.chars().peekable();
+    while let Some(character) = characters.next() {
         if escaped {
             word.push(character);
             escaped = false;
         } else if character == '\\' && quote != Some('\'') {
-            escaped = true;
+            if cfg!(windows)
+                && characters
+                    .peek()
+                    .is_some_and(|next| !matches!(next, ' ' | '\'' | '"' | '\\'))
+            {
+                word.push(character);
+            } else {
+                escaped = true;
+            }
             active = true;
         } else if let Some(delimiter) = quote {
             if character == delimiter {
@@ -1080,6 +1211,8 @@ fn run() -> io::Result<u8> {
     let mut banner = true;
     let mut instant = false;
     let mut force_tui = false;
+    let mut gui = false;
+    let mut gui_smoke = false;
     let mut line_shell = false;
     let mut poopsec = false;
     let mut mo_krill = false;
@@ -1096,6 +1229,11 @@ fn run() -> io::Result<u8> {
             "--no-banner" => banner = false,
             "--instant" => instant = true,
             "--tui" => force_tui = true,
+            "--gui" => gui = true,
+            "--gui-smoke" => {
+                gui = true;
+                gui_smoke = true;
+            }
             "--shell" => line_shell = true,
             "--poopsec" => poopsec = true,
             "--mo-krill" => mo_krill = true,
@@ -1113,7 +1251,7 @@ fn run() -> io::Result<u8> {
             }
             "--help" | "-h" => {
                 println!(
-                    "Usage: opsec-demon [--plain] [--no-banner] [--instant] [--tui|--shell] [--poopsec] [--mo-krill|--chinese-demon] [--egg] [--nerd-font] [--prostreet|--vulcan] [--mcp-expansion] [-c COMMAND]\n       opsec-demon --metrics-server IP:PORT\n\n{HELP}"
+                    "Usage: opsec-demon [--plain] [--no-banner] [--instant] [--gui|--tui|--shell] [--poopsec] [--mo-krill|--chinese-demon] [--egg] [--nerd-font] [--prostreet|--vulcan] [--mcp-expansion] [-c COMMAND]\n       opsec-demon --metrics-server IP:PORT\n\n{HELP}"
                 );
                 return Ok(0);
             }
@@ -1123,6 +1261,19 @@ fn run() -> io::Result<u8> {
             }
             _ => return Err(io::Error::other(format!("unknown option: {argument}"))),
         }
+    }
+    if gui && (line_shell || force_tui || command.is_some()) {
+        return Err(io::Error::other(
+            "--gui cannot be combined with --shell, --tui, or -c",
+        ));
+    }
+    if gui && !cfg!(windows) {
+        return Err(io::Error::other("the native desktop requires Windows"));
+    }
+    if cfg!(windows) && force_tui {
+        return Err(io::Error::other(
+            "use --gui or --shell on Windows; the legacy TUI requires Unix",
+        ));
     }
     let interactive = io::stdin().is_terminal() && io::stdout().is_terminal() && command.is_none();
     let color = interactive
@@ -1157,8 +1308,24 @@ fn run() -> io::Result<u8> {
         let status = shell.execute(&command);
         return Ok(shell.exit.unwrap_or(status.clamp(0, 255) as u8));
     }
+    #[cfg(windows)]
+    if gui || (!line_shell && !force_tui) {
+        return desktop::run(shell, gui_smoke);
+    }
+    #[cfg(not(windows))]
+    let _ = gui_smoke;
+    shell.update_discord();
+    if interactive
+        && env::var_os("DISCORD_APPLICATION_ID").is_some()
+        && let Err(error) = shell
+            .discord
+            .command(&["on".into()], env::var("DISCORD_APPLICATION_ID").ok())
+    {
+        shell.error(&format!("[DISCORD] {error}"));
+    }
     if interactive
         && !line_shell
+        && cfg!(unix)
         && (force_tui || env::var("TERM").is_ok_and(|term| term != "dumb"))
     {
         return tui::run(&mut shell, banner && !instant);
@@ -1220,6 +1387,39 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg(windows)]
+    fn windows_commands_preserve_quotes_pipes_status_and_session_environment() {
+        let mut shell = Shell::new(false);
+        shell.discord.update("demon", false, 0);
+        assert_eq!(shell.execute("export OPSEC_WIN_TEST='hello twin'"), 0);
+        let output = shell
+            .command("echo %OPSEC_WIN_TEST%|findstr twin")
+            .output()
+            .unwrap();
+        assert!(output.status.success());
+        assert_eq!(
+            String::from_utf8(output.stdout).unwrap().trim(),
+            "hello twin"
+        );
+        assert_eq!(shell.command("exit /B 7").status().unwrap().code(), Some(7));
+        assert_eq!(
+            words(r#"cd "C:\Users\operator\space folder""#).unwrap(),
+            vec!["cd", r"C:\Users\operator\space folder"]
+        );
+        let output = shell.command(r#"echo "quoted text""#).output().unwrap();
+        assert_eq!(
+            String::from_utf8(output.stdout).unwrap().trim(),
+            r#""quoted text""#
+        );
+        shell.execute("unset OPSEC_WIN_TEST");
+        let output = shell
+            .command("if defined OPSEC_WIN_TEST (exit /B 1) else (exit /B 0)")
+            .status()
+            .unwrap();
+        assert!(output.success());
+    }
+
+    #[test]
     fn builtin_arguments_preserve_quotes_escapes_and_empty_strings() {
         assert_eq!(
             words(r#"cd "space path" '' escaped\ space"#).unwrap(),
@@ -1264,6 +1464,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn command_status_and_exit_are_preserved() {
         let mut shell = Shell::new(false);
         assert_eq!(shell.execute("false"), 1);
@@ -1314,6 +1515,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn compound_builtins_follow_shell_syntax_and_quoted_operators_remain_literal() {
         assert!(!is_builtin("pwd | cat"));
         assert!(!is_builtin("cd /tmp && pwd"));
@@ -1329,6 +1531,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn exported_environment_persists_for_children_and_unset_removes_it() {
         let mut shell = Shell::new(false);
         assert_eq!(shell.execute("export OPSEC_DEMON_TEST='hello twin'"), 0);

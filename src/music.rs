@@ -8,6 +8,7 @@ use std::thread::{self, JoinHandle};
 use std::time::{Duration, Instant};
 
 const POLL_INTERVAL: Duration = Duration::from_secs(2);
+#[cfg(not(windows))]
 const COMMAND_TIMEOUT: Duration = Duration::from_secs(2);
 static OUTPUT_ID: AtomicU64 = AtomicU64::new(0);
 
@@ -121,7 +122,7 @@ fn now_playing(stop: &AtomicBool) -> String {
             "end tell",
         ],
     );
-    #[cfg(not(target_os = "macos"))]
+    #[cfg(all(not(target_os = "macos"), not(windows)))]
     let (program, arguments): (&str, &[&str]) = (
         "playerctl",
         &[
@@ -130,9 +131,32 @@ fn now_playing(stop: &AtomicBool) -> String {
             "{{status}} | {{artist}} - {{title}}",
         ],
     );
-    match bounded_output(program, arguments, stop, COMMAND_TIMEOUT) {
+    #[cfg(windows)]
+    let script = format!(
+        "& {{ {} }} -Once",
+        include_str!("../scripts/windows-music.ps1")
+    );
+    #[cfg(windows)]
+    let (program, arguments): (&str, &[&str]) = (
+        "powershell.exe",
+        &[
+            "-NoLogo",
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            &script,
+        ],
+    );
+    #[cfg(windows)]
+    let timeout = Duration::from_secs(8);
+    #[cfg(not(windows))]
+    let timeout = COMMAND_TIMEOUT;
+    match bounded_output(program, arguments, stop, timeout) {
         Ok(output) => {
+            #[cfg(not(windows))]
             let text = clean(&output);
+            #[cfg(windows)]
+            let text = windows_metadata(&output);
             if text.is_empty() {
                 "LOCAL MUSIC | no current track".into()
             } else {
@@ -143,6 +167,27 @@ fn now_playing(stop: &AtomicBool) -> String {
     }
 }
 
+#[cfg(windows)]
+fn windows_metadata(output: &str) -> String {
+    output
+        .lines()
+        .filter_map(|line| {
+            serde_json::from_str::<serde_json::Value>(line.trim_start_matches('\u{feff}')).ok()
+        })
+        .next_back()
+        .map_or_else(
+            || "no Windows media session available".into(),
+            |state| {
+                format!(
+                    "{} | {} - {}",
+                    clean(state["status"].as_str().unwrap_or("Stopped")),
+                    clean(state["artist"].as_str().unwrap_or("")),
+                    clean(state["title"].as_str().unwrap_or(""))
+                )
+            },
+        )
+}
+
 // An unlinked temporary file avoids pipe deadlocks and unbounded output buffers.
 // Subprocesses are checked every 20ms and killed on timeout or UI shutdown.
 fn capture_file() -> Result<File, &'static str> {
@@ -150,12 +195,18 @@ fn capture_file() -> Result<File, &'static str> {
     let path = std::env::temp_dir().join(format!("opsec-demon-music-{}-{id}", std::process::id()));
     let mut options = OpenOptions::new();
     options.read(true).write(true).create_new(true);
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::OpenOptionsExt;
+        options.custom_flags(0x04000000).share_mode(1 | 2 | 4); // delete on last close
+    }
     #[cfg(unix)]
     {
         use std::os::unix::fs::OpenOptionsExt;
         options.mode(0o600);
     }
     let file = options.open(&path).map_err(|_| "capture unavailable")?;
+    #[cfg(unix)]
     std::fs::remove_file(path).map_err(|_| "capture unavailable")?;
     Ok(file)
 }
@@ -168,7 +219,13 @@ fn bounded_output(
 ) -> Result<String, &'static str> {
     let mut capture = capture_file()?;
     let output = capture.try_clone().map_err(|_| "capture unavailable")?;
-    let mut child = Command::new(program)
+    let mut command = Command::new(program);
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        command.creation_flags(0x08000000);
+    }
+    let mut child = command
         .args(arguments)
         .env_remove("APPLE_MUSIC_DEVELOPER_TOKEN")
         .env_remove("APPLE_MUSIC_USER_TOKEN")
@@ -176,7 +233,7 @@ fn bounded_output(
         .stdout(Stdio::from(output))
         .stderr(Stdio::null())
         .spawn()
-        .map_err(|_| "adapter unavailable (playerctl on Linux / Music on macOS)")?;
+        .map_err(|_| "local playback adapter unavailable")?;
     let deadline = Instant::now() + timeout;
     loop {
         match child.try_wait() {
@@ -215,6 +272,27 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg(windows)]
+    fn windows_metadata_and_capture_preserve_unicode_and_hide_control_bytes() {
+        assert!(
+            windows_metadata(r#"{"status":"Paused","artist":"猫","title":"Song"}"#)
+                .contains("Paused | 猫 - Song")
+        );
+        let stop = AtomicBool::new(false);
+        assert_eq!(
+            bounded_output(
+                "cmd.exe",
+                &["/D", "/C", "echo Playing"],
+                &stop,
+                Duration::from_secs(2)
+            )
+            .unwrap()
+            .trim(),
+            "Playing"
+        );
+    }
+
+    #[test]
     fn credentials_do_not_claim_authentication() {
         assert!(credential_status(true, true).contains("unverified"));
         assert!(credential_status(true, false).contains("incomplete"));
@@ -228,6 +306,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn bounded_adapter_captures_output_and_times_out() {
         let stop = AtomicBool::new(false);
         assert_eq!(

@@ -1,5 +1,37 @@
 # Nightfall / Tweeter & Krillion original score
 
+## OpSecULAR 97 remix-style album
+
+`rips siiva` includes [snow halation but it shreds](https://www.youtube.com/watch?v=AEtEBleNwCQ)
+by Joshua Taipale & Nolithium on SiIvaGunner, plus nine credited listening links from the official
+[SiIvaGunner KFAD MOJO!! music archive](https://mojo.highquality.rip/category/music/):
+Lifelight, 8 PM (Fishing Night in Heaven), Main Menu, Hilltop Rave, Launch Base '93,
+Funny Man Goes to the Tool Shop, NEO KOBE外伝, A Spacecraft Fueled on Fright, and
+Reggie's Late Nite. Open the pages in a browser to listen using their hosted players.
+The catalog is external; the shell does not download or bundle those recordings.
+
+`rips list` lists nine 16-bar synth arrangements with different tempos, keys,
+harmonics, and surprise melody switches. This is an unaffiliated tribute to
+SiIvaGunner-style remix humor, with no SiIvaGunner recordings or sampled game music.
+Track 9, **Snow Halation / OpSecULAR 97 Credits**, switches to a synthesized quotation
+of Snow halation's opening chorus hook halfway through, at approximately 11.03 seconds.
+It runs at 174 BPM and repeats the hook over a new bass/drum arrangement in A major.
+Snow halation was composed by Takahiro Yamada and performed by μ's; the short melody
+interpretation references this [note transcription](https://notangkalagujepang.blogspot.com/2014/04/snow-halation-s-not-angka-pianika.html).
+This is an instrumental quotation, with no vocals or copied recording.
+The tracks are synthesized on demand as 22.05 kHz, 16-bit stereo PCM WAV files:
+
+```text
+rips render 1 /tmp/recycle-bin.wav
+soundtrack play /tmp/recycle-bin.wav
+```
+
+IDs 1–9 select Recycle Bin Bossa, WSL Jade Boot, Krillion Lane Counterpick,
+Larp City Bus Ride, Lost Signals Afterparty, Curds of Destiny, Mainframe Tears,
+Serial Clown Inferno, and Snow Halation / OpSecULAR 97 Credits. Files are created exclusively;
+existing paths are never overwritten. Playback uses the same host audio adapter
+as the original Nightfall score. Rendering does not require an audio device.
+
 The included soundtrack is an original 32-bar, 148 BPM E-minor synth track: kick, bass,
 snare, arpeggio, pad, stereo echo, and fades. The PCM WAV is 44.1 kHz, 16-bit stereo,
 51.89 seconds long. No music from Lost Child or another game is sampled.

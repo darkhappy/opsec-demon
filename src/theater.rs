@@ -49,6 +49,21 @@ pub fn rank(operations: u64) -> &'static str {
 
 pub const BOOT_DURATION: Duration = Duration::from_secs(15);
 
+/// Original festive ASCII illustration: Santa Mo carries elf Krill and yoggies.
+pub const CHRISTMAS_MO_KRILL: &[&str] = &[
+    r" * SANTA MO & ELF KRILL *",
+    r"        /\_*  ELF KRILL",
+    r"       (o o) [yoggies]",
+    r"        /|_|\",
+    r"     /^^\___*",
+    r"    /=======\ SANTA MO",
+    r"   / O     O \",
+    r"  |  \vvvvv/  |",
+    r"  /|==[###]==|\",
+    r" /_|  /   \  |_\",
+    r"    (o*o) YOGGIES (o*o)",
+];
+
 pub const POOP_SIGIL: &str = r"
                     (  )
                      )(     ~ ~

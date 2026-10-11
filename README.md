@@ -364,6 +364,31 @@ This is an aesthetic, not a security or anonymity boundary.
 
 ## Build and enter
 
+### Windows desktop / standalone EXE
+
+Windows now opens a native graphical command deck on double-click: animated neon
+illustrations, a simulated radar, clickable missions, a real command transcript,
+fullscreen mode, and artwork rendered at the window's actual resolution, including
+3840 x 2160. The executable contains its artwork and Nightfall soundtrack.
+Apple Music reads native Windows media sessions; Discord uses local named-pipe IPC.
+
+```powershell
+mise trust
+mise install
+mise run windows:setup
+mise run check
+mise run test
+mise run smoke
+mise run windows:package
+.\target\dist\OPSEC-DEMON.exe
+```
+
+See the [Windows operating guide](docs/windows.md) for integrations, controls,
+and terminal mode. No Rust installation is needed to run a prebuilt executable.
+The legacy terminal operating manual below applies to Unix unless noted.
+
+### Unix terminal
+
 ```sh
 mise install
 mise run build
@@ -519,6 +544,51 @@ commands advance your fictional rank. `mission` shows the current story act;
 `mission next` advances it manually. Persona, history, and simulated game state
 last for the current process only.
 
+## Yoggies mainframe tray
+
+![Yoggies reference illustration: five creamy berry bites on a purple sparkle background](docs/assets/yoggies.png)
+
+The supplied illustration inspires five fictional yogurt-coated berry bites,
+with ten available on Christmas Day.
+`yoggies` or `yoggies all` displays every slot as a terminal ASCII illustration,
+including used bites. The dashboard shows a live tray count in tall layouts.
+
+```text
+yoggies all
+yoggies holidays
+yoggies use
+yoggies use 3
+yoggies status
+yoggies refill
+```
+
+`use` consumes the next ready yoggie, or the numbered bite you choose. `refill`
+restores the full tray. This is a session-only SIM prop: it changes no real mainframe,
+network, or hardware state. The reference image is displayed here in the manual;
+the terminal display uses ASCII for ordinary terminal compatibility.
+
+`yoggies holidays` shows this year's holiday schedule:
+
+| Holiday | Date |
+| --- | --- |
+| Christmas Eve | December 24, 2026 |
+| Christmas Day | December 25, 2026 |
+| New Year's Eve | December 31, 2026 |
+| New Year's Day | January 1, 2027 |
+
+Every December 25, the tray doubles from five to ten yoggies, and `use 6` through
+`use 10` unlock the bonus bites. The host's local date is read at startup and on
+each `yoggies` command using the local OS date utility. An open session gains the
+extra slots on its first Christmas command; already used bites stay used until
+refill. On the next day's command, the tray returns to five slots. If the date
+cannot be read, the tray keeps its current size (five for a new session).
+
+On Christmas Day, `mascot mo-krill` (or launch with `--mo-krill`) dresses Mo as
+Santa, with little elf Krill on his back carrying yoggies. The festive ASCII
+illustration includes Santa's hat and beard, an elf hat, and berry gifts.
+The terminal portrait follows the same local-date Christmas state as the tray;
+after a date change, run a `yoggies` command to refresh both.
+
 ## Silent band, effects pedal, and headphone profiles
 
 The normal right panel shows an original Beatles ASCII tribute and the SDVX
@@ -590,6 +660,65 @@ does not verify the remote application. Simulator ping does not send its protoco
 to remote services. Use `shell ssh user@host` for an actual remote login.
 
 ## Signal graphs and music
+
+### Discord: BLACK CHOIR broadcast
+
+Real local Discord Rich Presence, aggressively fictional operator theater. The
+profile rotates through `SIM | Exorcising the astral firewall`, forbidden milk
+routing, ghost-kernel soul caches, counterintel pigeons awaiting the blood
+moon, and live SIM Yoggies, egg, SDVX, stage, expansion, ritual, SSD, and mission
+state. The second line carries your scene, available Yoggies, operation count, and
+`NIGHTFALL ARCHON` clearance; `poopsec on` promotes you to `PORCELAIN ARCHDEMON`.
+The elapsed timer begins when the broadcast worker starts. All clearance and
+mission language is fiction; the connection to Discord is real.
+
+Create an application in the [Discord Developer Portal](https://discord.com/developers/applications)
+and name it `OPSEC DEMON // NIGHTFALL BLACK CHOIR` for the full ceremony. Copy its
+public **Application ID**, open the desktop Discord client on the same Linux or
+macOS host, enable activity sharing in Discord, then enter:
+
+```text
+discord on YOUR_APPLICATION_ID
+discord status
+discord preview
+discord type competing
+discord timer 900
+discord load docs/discord-presence.example.json
+discord art https://YOUR_PUBLIC_HOST/discord
+discord off
+```
+
+Alternatively, set `DISCORD_APPLICATION_ID` before launching the shell to enable
+presence automatically in interactive sessions. Inside the shell,
+`export DISCORD_APPLICATION_ID=YOUR_APPLICATION_ID` followed by `discord on`
+also works. `.env` files are not loaded automatically. No bot token, user token,
+client secret, or OAuth login is required. The application name
+comes from your Discord application configuration.
+
+The full card includes two buttons, clickable text and illustrations, large/small
+art with hover text, a SIM Yoggies party counter, member-list display modes,
+elapsed/countdown timers, and configurable activity fields. Upload the supplied
+PNGs under their filename stems for static art, or host the five looping GIF
+illustrations at a public HTTPS URL and run `discord art BASE_URL`. External
+GIF/WebP/AVIF animations work; portal-uploaded images are static. Nothing is
+published automatically. The [BLACK CHOIR presence manual](docs/discord-presence.md)
+documents every writable field, asset setup, and the limits of join/spectate
+fields. Use `discord reset` to restore defaults.
+
+The worker sends at most one ordinary update every 15 seconds, reconnects when
+Discord becomes available, and handles IPC off the input/render thread. Status
+says `TRANSMITTING` only after Discord acknowledges the activity. Turning it off
+or leaving the shell clears activity and closes the socket; missing Discord
+never prevents shell use. By default, the broadcast includes fixed SIM text, the
+selected SIM state, mascot, persona, operation count, and session timer. It does not include
+callsigns, command text, working directories, mainframe addresses, or music.
+Discord can display this activity to others according to your activity sharing
+settings. See the [Discord RPC protocol](https://discord.com/developers/docs/topics/rpc).
+
+This implementation discovers local Unix IPC sockets, including common Linux
+Flatpak/Snap locations. A WSL shell cannot directly reach Windows Discord's
+named pipe; use Discord on the same Unix host. Discord web alone has no local
+IPC socket. Do not point this integration at a network relay.
 
 Frequency response, unwrapped phase, group delay, and excess group delay share a
 synthetic resonant low-pass model with an added transport delay. Axes use Hz,

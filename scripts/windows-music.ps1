@@ -1,4 +1,5 @@
 # Read Apple Music's Windows media session; stream one UTF-8 JSON object per second.
+param([switch]$Once)
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 Add-Type -AssemblyName System.Runtime.WindowsRuntime
@@ -43,5 +44,6 @@ while ($true) {
         [Console]::WriteLine('{"status":"Stopped","title":"","artist":"","album":"","source":""}')
         [Console]::Out.Flush()
     }
+    if ($Once) { break }
     Start-Sleep -Seconds 1
 }
