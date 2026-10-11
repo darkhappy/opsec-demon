@@ -202,6 +202,60 @@ rendering. Fish, Zsh, and Nushell were unavailable locally and have no claimed t
 Read the [measurement report](docs/metrics/local-report.json) and [method](METRICS.md), or
 reproduce it with `python3 scripts/readme-metrics.py` after building.
 
+## LOST SIGNALS // TWEETER × KRILLION
+
+<img src="docs/assets/tweeter-krillion.svg" alt="Original illustrated cover of Tweeter the speaker demon and Krillion the signal swarm beside an abandoned neon station" width="1280" />
+
+This cover is an original illustration. **Lost Signals** is an original branching terminal
+novel inspired by the requested dark visual-novel atmosphere, with about 2,000 words per
+route. It includes two endings, fictional character analysis, and an original 51.89-second
+stereo demon score. See [the story guide](NOVEL.md) and [audio guide](AUDIO.md).
+
+```text
+novel start
+novel next
+novel choose 1
+psyche
+mascot tweeter
+mascot krillion
+graph metrics
+soundtrack render /tmp/nightfall.wav
+soundtrack play /tmp/nightfall.wav
+dac status
+dac list
+dac serial
+```
+
+Advance with `novel next`; choose only when the story asks. `psyche` analyzes fictional
+characters. Audio plays only when requested. Your Focusrite Scarlett Solo 3 uses the host's
+USB audio system: Linux uses `aplay`, macOS uses `afplay`. On Linux, select an ALSA device
+reported by `dac list` with `export OPSEC_DEMON_AUDIO_DEVICE=plughw:CARD=YOUR_CARD,DEV=0`.
+`dac serial` lists candidate serial paths without writing to them. Physical Scarlett
+playback has not been verified on this machine.
+
+## INFRASTRUCTURE // THE WHOLE CONTROL ROOM
+
+The metrics tab displays actual session counters. The standalone exporter exposes its own
+process metrics, readiness, and health on HTTP; it does not aggregate other shell sessions.
+See [metrics and measurement details](METRICS.md).
+
+```sh
+./target/release/opsec-demon --metrics-server 127.0.0.1:9090
+docker build -t opsec-demon:local .
+docker compose up -d
+helm lint charts/opsec-demon
+sh scripts/roblox-check.sh
+```
+
+| Station | Manual |
+| --- | --- |
+| Twenty CI adapter files and the shared Deus Ex Machina check driver | [CI platforms](CI_PLATFORMS.md) |
+| Docker, Compose, Kubernetes, Helm, optional Prometheus integration | [Containers](CONTAINERS.md) |
+| Rokit, Rojo, Wally, Selene, StyLua, Lune, darklua, and Luau LSP | [Roblox](ROBLOX.md) |
+| Editor, agent, formatter, task runner, and dependency configuration | [Tooling catalog](TOOLING.md) |
+| Real execution, synthetic effects, assets, and platform boundaries | [Architecture](ARCHITECTURE.md) |
+| Build, troubleshoot, and operate locally | [Operations](OPERATIONS.md) |
+
 ## FIELD MANUAL // ACTUAL OPERATING INSTRUCTIONS
 
 
@@ -277,7 +331,7 @@ next Tab press. Up/Down navigate command history. There is no job control. Chang
 | Ctrl-T | Toggle demon and Mo & Krill |
 | Ctrl-X | Trigger a particle explosion |
 | Ctrl-G | Stomp the fictional effects pedal |
-| Ctrl-F | Cycle the response graph |
+| Ctrl-F | Cycle response graphs, metrics, and novel tabs |
 | Ctrl-N | Advance the fictional mission |
 | Tab | Complete commands and file paths |
 | Ctrl-D | Exit and restore the terminal |
@@ -447,7 +501,7 @@ dB, degrees, and milliseconds. Excess group delay removes the model's
 minimum-phase contribution, leaving the added transport delay. These are coherent
 simulated diagnostics, not measurements of the track playing on your computer.
 A fifth graph shows idealized room RT60 decay; `graph room` selects it, and Ctrl-F
-or `graph next` cycles all six, including the headphone example curve. Configure it with `rt60 set 5 4 3 0.2`
+or `graph next` cycles six synthetic graphs plus the actual metrics and novel tabs, including the headphone example curve. Configure it with `rt60 set 5 4 3 0.2`
 (width, length, height in meters, then mean absorption). `rt60 status` prints the
 result; `room` is an alias. Sabine RT60 is `0.161 × volume / (surface × absorption)`;
 the curve reaches -60 dB at that time. Defaults produce about 0.514 seconds.
