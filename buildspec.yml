@@ -1,0 +1,11 @@
+version: 0.2
+# Configure a Linux image with rustup and Python 3 in the CodeBuild project.
+phases:
+  install:
+    commands:
+      - rustup toolchain install 1.93.1 --profile minimal --component rustfmt --component clippy
+  build:
+    commands:
+      - sh scripts/ci.sh
+artifacts:
+  files: [target/release/opsec-demon]
