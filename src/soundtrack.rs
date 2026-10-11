@@ -165,6 +165,10 @@ mod tests {
     fn embedded_score_is_stereo_pcm_with_consistent_lengths() {
         assert_eq!(&TRACK[..4], b"RIFF");
         assert_eq!(&TRACK[8..12], b"WAVE");
+        assert_eq!(&TRACK[12..16], b"fmt ");
+        assert_eq!(u16::from_le_bytes(TRACK[20..22].try_into().unwrap()), 1);
+        assert_eq!(u16::from_le_bytes(TRACK[34..36].try_into().unwrap()), 16);
+        assert_eq!(&TRACK[36..40], b"data");
         assert_eq!(u16::from_le_bytes(TRACK[22..24].try_into().unwrap()), 2);
         assert_eq!(u32::from_le_bytes(TRACK[24..28].try_into().unwrap()), 44100);
         assert_eq!(

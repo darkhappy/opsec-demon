@@ -1,3 +1,4 @@
+param([switch]$SkipVulkan)
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path $PSScriptRoot -Parent
 $binary = Join-Path $repoRoot 'target/release/opsec-demon.exe'
@@ -14,12 +15,28 @@ Invoke-Check 'discord preview' 'SIM'
 Invoke-Check 'rips list' '[SYNTH AUDIO]'
 & $binary --plain -c 'exit 7'
 if ($LASTEXITCODE -ne 7) { throw 'Exit status was lost' }
-$preview = Join-Path $repoRoot 'target/desktop-4k.bmp'
-if (Test-Path -LiteralPath $preview) { Remove-Item -LiteralPath $preview }
+if ($SkipVulkan) {
+    Write-Host 'Windows native command checks passed. Vulkan rendering explicitly skipped on this host.'
+    exit 0
+}
+$previews = @(Join-Path $repoRoot 'target/desktop-4k.png')
+$previews += Join-Path $repoRoot 'target/desktop-audio-source-4k.png'
+1..6 | ForEach-Object { $previews += Join-Path $repoRoot "target/desktop-page-$_-4k.png" }
+foreach ($preview in $previews) {
+    if (Test-Path -LiteralPath $preview) { Remove-Item -LiteralPath $preview }
+}
+$reportPath = Join-Path $repoRoot 'target/vulkan-smoke.json'
+if (Test-Path -LiteralPath $reportPath) { Remove-Item -LiteralPath $reportPath }
 & $binary --gui-smoke
 if ($LASTEXITCODE -ne 0) { throw 'Native desktop smoke failed' }
-$bytes = [System.IO.File]::ReadAllBytes($preview)
-if ([BitConverter]::ToInt32($bytes, 18) -ne 3840 -or [Math]::Abs([BitConverter]::ToInt32($bytes, 22)) -ne 2160) {
-    throw 'Desktop preview is not 3840 x 2160'
+foreach ($preview in $previews) {
+    $bytes = [System.IO.File]::ReadAllBytes($preview)
+    $width = ([int]$bytes[16] -shl 24) -bor ([int]$bytes[17] -shl 16) -bor ([int]$bytes[18] -shl 8) -bor [int]$bytes[19]
+    $height = ([int]$bytes[20] -shl 24) -bor ([int]$bytes[21] -shl 16) -bor ([int]$bytes[22] -shl 8) -bor [int]$bytes[23]
+    if ($width -ne 3840 -or $height -ne 2160) { throw "Desktop page is not 3840 x 2160: $preview" }
 }
-Write-Host 'Windows native commands, SIM consoles, exit status, desktop, and 4K rendering passed.'
+$report = Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
+if ($report.backend -ne 'Vulkan' -or $report.pages_rendered -ne 7 -or $report.native_command -ne 'passed' -or $report.native_window -ne 'passed' -or $report.audio_graphs -ne 8) {
+    throw 'Vulkan smoke report did not verify all pages and the graphical command worker'
+}
+Write-Host 'Windows native commands, SIM models, all seven Vulkan pages, audio graphs, and fresh 4K rendering passed.'

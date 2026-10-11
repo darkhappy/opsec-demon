@@ -1,6 +1,10 @@
 //! Bounded bridge between the graphical deck and the existing shell simulations.
 use crate::{Shell, completion, is_builtin, job::Job, music::Music};
 use std::sync::mpsc::{self, Receiver, SyncSender};
+use std::sync::{
+    Arc,
+    atomic::{AtomicU16, Ordering},
+};
 use std::thread::{self, JoinHandle};
 use std::time::{Duration, Instant};
 
@@ -48,23 +52,27 @@ pub enum Update {
     Music(String),
     Snapshot(Box<Snapshot>),
     Completion(completion::Completion),
-    Closed,
+    Closed(u8),
 }
 
 pub struct Session {
     pub requests: SyncSender<Request>,
     pub updates: Receiver<Update>,
     worker: Option<JoinHandle<()>>,
+    pub exit_code: Arc<AtomicU16>,
 }
 impl Session {
     pub fn start(shell: Shell) -> Self {
         let (requests, incoming) = mpsc::sync_channel(32);
         let (outgoing, updates) = mpsc::sync_channel(256);
-        let worker = thread::spawn(move || run(shell, incoming, outgoing));
+        let exit_code = Arc::new(AtomicU16::new(256));
+        let worker_code = Arc::clone(&exit_code);
+        let worker = thread::spawn(move || run(shell, incoming, outgoing, worker_code));
         Self {
             requests,
             updates,
             worker: Some(worker),
+            exit_code,
         }
     }
 }
@@ -132,8 +140,14 @@ fn snapshot(shell: &Shell, celebration: u64, dropped_output: u64) -> Snapshot {
     }
 }
 
-fn run(mut shell: Shell, incoming: Receiver<Request>, outgoing: SyncSender<Update>) {
+fn run(
+    mut shell: Shell,
+    incoming: Receiver<Request>,
+    outgoing: SyncSender<Update>,
+    exit_code: Arc<AtomicU16>,
+) {
     *shell.transcript.borrow_mut() = Some(Vec::new());
+    shell.color = false;
     let _ = shell.local();
     if std::env::var_os("DISCORD_APPLICATION_ID").is_some() {
         shell.execute("discord on");
@@ -279,7 +293,9 @@ fn run(mut shell: Shell, incoming: Receiver<Request>, outgoing: SyncSender<Updat
         }
     }
     drop(job);
-    let _ = outgoing.try_send(Update::Closed);
+    let code = shell.exit.unwrap_or(0);
+    exit_code.store(u16::from(code), Ordering::Release);
+    let _ = outgoing.try_send(Update::Closed(code));
 }
 
 #[cfg(test)]

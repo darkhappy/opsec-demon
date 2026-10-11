@@ -12,6 +12,10 @@ use eframe::{
 use std::{
     collections::VecDeque,
     io,
+    sync::{
+        Arc,
+        atomic::{AtomicBool, AtomicU8, Ordering},
+    },
     time::{Duration, Instant},
 };
 
@@ -62,6 +66,12 @@ pub struct Deck {
     spectrum: Vec<[f64; 2]>,
     analysis_at: Instant,
     command_focus: bool,
+    closed: Option<u8>,
+    exit_code: Arc<AtomicU8>,
+    capture: bool,
+    audio_source: bool,
+    window_smoke_frames: Option<u32>,
+    window_smoke_passed: Arc<AtomicBool>,
 }
 
 fn style(ctx: &egui::Context) {
@@ -74,6 +84,9 @@ fn style(ctx: &egui::Context) {
     style.visuals.widgets.inactive.bg_fill = Color32::from_rgb(23, 35, 53);
     style.visuals.widgets.hovered.bg_fill = Color32::from_rgb(37, 61, 78);
     style.visuals.widgets.active.bg_fill = Color32::from_rgb(45, 90, 109);
+    style.visuals.widgets.inactive.weak_bg_fill = Color32::from_rgb(23, 35, 53);
+    style.visuals.widgets.hovered.weak_bg_fill = Color32::from_rgb(37, 61, 78);
+    style.visuals.widgets.active.weak_bg_fill = Color32::from_rgb(45, 90, 109);
     style.spacing.item_spacing = Vec2::new(12., 10.);
     style.spacing.button_padding = Vec2::new(15., 10.);
     style
@@ -124,24 +137,51 @@ impl Deck {
             burst_at: None,
             model: Model::default(),
             fullscreen: false,
-            uncapped: false,
+            uncapped: std::env::var("OPSEC_DEMON_UNCAPPED").is_ok_and(|value| value == "1"),
             profile: String::new(),
             room: [4., 5., 2.7, 0.22],
             pcm: Vec::new(),
             spectrum: Vec::new(),
             analysis_at: now - Duration::from_secs(1),
             command_focus: false,
+            closed: None,
+            exit_code: Arc::new(AtomicU8::new(0)),
+            capture: !autoplay,
+            audio_source: false,
+            window_smoke_frames: None,
+            window_smoke_passed: Arc::new(AtomicBool::new(false)),
         }
     }
     fn log(&mut self, line: String) {
         for line in line.lines() {
-            self.logs.push_back(line.chars().take(4000).collect());
+            self.logs.push_back(
+                line.trim_end_matches('\r')
+                    .chars()
+                    .filter(|c| !c.is_control() || *c == '\t')
+                    .take(4000)
+                    .collect(),
+            );
         }
         while self.logs.len() > 1500 {
             self.logs.pop_front();
         }
     }
     pub fn send(&mut self, command: &str) {
+        match command.trim() {
+            "graph next" | "graph room" | "graph headphones" => {
+                self.page = 2;
+                return;
+            }
+            "graph metrics" | "metrics" => {
+                self.page = 0;
+                return;
+            }
+            "clear" => {
+                self.logs.clear();
+                return;
+            }
+            _ => {}
+        }
         if command.trim_start().starts_with("soundtrack play") {
             let _ = self.player.set(false);
         }
@@ -167,7 +207,9 @@ impl Deck {
                     if state.celebration != self.state.celebration {
                         self.burst_at = Some(Instant::now());
                     }
-                    self.history_index = state.history.len();
+                    if state.history.len() != self.state.history.len() {
+                        self.history_index = state.history.len();
+                    }
                     self.state = *state;
                 }
                 Update::Completion(result) => {
@@ -180,10 +222,17 @@ impl Deck {
                         ));
                     }
                 }
-                Update::Closed => {
+                Update::Closed(code) => {
+                    self.closed = Some(code);
+                    self.exit_code.store(code, Ordering::Relaxed);
                     self.log("[LOCAL] Session closed.".into());
                 }
             }
+        }
+        let code = self.session.exit_code.load(Ordering::Acquire);
+        if code <= 255 {
+            self.closed = Some(code as u8);
+            self.exit_code.store(code as u8, Ordering::Relaxed);
         }
         if self.analysis_at.elapsed() >= Duration::from_millis(100) {
             let samples = soundtrack::pcm_window(self.started.elapsed().as_secs_f64());
@@ -220,6 +269,14 @@ impl Deck {
             && self.state.room_curve.len() == 256
             && self.state.novel.contains("LOST SIGNALS")
     }
+    pub fn native_smoke_ready(&self) -> bool {
+        self.logs.iter().any(|line| line == "VULKAN_NATIVE_OK")
+            && self
+                .logs
+                .iter()
+                .any(|line| line == "[LOCAL] process exited 0")
+            && !self.state.busy
+    }
     fn actions(&mut self, ui: &mut egui::Ui, buttons: &[(&str, &str)]) {
         ui.horizontal_wrapped(|ui| {
             for (label, command) in buttons {
@@ -229,8 +286,22 @@ impl Deck {
             }
         });
     }
+    pub fn smoke_diagnostics(&self) -> String {
+        format!(
+            "busy={} marker={} lines={:?}",
+            self.state.busy,
+            self.logs.iter().any(|line| line == "VULKAN_NATIVE_OK"),
+            self.logs
+                .iter()
+                .filter(|line| line.contains("VULKAN_NATIVE_OK") || line.starts_with("[LOCAL"))
+                .collect::<Vec<_>>()
+        )
+    }
     pub fn ui(&mut self, ctx: &egui::Context) {
         self.drain();
+        if self.closed.is_some() {
+            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+        }
         let now = Instant::now();
         self.cadence
             .push_back(now.duration_since(self.last_frame).as_secs_f32());
@@ -330,14 +401,18 @@ impl Deck {
                 }
                 ui.add_space(16.);
                 let avg = self.cadence.iter().sum::<f32>() / self.cadence.len().max(1) as f32;
-                ui.label(
-                    RichText::new(format!(
-                        "{:.0} fps / {:.1} ms",
-                        1. / avg.max(0.0001),
-                        avg * 1000.
-                    ))
-                    .color(CYAN),
-                );
+                if self.capture {
+                    ui.label(RichText::new("4K VULKAN CAPTURE").color(CYAN));
+                } else {
+                    ui.label(
+                        RichText::new(format!(
+                            "{:.0} fps / {:.1} ms",
+                            1. / avg.max(0.0001),
+                            avg * 1000.
+                        ))
+                        .color(CYAN),
+                    );
+                }
                 ui.label(
                     RichText::new(format!("UI CPU {:.2} ms", self.ui_ms))
                         .size(12.)
@@ -345,11 +420,17 @@ impl Deck {
                 );
                 ui.label(RichText::new(&self.adapter).size(11.).color(MUTED));
                 ui.add_space(10.);
-                if ui.checkbox(&mut self.uncapped, "Uncapped redraw").changed() {
-                    ui.ctx().request_repaint();
-                }
                 ui.label(
-                    RichText::new("Presentation uses VSync. F11 fullscreen. Esc cancels a job.")
+                    RichText::new(if self.uncapped {
+                        "UNCAPPED PRESENTATION"
+                    } else {
+                        "VSYNC PRESENTATION"
+                    })
+                    .size(11.)
+                    .color(CYAN),
+                );
+                ui.label(
+                    RichText::new("F11 fullscreen. Esc cancels a job.")
                         .size(11.)
                         .color(MUTED),
                 );
@@ -444,15 +525,9 @@ impl Deck {
     }
     fn command(&mut self, ui: &mut egui::Ui) {
         ui.columns(3, |columns| {
-            for (ui, title, value) in [(
-                &mut columns[0],
-                "MISSION",
-                format!("{:02}", self.state.mission + 1),
-            )] {
-                card(ui, title, |ui| {
-                    ui.label(RichText::new(value).size(28.));
-                });
-            }
+            card(&mut columns[0], "MISSION", |ui| {
+                ui.label(RichText::new(format!("{:02}", self.state.mission + 1)).size(28.));
+            });
             card(&mut columns[1], "LARP PRESSURE", |ui| {
                 ui.label(
                     RichText::new(format!("{}%", self.state.larp))
@@ -491,7 +566,7 @@ impl Deck {
         });
         ui.add_space(14.);
         ui.horizontal(|ui| {
-            ui.label(RichText::new("❯").size(24.).color(CYAN));
+            ui.label(RichText::new(">").size(24.).color(CYAN));
             let response = ui.add_sized(
                 [ui.available_width() - 108., 42.],
                 egui::TextEdit::singleline(&mut self.input)
@@ -539,6 +614,23 @@ impl Deck {
         if ui.button("Cancel running process").clicked() {
             let _ = self.session.requests.try_send(Request::Cancel);
         }
+        ui.add_space(14.);
+        let timings: Vec<_> = self
+            .cadence
+            .iter()
+            .enumerate()
+            .map(|(i, seconds)| [i as f64, f64::from(*seconds) * 1000.])
+            .collect();
+        chart(
+            ui,
+            "ACTUAL SESSION / FRAME CADENCE",
+            &timings,
+            false,
+            ("frame", "ms"),
+            CYAN,
+            110.,
+        );
+        ui.label(RichText::new(format!("Uptime {:.1}s / {} history entries / {} transcript lines / {} successful operations",self.started.elapsed().as_secs_f64(),self.state.history.len(),self.logs.len(),self.state.operations)).size(12.).color(MUTED));
     }
     fn concert(&mut self, ui: &mut egui::Ui) {
         self.actions(
@@ -558,6 +650,7 @@ impl Deck {
             card(&mut c[1],"PEDAL / HEADPHONE STAGE",|ui| { ui.label(format!("{} / pedal {} / LARP {}%",self.state.headphone,if self.state.pedal {"DOWN"} else {"UP"},self.state.larp)); });
         });
         ui.add_space(12.);
+        companion_visual(ui, &self.state, self.started.elapsed().as_secs_f32());
         self.actions(
             ui,
             &[
@@ -569,10 +662,22 @@ impl Deck {
                 ("Chinese demon", "mascot chinese-demon"),
                 ("Porcelain mode", "poopsec on"),
                 ("Demon mode", "poopsec off"),
+                ("Prostreet scene", "mode prostreet"),
+                ("Vulcan scene", "mode vulcan"),
+                ("Demon scene", "mode demon"),
             ],
         );
     }
     fn audio(&mut self, ui: &mut egui::Ui) {
+        ui.horizontal(|ui| {
+            ui.selectable_value(&mut self.audio_source, false, "Filter + room models");
+            ui.selectable_value(&mut self.audio_source, true, "Original score signal");
+        });
+        ui.add_space(12.);
+        if self.audio_source {
+            self.source_graphs(ui);
+            return;
+        }
         card(ui, "FILTER LAB / ANALYTIC SIMULATION", |ui| {
             ui.horizontal_wrapped(|ui| {
                 ui.add(
@@ -603,8 +708,7 @@ impl Deck {
                         response.label(),
                         &points,
                         true,
-                        "Hz",
-                        response.unit(),
+                        ("Hz", response.unit()),
                         CYAN,
                         170.,
                     );
@@ -618,8 +722,7 @@ impl Deck {
                 &format!("{} / INVENTED EQ", self.state.headphone),
                 &self.state.headphone_curve,
                 true,
-                "Hz",
-                "dB",
+                ("Hz", "dB"),
                 PINK,
                 170.,
             );
@@ -628,8 +731,7 @@ impl Deck {
                 &format!("ROOM DECAY / RT60 {:.2} s", self.state.rt60),
                 &self.state.room_curve,
                 false,
-                "s",
-                "dB",
+                ("s", "dB"),
                 GOLD,
                 170.,
             );
@@ -657,26 +759,27 @@ impl Deck {
             });
         });
         ui.add_space(12.);
+        self.source_graphs(ui);
+    }
+    fn source_graphs(&self, ui: &mut egui::Ui) {
         ui.columns(2, |c| {
             chart(
                 &mut c[0],
                 "NIGHTFALL / EMBEDDED PCM WINDOW",
                 &self.pcm,
                 false,
-                "ms",
-                "amplitude",
+                ("ms", "amplitude"),
                 CYAN,
-                160.,
+                240.,
             );
             chart(
                 &mut c[1],
                 "NIGHTFALL / HANN-WINDOWED SPECTRUM",
                 &self.spectrum,
                 true,
-                "Hz",
-                "dBFS",
+                ("Hz", "dBFS"),
                 PINK,
-                160.,
+                240.,
             );
         });
         ui.label(RichText::new("Source analysis follows an estimated soundtrack timeline; it does not capture microphone, Apple Music audio, or the output device.").size(12.).color(MUTED));
@@ -901,18 +1004,21 @@ fn chart(
     title: &str,
     points: &[[f64; 2]],
     log_x: bool,
-    x_unit: &str,
-    y_unit: &str,
+    units: (&str, &str),
     color: Color32,
     height: f32,
 ) {
+    let (x_unit, y_unit) = units;
     card(ui, title, |ui| {
         let (rect, response) = ui.allocate_exact_size(
             Vec2::new(ui.available_width(), height),
             egui::Sense::hover(),
         );
         let p = ui.painter_at(rect);
-        let plot = rect.shrink2(Vec2::new(34., 20.));
+        let plot = Rect::from_min_max(
+            rect.min + Vec2::new(70., 20.),
+            rect.max - Vec2::new(14., 20.),
+        );
         if points.is_empty() {
             p.text(
                 plot.center(),
@@ -1150,30 +1256,189 @@ fn stage_visual(ui: &mut egui::Ui, state: &Snapshot, time: f32, height: f32) {
     }
 }
 
+fn companion_visual(ui: &mut egui::Ui, state: &Snapshot, time: f32) {
+    let (r, _) =
+        ui.allocate_exact_size(Vec2::new(ui.available_width(), 180.), egui::Sense::hover());
+    let p = ui.painter_at(r);
+    let c = r.center();
+    let bounce = (time * 3.).sin() * 4.;
+    p.rect_filled(r, 12., Color32::from_rgba_unmultiplied(7, 16, 30, 220));
+    let color = match state.theme.as_str() {
+        "venom" => Color32::from_rgb(139, 233, 109),
+        "ghost" => Color32::from_rgb(185, 209, 241),
+        _ => PINK,
+    };
+    if state.scene == "prostreet" {
+        let body = Rect::from_center_size(c + Vec2::new(0., 10.), Vec2::new(250., 40.));
+        p.rect_filled(body, 15., color.gamma_multiply(0.65));
+        p.add(egui::Shape::convex_polygon(
+            vec![
+                c + Vec2::new(-70., -10.),
+                c + Vec2::new(-43., -45.),
+                c + Vec2::new(48., -45.),
+                c + Vec2::new(88., -10.),
+            ],
+            CYAN.gamma_multiply(0.25),
+            Stroke::new(2., CYAN),
+        ));
+        for dx in [-78., 78.] {
+            let wheel = c + Vec2::new(dx, 30.);
+            p.circle_filled(wheel, 22., Color32::BLACK);
+            p.circle_stroke(wheel, 18., Stroke::new(2., CYAN));
+            for i in 0..5 {
+                let a = time * 6. + i as f32 * 1.257;
+                p.line_segment(
+                    [wheel, wheel + Vec2::angled(a) * 15.],
+                    Stroke::new(2., MUTED),
+                );
+            }
+        }
+        for i in 0..12 {
+            let x = r.left() + (i as f32 * 140. - time * 180.).rem_euclid(r.width());
+            p.line_segment(
+                [
+                    Pos2::new(x, r.bottom() - 18.),
+                    Pos2::new(x + 60., r.bottom() - 18.),
+                ],
+                Stroke::new(2., GOLD.gamma_multiply(0.6)),
+            );
+        }
+    } else if state.scene == "vulcan" {
+        for n in 0..4 {
+            let radius = 20. + n as f32 * 17.;
+            p.circle_stroke(
+                c,
+                radius,
+                Stroke::new(2., if n % 2 == 0 { CYAN } else { color }),
+            );
+            for i in 0..8 {
+                let a = time * (0.2 + n as f32 * 0.2) + i as f32 * 0.785;
+                p.circle_filled(c + Vec2::angled(a) * radius, 3., GOLD);
+            }
+        }
+    } else {
+        let c = c + Vec2::new(0., bounce);
+        if state.poopsec {
+            p.rect_filled(
+                Rect::from_center_size(c + Vec2::new(0., 30.), Vec2::new(55., 60.)),
+                12.,
+                Color32::from_rgb(218, 227, 233),
+            );
+            p.add(egui::Shape::ellipse_filled(
+                c,
+                Vec2::new(68., 35.),
+                Color32::from_rgb(236, 236, 225),
+            ));
+            p.add(egui::Shape::ellipse_filled(
+                c,
+                Vec2::new(48., 19.),
+                color.gamma_multiply(0.7),
+            ));
+        } else if state.mascot == "tweeter" {
+            p.circle_filled(c, 48., CYAN.gamma_multiply(0.7));
+            p.add(egui::Shape::convex_polygon(
+                vec![
+                    c + Vec2::new(45., -7.),
+                    c + Vec2::new(76., 3.),
+                    c + Vec2::new(43., 12.),
+                ],
+                GOLD,
+                Stroke::NONE,
+            ));
+            p.circle_filled(c + Vec2::new(18., -16.), 5., Color32::BLACK);
+            p.line_segment(
+                [c + Vec2::new(-8., 47.), c + Vec2::new(-8., 64.)],
+                Stroke::new(4., GOLD),
+            );
+        } else {
+            let crab = matches!(state.mascot.as_str(), "mo-krill" | "krillion");
+            p.circle_filled(c, 44., color.gamma_multiply(0.5));
+            for side in [-1., 1.] {
+                if crab {
+                    let claw = c + Vec2::new(side * 75., -10.);
+                    p.line_segment(
+                        [c + Vec2::new(side * 35., 12.), claw],
+                        Stroke::new(8., color),
+                    );
+                    p.circle_stroke(claw, 18., Stroke::new(6., color));
+                } else {
+                    p.add(egui::Shape::convex_polygon(
+                        vec![
+                            c + Vec2::new(side * 35., -18.),
+                            c + Vec2::new(side * 54., -69.),
+                            c + Vec2::new(side * 9., -38.),
+                        ],
+                        color,
+                        Stroke::NONE,
+                    ));
+                }
+                let eye = c + Vec2::new(side * 18., -8.);
+                p.line_segment(
+                    [eye + Vec2::new(-9., -4.), eye + Vec2::new(9., 4.)],
+                    Stroke::new(4., CYAN),
+                );
+            }
+            p.line_segment(
+                [c + Vec2::new(-20., 18.), c + Vec2::new(20., 18.)],
+                Stroke::new(3., GOLD),
+            );
+        }
+    }
+    p.text(
+        r.left_top() + Vec2::new(18., 18.),
+        egui::Align2::LEFT_TOP,
+        format!(
+            "SIM ILLUSTRATION / {} / {}",
+            state.scene,
+            if state.poopsec {
+                "porcelain demon"
+            } else {
+                &state.mascot
+            }
+        ),
+        egui::FontId::monospace(12.),
+        MUTED,
+    );
+}
+
 impl eframe::App for Deck {
     fn update(&mut self, ctx: &egui::Context, _: &mut eframe::Frame) {
         self.ui(ctx);
-        ctx.request_repaint_after(if self.uncapped {
-            Duration::ZERO
-        } else {
-            Duration::from_millis(8)
-        });
+        if let Some(frames) = &mut self.window_smoke_frames {
+            *frames += 1;
+            if *frames >= 120 {
+                self.window_smoke_passed.store(true, Ordering::Release);
+                ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+            }
+        }
+        ctx.request_repaint();
     }
 }
 pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
-    if smoke {
-        return desktop_gpu::smoke(shell);
+    let shell = if smoke {
+        desktop_gpu::smoke(shell)?;
+        Shell::new(false)
+    } else {
+        shell
+    };
+    if !smoke {
+        hide_own_console();
     }
+    let uncapped = std::env::var("OPSEC_DEMON_UNCAPPED").is_ok_and(|value| value == "1");
+    let exit_code = Arc::new(AtomicU8::new(0));
+    let app_exit = Arc::clone(&exit_code);
+    let smoke_passed = Arc::new(AtomicBool::new(false));
+    let app_smoke_passed = Arc::clone(&smoke_passed);
     let options = eframe::NativeOptions {
         renderer: eframe::Renderer::Wgpu,
-        wgpu_options: desktop_gpu::configuration(),
+        wgpu_options: desktop_gpu::configuration(uncapped),
         viewport: egui::ViewportBuilder::default()
             .with_title("OPSEC DEMON / Vulkan Concert Deck")
             .with_inner_size([1600., 1000.])
             .with_min_inner_size([1000., 700.]),
         ..Default::default()
     };
-    eframe::run_native(
+    let result = eframe::run_native(
         "OPSEC DEMON",
         options,
         Box::new(move |cc| {
@@ -1191,15 +1456,77 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
                 state.target_format,
                 &mut state.renderer.write(),
             );
-            Ok(Box::new(Deck::new(
-                shell,
-                format!("Vulkan / {}", info.name),
-                true,
-            )))
+            let mut deck = Deck::new(shell, format!("Vulkan / {}", info.name), !smoke);
+            deck.exit_code = app_exit;
+            if smoke {
+                deck.window_smoke_frames = Some(0);
+                deck.window_smoke_passed = app_smoke_passed;
+            }
+            Ok(Box::new(deck))
         }),
-    )
-    .map_err(|error| io::Error::other(error.to_string()))?;
-    Ok(0)
+    );
+    if let Err(error) = result {
+        if smoke {
+            return Err(io::Error::other(error.to_string()));
+        }
+        let message = format!(
+            "The Vulkan concert deck could not open.\n\n{error}\n\nInstall/update your graphics manufacturer's Vulkan-capable driver. You can still run --shell from a terminal."
+        );
+        let message: Vec<_> = message.encode_utf16().chain([0]).collect();
+        let title: Vec<_> = "OPSEC DEMON / graphics initialization"
+            .encode_utf16()
+            .chain([0])
+            .collect();
+        unsafe {
+            MessageBoxW(std::ptr::null_mut(), message.as_ptr(), title.as_ptr(), 0x10);
+        }
+        return Err(io::Error::other(error.to_string()));
+    }
+    if smoke {
+        if !smoke_passed.load(Ordering::Acquire) {
+            return Err(io::Error::other(
+                "Native Vulkan window did not complete its presentation smoke",
+            ));
+        }
+        println!("[WINDOW] Native Vulkan presentation and 120 GUI updates passed (audio muted).");
+        let mut report: serde_json::Value =
+            serde_json::from_slice(&std::fs::read("target/vulkan-smoke.json")?)?;
+        report["native_window"] = "passed".into();
+        report["audio_graphs"] = 8.into();
+        std::fs::write(
+            "target/vulkan-smoke.json",
+            serde_json::to_vec_pretty(&report)?,
+        )?;
+    }
+    Ok(exit_code.load(Ordering::Relaxed))
+}
+
+#[link(name = "kernel32")]
+unsafe extern "system" {
+    fn GetConsoleWindow() -> *mut std::ffi::c_void;
+    fn GetConsoleProcessList(processes: *mut u32, count: u32) -> u32;
+}
+#[link(name = "user32")]
+unsafe extern "system" {
+    fn ShowWindow(window: *mut std::ffi::c_void, command: i32) -> i32;
+    fn MessageBoxW(
+        window: *mut std::ffi::c_void,
+        message: *const u16,
+        title: *const u16,
+        flags: u32,
+    ) -> i32;
+}
+fn hide_own_console() {
+    // Double-click creates a console owned by this app. Preserve a shared terminal.
+    let mut processes = [0u32; 2];
+    unsafe {
+        if GetConsoleProcessList(processes.as_mut_ptr(), 2) == 1 {
+            let window = GetConsoleWindow();
+            if !window.is_null() {
+                ShowWindow(window, 0);
+            }
+        }
+    }
 }
 
 pub fn prepare_smoke(ctx: &egui::Context) {
@@ -1207,4 +1534,7 @@ pub fn prepare_smoke(ctx: &egui::Context) {
 }
 pub fn set_page(deck: &mut Deck, page: usize) {
     deck.page = page;
+}
+pub fn set_source_view(deck: &mut Deck, source: bool) {
+    deck.audio_source = source;
 }

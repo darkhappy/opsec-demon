@@ -125,7 +125,11 @@ pub fn configuration(uncapped: bool) -> egui_wgpu::WgpuConfiguration {
     setup.power_preference = wgpu::PowerPreference::HighPerformance;
     egui_wgpu::WgpuConfiguration {
         wgpu_setup: egui_wgpu::WgpuSetup::CreateNew(setup),
-        present_mode: if uncapped { wgpu::PresentMode::AutoNoVsync } else { wgpu::PresentMode::AutoVsync },
+        present_mode: if uncapped {
+            wgpu::PresentMode::AutoNoVsync
+        } else {
+            wgpu::PresentMode::AutoVsync
+        },
         ..Default::default()
     }
 }
@@ -160,8 +164,19 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
     crate::desktop::prepare_smoke(&context);
     context.set_pixels_per_point(2.);
     let mut deck = crate::desktop::Deck::new(shell, format!("Vulkan / {}", info.name), false);
+    deck.send("echo VULKAN_NATIVE_OK");
+    let deadline = Instant::now() + Duration::from_secs(15);
+    while !deck.native_smoke_ready() {
+        deck.drain();
+        if Instant::now() >= deadline {
+            return Err(io::Error::other(format!(
+                "Graphical worker failed native command smoke: {}",
+                deck.smoke_diagnostics()
+            )));
+        }
+        std::thread::sleep(Duration::from_millis(20));
+    }
     for command in [
-        "echo VULKAN_NATIVE_OK",
         "band on",
         "band drummer explode",
         "pedal stomp",
@@ -172,7 +187,6 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
     ] {
         deck.send(command);
     }
-    let deadline = Instant::now() + Duration::from_secs(15);
     while !deck.smoke_ready() {
         deck.drain();
         if Instant::now() >= deadline {
@@ -209,8 +223,11 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
         size_in_pixels: [3840, 2160],
         pixels_per_point: 2.,
     };
-    for page in 0..crate::desktop::PAGES.len() {
+    for capture in 0..=crate::desktop::PAGES.len() {
+        let source = capture == crate::desktop::PAGES.len();
+        let page = if source { 2 } else { capture };
         crate::desktop::set_page(&mut deck, page);
+        crate::desktop::set_source_view(&mut deck, source);
         // First pass initializes layout / fonts. Second pass is the settled screenshot.
         for settled in 0..2 {
             let output = context.run(
@@ -219,7 +236,7 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
                         egui::Pos2::ZERO,
                         egui::vec2(1920., 1080.),
                     )),
-                    time: Some(page as f64),
+                    time: Some(capture as f64),
                     ..Default::default()
                 },
                 |ctx| deck.ui(ctx),
@@ -299,7 +316,9 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
                 {
                     return Err(io::Error::other("Vulkan returned an empty frame"));
                 }
-                let filename = if page == 0 {
+                let filename = if source {
+                    "target/desktop-audio-source-4k.png".into()
+                } else if page == 0 {
                     "target/desktop-4k.png".into()
                 } else {
                     format!("target/desktop-page-{page}-4k.png")
