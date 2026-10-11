@@ -6,6 +6,53 @@ struct Resources {
     pipeline: wgpu::RenderPipeline,
     group: wgpu::BindGroup,
     uniform: wgpu::Buffer,
+    low_pipeline: wgpu::RenderPipeline,
+    easu: wgpu::RenderPipeline,
+    rcas: wgpu::RenderPipeline,
+    post_layout: wgpu::BindGroupLayout,
+    sampler: wgpu::Sampler,
+    post_uniform: wgpu::Buffer,
+    targets: Option<Targets>,
+}
+struct Targets {
+    dimensions: [u32; 4],
+    low: wgpu::TextureView,
+    scaled: wgpu::TextureView,
+    low_group: wgpu::BindGroup,
+    scaled_group: wgpu::BindGroup,
+}
+fn make_pipeline(
+    device: &wgpu::Device,
+    shader: &wgpu::ShaderModule,
+    layout: &wgpu::PipelineLayout,
+    format: wgpu::TextureFormat,
+    entry: &str,
+) -> wgpu::RenderPipeline {
+    device.create_render_pipeline(&wgpu::RenderPipelineDescriptor {
+        label: Some(entry),
+        layout: Some(layout),
+        vertex: wgpu::VertexState {
+            module: shader,
+            entry_point: Some("vertex"),
+            compilation_options: Default::default(),
+            buffers: &[],
+        },
+        fragment: Some(wgpu::FragmentState {
+            module: shader,
+            entry_point: Some(entry),
+            compilation_options: Default::default(),
+            targets: &[Some(wgpu::ColorTargetState {
+                format,
+                blend: None,
+                write_mask: wgpu::ColorWrites::ALL,
+            })],
+        }),
+        primitive: Default::default(),
+        depth_stencil: None,
+        multisample: Default::default(),
+        multiview: None,
+        cache: None,
+    })
 }
 pub fn install(
     device: &wgpu::Device,
@@ -18,7 +65,7 @@ pub fn install(
     });
     let uniform = device.create_buffer(&wgpu::BufferDescriptor {
         label: Some("Concert controls"),
-        size: 16,
+        size: 80,
         usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
         mapped_at_creation: false,
     });
@@ -73,10 +120,83 @@ pub fn install(
         multiview: None,
         cache: None,
     });
+    let low_pipeline = make_pipeline(
+        device,
+        &shader,
+        &pipeline_layout,
+        wgpu::TextureFormat::Rgba8Unorm,
+        "fragment",
+    );
+    let post_shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
+        label: Some("AMD FSR 1 WGSL EASU / RCAS"),
+        source: wgpu::ShaderSource::Wgsl(include_str!("../assets/fsr1.wgsl").into()),
+    });
+    let post_layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+        label: None,
+        entries: &[
+            wgpu::BindGroupLayoutEntry {
+                binding: 0,
+                visibility: wgpu::ShaderStages::FRAGMENT,
+                ty: wgpu::BindingType::Texture {
+                    sample_type: wgpu::TextureSampleType::Float { filterable: true },
+                    view_dimension: wgpu::TextureViewDimension::D2,
+                    multisampled: false,
+                },
+                count: None,
+            },
+            wgpu::BindGroupLayoutEntry {
+                binding: 1,
+                visibility: wgpu::ShaderStages::FRAGMENT,
+                ty: wgpu::BindingType::Sampler(wgpu::SamplerBindingType::Filtering),
+                count: None,
+            },
+            wgpu::BindGroupLayoutEntry {
+                binding: 2,
+                visibility: wgpu::ShaderStages::FRAGMENT,
+                ty: wgpu::BindingType::Buffer {
+                    ty: wgpu::BufferBindingType::Uniform,
+                    has_dynamic_offset: false,
+                    min_binding_size: None,
+                },
+                count: None,
+            },
+        ],
+    });
+    let post_pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
+        label: None,
+        bind_group_layouts: &[&post_layout],
+        push_constant_ranges: &[],
+    });
+    let easu = make_pipeline(
+        device,
+        &post_shader,
+        &post_pipeline_layout,
+        wgpu::TextureFormat::Rgba8Unorm,
+        "easu",
+    );
+    let rcas = make_pipeline(device, &post_shader, &post_pipeline_layout, format, "rcas");
+    let sampler = device.create_sampler(&wgpu::SamplerDescriptor {
+        mag_filter: wgpu::FilterMode::Linear,
+        min_filter: wgpu::FilterMode::Linear,
+        ..Default::default()
+    });
+    let post_uniform = device.create_buffer(&wgpu::BufferDescriptor {
+        label: Some("FSR controls"),
+        size: 16,
+        usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
+        mapped_at_creation: false,
+    });
     renderer.callback_resources.insert(Resources {
         pipeline,
         group,
         uniform,
+        low_pipeline,
+        easu,
+        rcas,
+        post_layout,
+        sampler,
+        post_uniform,
+        targets: None,
     });
 }
 pub struct Backdrop {
@@ -84,24 +204,146 @@ pub struct Backdrop {
     pub aspect: f32,
     pub burst: f32,
     pub page: f32,
+    pub settings: crate::desktop_settings::Settings,
+    pub camera: [f32; 2],
 }
 impl egui_wgpu::CallbackTrait for Backdrop {
     fn prepare(
         &self,
-        _: &wgpu::Device,
+        device: &wgpu::Device,
         queue: &wgpu::Queue,
-        _: &egui_wgpu::ScreenDescriptor,
-        _: &mut wgpu::CommandEncoder,
+        screen: &egui_wgpu::ScreenDescriptor,
+        encoder: &mut wgpu::CommandEncoder,
         resources: &mut egui_wgpu::CallbackResources,
     ) -> Vec<wgpu::CommandBuffer> {
         let r = resources
-            .get::<Resources>()
+            .get_mut::<Resources>()
             .expect("installed concert resources");
-        let bytes: Vec<u8> = [self.time, self.aspect, self.burst, self.page]
+        let look = self.settings.look;
+        let motion = if self.settings.reduced_motion { 0. } else { 1. };
+        let bytes: Vec<u8> = [
+            self.time * look[12] * motion,
+            self.aspect,
+            self.burst * motion,
+            self.page,
+            (look[0].to_radians() * 0.5).tan() / (75_f32.to_radians() * 0.5).tan(),
+            self.camera[0],
+            self.camera[1],
+            look[2],
+            look[3],
+            look[4],
+            look[5],
+            look[6],
+            look[7],
+            look[8],
+            look[9],
+            look[10],
+            look[11],
+            look[12],
+            look[13] * motion,
+            0.,
+        ]
+        .iter()
+        .flat_map(|v| v.to_le_bytes())
+        .collect();
+        queue.write_buffer(&r.uniform, 0, &bytes);
+        let scale = self.settings.render_scale();
+        if scale < 0.999 || self.settings.fsr > 0 {
+            let [w, h] = screen.size_in_pixels;
+            let dimensions = [
+                w.max(1),
+                h.max(1),
+                (w as f32 * scale).round().max(1.) as u32,
+                (h as f32 * scale).round().max(1.) as u32,
+            ];
+            if r.targets
+                .as_ref()
+                .is_none_or(|t| t.dimensions != dimensions)
+            {
+                let texture = |width, height| {
+                    device
+                        .create_texture(&wgpu::TextureDescriptor {
+                            label: Some("FSR intermediate"),
+                            size: wgpu::Extent3d {
+                                width,
+                                height,
+                                depth_or_array_layers: 1,
+                            },
+                            mip_level_count: 1,
+                            sample_count: 1,
+                            dimension: wgpu::TextureDimension::D2,
+                            format: wgpu::TextureFormat::Rgba8Unorm,
+                            usage: wgpu::TextureUsages::RENDER_ATTACHMENT
+                                | wgpu::TextureUsages::TEXTURE_BINDING,
+                            view_formats: &[],
+                        })
+                        .create_view(&Default::default())
+                };
+                let low = texture(dimensions[2], dimensions[3]);
+                let scaled = texture(dimensions[0], dimensions[1]);
+                let group = |view: &wgpu::TextureView| {
+                    device.create_bind_group(&wgpu::BindGroupDescriptor {
+                        label: None,
+                        layout: &r.post_layout,
+                        entries: &[
+                            wgpu::BindGroupEntry {
+                                binding: 0,
+                                resource: wgpu::BindingResource::TextureView(view),
+                            },
+                            wgpu::BindGroupEntry {
+                                binding: 1,
+                                resource: wgpu::BindingResource::Sampler(&r.sampler),
+                            },
+                            wgpu::BindGroupEntry {
+                                binding: 2,
+                                resource: r.post_uniform.as_entire_binding(),
+                            },
+                        ],
+                    })
+                };
+                let low_group = group(&low);
+                let scaled_group = group(&scaled);
+                r.targets = Some(Targets {
+                    dimensions,
+                    low,
+                    scaled,
+                    low_group,
+                    scaled_group,
+                });
+            }
+            let t = r.targets.as_ref().unwrap();
+            let bytes: Vec<_> = [
+                dimensions[0] as f32,
+                dimensions[1] as f32,
+                self.settings.sharpness,
+                if self.settings.fsr > 0 { 1. } else { 0. },
+            ]
             .iter()
             .flat_map(|v| v.to_le_bytes())
             .collect();
-        queue.write_buffer(&r.uniform, 0, &bytes);
+            queue.write_buffer(&r.post_uniform, 0, &bytes);
+            for (view, pipeline, group) in [
+                (&t.low, &r.low_pipeline, &r.group),
+                (&t.scaled, &r.easu, &t.low_group),
+            ] {
+                let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
+                    label: Some("FSR background / EASU"),
+                    color_attachments: &[Some(wgpu::RenderPassColorAttachment {
+                        view,
+                        resolve_target: None,
+                        depth_slice: None,
+                        ops: wgpu::Operations {
+                            load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),
+                            store: wgpu::StoreOp::Store,
+                        },
+                    })],
+                    ..Default::default()
+                });
+                pass.set_pipeline(pipeline);
+                pass.set_bind_group(0, group, &[]);
+                pass.draw(0..3, 0..1);
+            }
+        }
         Vec::new()
     }
     fn paint(
@@ -113,8 +355,13 @@ impl egui_wgpu::CallbackTrait for Backdrop {
         let r = resources
             .get::<Resources>()
             .expect("installed concert resources");
-        pass.set_pipeline(&r.pipeline);
-        pass.set_bind_group(0, &r.group, &[]);
+        if self.settings.render_scale() < 0.999 || self.settings.fsr > 0 {
+            pass.set_pipeline(&r.rcas);
+            pass.set_bind_group(0, &r.targets.as_ref().unwrap().scaled_group, &[]);
+        } else {
+            pass.set_pipeline(&r.pipeline);
+            pass.set_bind_group(0, &r.group, &[]);
+        }
         pass.draw(0..3, 0..1);
     }
 }
@@ -223,11 +470,28 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
         size_in_pixels: [3840, 2160],
         pixels_per_point: 2.,
     };
-    for capture in 0..=crate::desktop::PAGES.len() {
+    for capture in 0..=crate::desktop::PAGES.len() + 5 {
         let source = capture == crate::desktop::PAGES.len();
-        let page = if source { 2 } else { capture };
+        let extra = capture > crate::desktop::PAGES.len();
+        let fsr = if extra {
+            capture - crate::desktop::PAGES.len()
+        } else {
+            0
+        };
+        let page = if extra {
+            1
+        } else if source {
+            2
+        } else {
+            capture
+        };
         crate::desktop::set_page(&mut deck, page);
         crate::desktop::set_source_view(&mut deck, source);
+        crate::desktop::set_smoke_upscaler(
+            &mut deck,
+            if fsr == 5 { 0 } else { fsr },
+            if fsr == 5 { 0.5 } else { 1. },
+        );
         // First pass initializes layout / fonts. Second pass is the settled screenshot.
         for settled in 0..2 {
             let output = context.run(
@@ -316,7 +580,9 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
                 {
                     return Err(io::Error::other("Vulkan returned an empty frame"));
                 }
-                let filename = if source {
+                let filename = if extra {
+                    format!("target/desktop-upscaler-{fsr}-4k.png")
+                } else if source {
                     "target/desktop-audio-source-4k.png".into()
                 } else if page == 0 {
                     "target/desktop-4k.png".into()
@@ -333,6 +599,7 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
         }
     }
     // GPU render-throughput experiment: same concert UI, no readback / PNG / window VSync.
+    crate::desktop::set_smoke_upscaler(&mut deck, 0, 1.);
     crate::desktop::set_page(&mut deck, 1);
     let output = context.run(
         egui::RawInput {
@@ -379,13 +646,13 @@ pub fn smoke(shell: crate::Shell) -> std::io::Result<u8> {
             .map_err(|e| fail(&e))?;
     }
     let seconds = began.elapsed().as_secs_f64();
-    let report = serde_json::json!({"backend":"Vulkan","adapter":info.name,"resolution":[3840,2160],"pages_rendered":7,"frames":frames,"seconds":seconds,"offscreen_render_fps":f64::from(frames)/seconds,"scope":"CPU submission + GPU completion, cached UI, no display/VSync, not interactive FPS","native_command":"passed","effects_and_graphs":"shared model state verified"});
+    let report = serde_json::json!({"backend":"Vulkan","adapter":info.name,"resolution":[3840,2160],"pages_rendered":crate::desktop::PAGES.len(),"fsr_modes_tested":4,"manual_scale_tested":true,"frames":frames,"seconds":seconds,"offscreen_render_fps":f64::from(frames)/seconds,"scope":"CPU submission + GPU completion, cached UI, no display/VSync, not interactive FPS","native_command":"passed","effects_and_graphs":"shared model state verified"});
     std::fs::write(
         "target/vulkan-smoke.json",
         serde_json::to_vec_pretty(&report)?,
     )?;
     println!(
-        "[VULKAN] 7 pages at 3840x2160 / {} / {:.1} offscreen render fps (not display FPS)",
+        "[VULKAN] 8 pages and all FSR 1 modes at 3840x2160 / {} / {:.1} offscreen render fps (not display FPS)",
         info.name,
         f64::from(frames) / seconds
     );

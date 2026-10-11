@@ -5,9 +5,13 @@ mod countries;
 #[cfg(windows)]
 mod desktop;
 #[cfg(windows)]
+mod desktop_audio;
+#[cfg(windows)]
 mod desktop_gpu;
 #[cfg(windows)]
 mod desktop_session;
+#[cfg(windows)]
+mod desktop_settings;
 mod discord;
 mod discord_profile;
 #[cfg(windows)]

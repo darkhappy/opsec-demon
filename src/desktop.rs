@@ -23,7 +23,7 @@ const CYAN: Color32 = Color32::from_rgb(80, 226, 235);
 const PINK: Color32 = Color32::from_rgb(245, 81, 158);
 const GOLD: Color32 = Color32::from_rgb(255, 197, 102);
 const MUTED: Color32 = Color32::from_rgb(139, 156, 182);
-pub const PAGES: [&str; 7] = [
+pub const PAGES: [&str; 8] = [
     "Command Deck",
     "Concert Stage",
     "Audio Lab",
@@ -31,8 +31,9 @@ pub const PAGES: [&str; 7] = [
     "Story Archive",
     "Simulation Props",
     "Music + Discord",
+    "Graphics + Audio",
 ];
-const SUBTITLES: [&str; 7] = [
+const SUBTITLES: [&str; 8] = [
     "Your real shell, inside the fiction.",
     "Four silhouettes. One spectacularly unstable drummer.",
     "Follow the signal, from source to imaginary room.",
@@ -40,6 +41,7 @@ const SUBTITLES: [&str; 7] = [
     "Lost Signals / a local story you control.",
     "All the chaos, with the original simulation state.",
     "Local playback metadata and your Discord presence.",
+    "Tune every pixel. Mix every sound. Save your setup.",
 ];
 
 pub struct Deck {
@@ -72,6 +74,9 @@ pub struct Deck {
     audio_source: bool,
     window_smoke_frames: Option<u32>,
     window_smoke_passed: Arc<AtomicBool>,
+    settings: crate::desktop_settings::Settings,
+    camera: Vec2,
+    settings_status: String,
 }
 
 fn style(ctx: &egui::Context) {
@@ -116,6 +121,12 @@ impl Deck {
     pub fn new(shell: Shell, adapter: String, autoplay: bool) -> Self {
         let now = Instant::now();
         let mut player = soundtrack::LoopPlayer::default();
+        let settings = if autoplay {
+            crate::desktop_settings::Settings::load()
+        } else {
+            Default::default()
+        };
+        player.gains(settings.gains.clone());
         let mut logs = VecDeque::from(["[LOCAL] Vulkan deck ready. Commands execute on this Windows machine. SIM controls are fictional.".into()]);
         if autoplay && let Err(error) = player.set(true) {
             logs.push_back(format!("[AUDIO] {error}"));
@@ -137,7 +148,8 @@ impl Deck {
             burst_at: None,
             model: Model::default(),
             fullscreen: false,
-            uncapped: std::env::var("OPSEC_DEMON_UNCAPPED").is_ok_and(|value| value == "1"),
+            uncapped: std::env::var("OPSEC_DEMON_UNCAPPED").is_ok_and(|value| value == "1")
+                || !settings.vsync,
             profile: String::new(),
             room: [4., 5., 2.7, 0.22],
             pcm: Vec::new(),
@@ -150,6 +162,9 @@ impl Deck {
             audio_source: false,
             window_smoke_frames: None,
             window_smoke_passed: Arc::new(AtomicBool::new(false)),
+            settings,
+            camera: Vec2::ZERO,
+            settings_status: String::new(),
         }
     }
     fn log(&mut self, line: String) {
@@ -167,6 +182,20 @@ impl Deck {
         }
     }
     pub fn send(&mut self, command: &str) {
+        let sound = if command.contains("pedal stomp") {
+            3
+        } else if command.starts_with("sdvx hit bt") {
+            4
+        } else if command.starts_with("sdvx hit fx") {
+            5
+        } else if command.starts_with("sdvx knob") {
+            6
+        } else if matches!(command.trim(), "burst" | "cinematic" | "intro") {
+            10
+        } else {
+            8
+        };
+        self.player.cue(sound);
         match command.trim() {
             "graph next" | "graph room" | "graph headphones" => {
                 self.page = 2;
@@ -200,12 +229,24 @@ impl Deck {
     pub fn drain(&mut self) {
         while let Ok(update) = self.session.updates.try_recv() {
             match update {
-                Update::Line(line) => self.log(line),
+                Update::Line(line) => {
+                    if line.starts_with("[LOCAL / ERROR]") {
+                        self.player.cue(9);
+                    }
+                    self.log(line);
+                }
                 Update::Busy(busy) => self.state.busy = busy,
                 Update::Music(line) => self.music = line,
                 Update::Snapshot(state) => {
                     if state.celebration != self.state.celebration {
                         self.burst_at = Some(Instant::now());
+                        self.player.cue(10);
+                    }
+                    if state.drummer_blast && !self.state.drummer_blast {
+                        self.player.cue(1);
+                    }
+                    if state.ssd_blast && !self.state.ssd_blast {
+                        self.player.cue(2);
                     }
                     if state.history.len() != self.state.history.len() {
                         self.history_index = state.history.len();
@@ -310,6 +351,15 @@ impl Deck {
             self.cadence.pop_front();
         }
         let screen = ctx.content_rect();
+        if !self.capture
+            && !self.settings.reduced_motion
+            && ctx.input(|i| i.pointer.secondary_down())
+        {
+            let delta = ctx.input(|i| i.pointer.delta());
+            self.camera += delta * (self.settings.look[1] * 0.001);
+            self.camera.x = self.camera.x.clamp(-0.5, 0.5);
+            self.camera.y = self.camera.y.clamp(-0.5, 0.5);
+        }
         let burst = self
             .burst_at
             .map_or(0., |at| (1. - at.elapsed().as_secs_f32() / 2.5).max(0.));
@@ -321,6 +371,8 @@ impl Deck {
                     aspect: screen.width() / screen.height().max(1.),
                     burst,
                     page: self.page as f32,
+                    settings: self.settings.clone(),
+                    camera: [self.camera.x, self.camera.y],
                 },
             ),
         );
@@ -382,6 +434,7 @@ impl Deck {
                         .clicked()
                     {
                         self.page = i;
+                        self.player.cue(7);
                     }
                 }
                 ui.add_space(28.);
@@ -403,7 +456,7 @@ impl Deck {
                 let avg = self.cadence.iter().sum::<f32>() / self.cadence.len().max(1) as f32;
                 if self.capture {
                     ui.label(RichText::new("4K VULKAN CAPTURE").color(CYAN));
-                } else {
+                } else if self.settings.fps {
                     ui.label(
                         RichText::new(format!(
                             "{:.0} fps / {:.1} ms",
@@ -496,10 +549,112 @@ impl Deck {
                         3 => self.arcade(ui),
                         4 => self.story(ui),
                         5 => self.props(ui),
-                        _ => self.integrations(ui),
+                        6 => self.integrations(ui),
+                        _ => self.settings_page(ui, ctx),
                     });
             });
         self.ui_ms = now.elapsed().as_secs_f32() * 1000.;
+        if self.settings.fps && !self.capture {
+            let avg = self.cadence.iter().sum::<f32>() / self.cadence.len().max(1) as f32;
+            egui::Area::new("fps overlay".into())
+                .anchor(egui::Align2::RIGHT_TOP, [-16., 12.])
+                .interactable(false)
+                .show(ctx, |ui| {
+                    egui::Frame::new()
+                        .fill(Color32::from_rgba_unmultiplied(6, 12, 24, 230))
+                        .inner_margin(8.)
+                        .show(ui, |ui| {
+                            ui.label(
+                                RichText::new(format!(
+                                    "{:.0} FPS  /  {:.2} ms",
+                                    1. / avg.max(0.0001),
+                                    avg * 1000.
+                                ))
+                                .monospace()
+                                .color(CYAN),
+                            );
+                        });
+                });
+        }
+    }
+    fn settings_page(&mut self, ui: &mut egui::Ui, ctx: &egui::Context) {
+        use crate::{
+            desktop_audio::SOUNDS,
+            desktop_settings::{FSR, LOOK},
+        };
+        ui.horizontal_wrapped(|ui| {
+            for (i, name) in ["Low", "Balanced", "High", "Ultra"].iter().enumerate() {
+                if ui.button(*name).clicked() {
+                    self.settings.preset(i);
+                }
+            }
+            if ui.button("Reset defaults").clicked() {
+                self.settings = Default::default();
+                self.camera = Vec2::ZERO;
+            }
+            if ui.button("Save settings").clicked() {
+                self.settings_status = match self.settings.save() {
+                    Ok(()) => "Saved to LOCALAPPDATA/opsec-demon/graphics-audio.json".into(),
+                    Err(e) => format!("Save failed: {e}"),
+                };
+            }
+        });
+        if !self.settings_status.is_empty() {
+            ui.label(&self.settings_status);
+        }
+        ui.add_space(12.);
+        ui.columns(2, |columns| {
+            card(&mut columns[0], "DISPLAY / VULKAN / UPSCALING", |ui| {
+                ui.checkbox(&mut self.settings.fps, "Show FPS / frame time counter");
+                ui.checkbox(&mut self.settings.vsync, "VSync (save and restart to apply)");
+                ui.label(RichText::new(if self.uncapped { "Active: uncapped presentation" } else { "Active: VSync presentation" }).color(MUTED));
+                ui.add(egui::Slider::new(&mut self.settings.cap, 0..=1000).text("Frame limit (0 = unlimited)"));
+                egui::ComboBox::from_label("Upscaler").selected_text(FSR[self.settings.fsr]).show_ui(ui, |ui| {
+                    for (i,label) in FSR.iter().enumerate() { ui.selectable_value(&mut self.settings.fsr,i,*label); }
+                });
+                ui.add_enabled(self.settings.fsr == 0, egui::Slider::new(&mut self.settings.scale,0.5..=1.).text("Manual render scale"));
+                ui.add_enabled(self.settings.fsr != 0, egui::Slider::new(&mut self.settings.sharpness,0.0..=1.).text("FSR RCAS sharpness"));
+                ui.label(format!("Backdrop: {:.0}% resolution / UI + graphs: native", self.settings.render_scale()*100.));
+                ui.label(RichText::new("FSR 1: EASU + RCAS spatial passes. Text stays crisp. Fullscreen uses your display's resolution.").color(MUTED));
+                if ui.checkbox(&mut self.fullscreen, "Fullscreen / F11").changed() { ctx.send_viewport_cmd(egui::ViewportCommand::Fullscreen(self.fullscreen)); }
+                ui.horizontal_wrapped(|ui| {
+                    for (label, size) in [("1280×800", [1280.,800.]),("1600×1000",[1600.,1000.]),("1920×1080",[1920.,1080.]),("3840×2160",[3840.,2160.])] {
+                        if ui.button(label).clicked() { ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(Vec2::from(size))); }
+                    }
+                });
+                if ui.add(egui::Slider::new(&mut self.settings.zoom,0.75..=1.5).text("Interface scale")).changed() { ctx.set_zoom_factor(self.settings.zoom); }
+            });
+            columns[0].add_space(12.);
+            card(&mut columns[0], "CAMERA / LIGHT / THEATRICAL DETAIL", |ui| {
+                ui.label(RichText::new("Hold right mouse and drag to move the backdrop camera.").color(MUTED));
+                ui.checkbox(&mut self.settings.reduced_motion,"Reduced motion (freeze backdrop, disable camera shake)");
+                for (i,(label,min,max,_)) in LOOK.iter().enumerate() { ui.add(egui::Slider::new(&mut self.settings.look[i],*min..=*max).text(*label)); }
+                if ui.button("Center camera").clicked() { self.camera = Vec2::ZERO; }
+                ui.label(RichText::new("FOV and mouse sensitivity control the procedural concert camera. SIM remains fictional. This renderer has no ray tracing, temporal frame generation, or HDR output.").color(MUTED));
+            });
+            card(&mut columns[1], "AUDIO / OUTPUT BUSES", |ui| {
+                let mut playing = self.player.playing();
+                if ui.checkbox(&mut playing,"Loop original soundtrack").changed() && let Err(e) = self.player.set(playing) { self.settings_status = e.to_string(); }
+                for (label, gain) in [("Master", &mut self.settings.gains.master),("Music",&mut self.settings.gains.music),("Effects",&mut self.settings.gains.effects),("Interface",&mut self.settings.gains.interface)] {
+                    ui.add(egui::Slider::new(gain,0.0..=1.).text(label));
+                }
+                ui.label(RichText::new("Default Windows stereo output · 44.1 kHz PCM · live gain changes").color(MUTED));
+            });
+            columns[1].add_space(12.);
+            card(&mut columns[1], "EVERY SOUND / INDIVIDUAL MIX", |ui| {
+                for (i,name) in SOUNDS.iter().enumerate() {
+                    ui.horizontal(|ui| {
+                        ui.add(egui::Slider::new(&mut self.settings.gains.sounds[i],0.0..=1.).text(*name));
+                        if i > 0 && ui.small_button("Test").clicked() { self.player.cue(i); }
+                    });
+                }
+                ui.label(RichText::new("Cue tests need audio output started. Pause the music to hear effects alone. Apple Music and external file players use their own volume controls.").color(MUTED));
+            });
+        });
+        self.player.gains(self.settings.gains.clone());
+        if (ctx.zoom_factor() - self.settings.zoom).abs() > 0.001 {
+            ctx.set_zoom_factor(self.settings.zoom);
+        }
     }
     fn console(&self, ui: &mut egui::Ui, height: f32) {
         egui::ScrollArea::vertical()
@@ -1411,11 +1566,16 @@ impl eframe::App for Deck {
                 ctx.send_viewport_cmd(egui::ViewportCommand::Close);
             }
         }
-        ctx.request_repaint();
+        if self.settings.cap == 0 {
+            ctx.request_repaint();
+        } else {
+            ctx.request_repaint_after(Duration::from_secs_f64(1. / f64::from(self.settings.cap)));
+        }
     }
 }
 pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
     let shell = if smoke {
+        crate::desktop_audio::smoke()?;
         desktop_gpu::smoke(shell)?;
         Shell::new(false)
     } else {
@@ -1424,7 +1584,8 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
     if !smoke {
         hide_own_console();
     }
-    let uncapped = std::env::var("OPSEC_DEMON_UNCAPPED").is_ok_and(|value| value == "1");
+    let uncapped = std::env::var("OPSEC_DEMON_UNCAPPED").is_ok_and(|value| value == "1")
+        || (!smoke && !crate::desktop_settings::Settings::load().vsync);
     let exit_code = Arc::new(AtomicU8::new(0));
     let app_exit = Arc::clone(&exit_code);
     let smoke_passed = Arc::new(AtomicBool::new(false));
@@ -1457,6 +1618,7 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
                 &mut state.renderer.write(),
             );
             let mut deck = Deck::new(shell, format!("Vulkan / {}", info.name), !smoke);
+            cc.egui_ctx.set_zoom_factor(deck.settings.zoom);
             deck.exit_code = app_exit;
             if smoke {
                 deck.window_smoke_frames = Some(0);
@@ -1493,6 +1655,7 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
             serde_json::from_slice(&std::fs::read("target/vulkan-smoke.json")?)?;
         report["native_window"] = "passed".into();
         report["audio_graphs"] = 8.into();
+        report["windows_pcm_output"] = "passed (master muted)".into();
         std::fs::write(
             "target/vulkan-smoke.json",
             serde_json::to_vec_pretty(&report)?,
@@ -1537,4 +1700,8 @@ pub fn set_page(deck: &mut Deck, page: usize) {
 }
 pub fn set_source_view(deck: &mut Deck, source: bool) {
     deck.audio_source = source;
+}
+pub fn set_smoke_upscaler(deck: &mut Deck, fsr: usize, scale: f32) {
+    deck.settings.fsr = fsr;
+    deck.settings.scale = scale;
 }

@@ -21,7 +21,8 @@ if ($SkipVulkan) {
 }
 $previews = @(Join-Path $repoRoot 'target/desktop-4k.png')
 $previews += Join-Path $repoRoot 'target/desktop-audio-source-4k.png'
-1..6 | ForEach-Object { $previews += Join-Path $repoRoot "target/desktop-page-$_-4k.png" }
+1..7 | ForEach-Object { $previews += Join-Path $repoRoot "target/desktop-page-$_-4k.png" }
+1..5 | ForEach-Object { $previews += Join-Path $repoRoot "target/desktop-upscaler-$_-4k.png" }
 foreach ($preview in $previews) {
     if (Test-Path -LiteralPath $preview) { Remove-Item -LiteralPath $preview }
 }
@@ -36,7 +37,7 @@ foreach ($preview in $previews) {
     if ($width -ne 3840 -or $height -ne 2160) { throw "Desktop page is not 3840 x 2160: $preview" }
 }
 $report = Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
-if ($report.backend -ne 'Vulkan' -or $report.pages_rendered -ne 7 -or $report.native_command -ne 'passed' -or $report.native_window -ne 'passed' -or $report.audio_graphs -ne 8) {
+if ($report.backend -ne 'Vulkan' -or $report.pages_rendered -ne 8 -or $report.native_command -ne 'passed' -or $report.native_window -ne 'passed' -or $report.audio_graphs -ne 8 -or $report.fsr_modes_tested -ne 4 -or -not $report.manual_scale_tested -or $report.windows_pcm_output -ne 'passed (master muted)') {
     throw 'Vulkan smoke report did not verify all pages and the graphical command worker'
 }
-Write-Host 'Windows native commands, SIM models, all seven Vulkan pages, audio graphs, and fresh 4K rendering passed.'
+Write-Host 'Windows native commands, SIM models, all eight Vulkan pages, four FSR modes, manual scaling, audio graphs, and fresh 4K rendering passed.'

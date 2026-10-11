@@ -6,6 +6,7 @@ if (-not (Test-Path -LiteralPath $source)) { throw 'Run mise run build first.' }
 New-Item -ItemType Directory -Path $destination -Force | Out-Null
 $executable = Join-Path $destination 'OPSEC-DEMON.exe'
 Copy-Item -LiteralPath $source -Destination $executable -Force
+Copy-Item -LiteralPath (Join-Path $repoRoot 'assets/fsr1.wgsl') -Destination (Join-Path $destination 'FidelityFX-FSR1-source-and-license.wgsl') -Force
 $algorithm = [System.Security.Cryptography.SHA256]::Create()
 $stream = [System.IO.File]::OpenRead($executable)
 try {

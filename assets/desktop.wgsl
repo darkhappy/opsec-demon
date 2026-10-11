@@ -1,5 +1,5 @@
 // Procedural concert backdrop: no textures or external asset downloads.
-struct Controls { time: f32, aspect: f32, burst: f32, page: f32 }
+struct Controls { time: f32, aspect: f32, burst: f32, page: f32, camera: vec4<f32>, look: vec4<f32>, detail: vec4<f32>, quality: vec4<f32> }
 @group(0) @binding(0) var<uniform> c: Controls;
 struct Vertex { @builtin(position) position: vec4<f32>, @location(0) uv: vec2<f32> }
 @vertex fn vertex(@builtin(vertex_index) i: u32) -> Vertex {
@@ -8,7 +8,8 @@ struct Vertex { @builtin(position) position: vec4<f32>, @location(0) uv: vec2<f3
 }
 fn glow(d: f32, width: f32) -> f32 { return width / (abs(d) + width); }
 @fragment fn fragment(v: Vertex) -> @location(0) vec4<f32> {
-    var p = (v.uv - 0.5) * vec2(c.aspect, 1.);
+    var p = (v.uv - 0.5) * vec2(c.aspect, 1.) * c.camera.x + c.camera.yz;
+    p += vec2(sin(c.time * 41.), cos(c.time * 37.)) * c.burst * c.quality.z * 0.025;
     let r = length(p); let a = atan2(p.y, p.x);
     let cyan = vec3(0.03, 0.72, 0.88); let pink = vec3(0.85, 0.06, 0.48);
     var color = vec3(0.008, 0.013, 0.032);
@@ -21,18 +22,28 @@ fn glow(d: f32, width: f32) -> f32 { return width / (abs(d) + width); }
     let ground = max(0.03, p.y + 0.51);
     let grid_x = abs(fract(p.x / ground * 1.6 + 0.5) - 0.5);
     let grid_y = abs(fract(0.45 / ground + c.time * 0.12) - 0.5);
-    color += cyan * (glow(grid_x, 0.008) + glow(grid_y, 0.008)) * 0.035;
+    color += cyan * (glow(grid_x, 0.008) + glow(grid_y, 0.008)) * 0.035 * c.detail.z;
     color += pink * exp(-pow((p.y - 0.25 * sin(c.time * 0.4)) * 20., 2.)) * 0.035;
     // Orbiting stars and angular laser beams.
-    for (var i = 0u; i < 28u; i += 1u) {
+    for (var i = 0u; i < u32(c.quality.x); i += 1u) {
         let f = f32(i); let angle = f * 2.39996 + c.time * (0.025 + f * 0.0006);
         let star = vec2(cos(angle), sin(angle)) * (0.18 + fract(f * 0.618) * 0.75);
         color += mix(cyan, pink, fract(f * 0.381)) * exp(-length(p - star) * 700.) * 0.7;
     }
     let beam = pow(max(0., cos(a * 3. + c.time * 0.17)), 180.);
-    color += cyan * beam * 0.06;
+    color += cyan * beam * 0.06 * c.detail.w;
     // Shared simulation celebration, triggered by the actual model events.
     color += mix(pink, vec3(1., 0.48, 0.04), 0.5) * glow(r - (1. - c.burst) * 0.7, 0.004) * c.burst;
     color *= 0.85 + 0.15 * sin(c.page + a);
+    color = (color - vec3(0.008, 0.013, 0.032)) * c.look.x + vec3(0.008, 0.013, 0.032);
+    let luma = dot(color, vec3(0.2126, 0.7152, 0.0722));
+    color = mix(vec3(luma), color, c.look.y);
+    color *= c.camera.w * (1. - c.look.z * smoothstep(0.15, 0.8, length(v.uv - 0.5)));
+    color *= 1. - c.detail.y * 0.25 * (0.5 + 0.5 * sin(v.position.y * 3.14159));
+    color.r += c.detail.x * sin(a * 30. + c.time) * 2.;
+    color.b -= c.detail.x * sin(a * 30. + c.time) * 2.;
+    let noise = fract(sin(dot(v.position.xy, vec2(12.9898,78.233)) + c.time) * 43758.5453) - 0.5;
+    color += noise * c.look.w;
+    color = clamp(color, vec3(0.), vec3(1.));
     return vec4(color, 1.);
 }
