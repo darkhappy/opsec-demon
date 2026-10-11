@@ -1,0 +1,7 @@
+{
+  "name": "Porcelain Nightfall forge",
+  "image": "rust:1.93.1-bookworm",
+  "postCreateCommand": "apt-get update && apt-get install -y python3 && rustup component add rustfmt clippy",
+  "customizations": {"vscode": {"extensions": ["rust-lang.rust-analyzer", "tamasfe.even-better-toml"]}},
+  "forwardPorts": [9090]
+}
