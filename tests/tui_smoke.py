@@ -73,6 +73,8 @@ def dashboard():
             path.write_text("#!/bin/sh\nprintf 'Playing | Test Artist - Test Track\\n'\n")
             path.chmod(0o700)
         for adapter, script in {
+                'aplay': "#!/bin/sh\nprintf 'audio-fixture\\n'\n",
+                'afplay': "#!/bin/sh\nprintf 'audio-fixture\\n'\n",
                 'starship': "#!/bin/sh\nprintf '\\033[32mSTARSHIP_FIXTURE\\033[0m'\n",
                 'kubectl': "#!/bin/sh\nprintf '%s\\n' \"${KUBECONFIG:-demon-k8s}\"\n",
                 'native-shell': "#!/bin/sh\nprintf 'native-shell-ok\\n'\n"}.items():
@@ -110,6 +112,21 @@ def dashboard():
             session.expect(b'COMMAND TRANSCRIPT')
             session.send(b'callsign A\x1b[DB\r')
             session.expect(b'[IDENTITY] BA')
+            session.send(b'graph metrics\r')
+            session.expect(b'METRICS / ACTUAL SESSION')
+            session.send(b'novel start\r')
+            session.expect(b'VISUAL NOVEL')
+            session.expect(b'THE STATION WITHOUT A NAME')
+            session.send(b'psyche\r')
+            session.expect(b'FICTIONAL CHARACTER ANALYSIS')
+            session.send(b'mascot tweeter\r')
+            session.expect(b'TWEETER / SPEAKER DEMON')
+            session.send(b'mascot krillion\r')
+            session.expect(b'KRILLION / SIGNAL SWARM')
+            session.send(b'soundtrack play assets/audio/nightfall.wav\r')
+            session.expect(b'audio-fixture')
+            session.send(b'graph next\r')
+            session.send(b'mascot mo-krill\r')
             session.send(b'music demo\r')
             session.expect(b'DEMO MUSIC')
             for command, expected in [
