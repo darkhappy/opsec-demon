@@ -51,7 +51,7 @@ const HELP: &str = "OPSEC DEMON // command uplink
   bido [status]          perform the invented Little Bido technique
   bucket [ls|put|get|rm|sync|status]  club-penguin B2 simulation
   tailscale [milk|routes|churn]     fictional dairy mesh
-  yoggies [show|all|status|use [1..5]|refill] fictional berry bite tray
+  yoggies [show|all|holidays|status|use [NUMBER]|refill] fictional seasonal berry tray
   expansion [status|expand|allocate GB|release GB]  512 GB virtual MCP bank
   mcp                    alias for the expansion simulator
   mode [demon|prostreet|vulcan|sdvx]    select the animated ASCII scene

@@ -523,12 +523,14 @@ last for the current process only.
 
 ![Yoggies reference illustration: five creamy berry bites on a purple sparkle background](docs/assets/yoggies.png)
 
-The supplied illustration inspires five fictional yogurt-coated berry bites.
+The supplied illustration inspires five fictional yogurt-coated berry bites,
+with ten available on Christmas Day.
 `yoggies` or `yoggies all` displays every slot as a terminal ASCII illustration,
 including used bites. The dashboard shows a live tray count in tall layouts.
 
 ```text
 yoggies all
+yoggies holidays
 yoggies use
 yoggies use 3
 yoggies status
@@ -536,9 +538,25 @@ yoggies refill
 ```
 
 `use` consumes the next ready yoggie, or the numbered bite you choose. `refill`
-restores all five. This is a session-only SIM prop: it changes no real mainframe,
+restores the full tray. This is a session-only SIM prop: it changes no real mainframe,
 network, or hardware state. The reference image is displayed here in the manual;
 the terminal display uses ASCII for ordinary terminal compatibility.
+
+`yoggies holidays` shows this year's holiday schedule:
+
+| Holiday | Date |
+| --- | --- |
+| Christmas Eve | December 24, 2026 |
+| Christmas Day | December 25, 2026 |
+| New Year's Eve | December 31, 2026 |
+| New Year's Day | January 1, 2027 |
+
+Every December 25, the tray doubles from five to ten yoggies, and `use 6` through
+`use 10` unlock the bonus bites. The host's local date is read at startup and on
+each `yoggies` command using the local OS date utility. An open session gains the
+extra slots on its first Christmas command; already used bites stay used until
+refill. On the next day's command, the tray returns to five slots. If the date
+cannot be read, the tray keeps its current size (five for a new session).
 
 ## Silent band, effects pedal, and headphone profiles
 
