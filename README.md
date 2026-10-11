@@ -6,10 +6,10 @@
 
 ### OPERATION PORCELAIN NIGHTFALL · CLEARANCE ABYSS-999
 
-**A zero-dependency Rust shell for operators whose terminal needs a fictional intelligence budget.**
+**A native Vulkan concert deck and Rust shell with a fictional intelligence budget.**
 
 [![Rust](https://img.shields.io/badge/Rust-1.93.1-ff4265?style=for-the-badge&logo=rust)](Cargo.toml)
-[![Crates](https://img.shields.io/badge/crate_dependencies-0-72ffad?style=for-the-badge)](Cargo.lock)
+[![Crates](https://img.shields.io/badge/crate_dependencies-see_manifest-72ffad?style=for-the-badge)](Cargo.lock)
 [![License](https://img.shields.io/badge/license-MIT-a5b7c9?style=for-the-badge)](LICENSE)
 [![Theater](https://img.shields.io/badge/clearance-ABYSS_999-ff4265?style=for-the-badge)](.opsec-dossier.toml)
 [![Shell](https://img.shields.io/badge/real_commands-%2Fbin%2Fsh-72ffad?style=for-the-badge)](#drive-the-command-deck)
@@ -59,7 +59,7 @@
 [![soul bank](https://img.shields.io/badge/soul%20bank-SIM%20ONLY-ff4265?style=for-the-badge)](docs/field-notes/virtual-expansion.md)
 [![audio](https://img.shields.io/badge/audio-original%20score-51e0ff?style=for-the-badge)](AUDIO.md)
 [![DAC](https://img.shields.io/badge/DAC-USB%20host%20audio-72ffad?style=for-the-badge)](AUDIO.md)
-[![external Rust crates](https://img.shields.io/badge/external%20Rust%20crates-0-72ffad?style=for-the-badge)](Cargo.lock)
+[![external Rust crates](https://img.shields.io/badge/external%20Rust%20crates-see_manifest-72ffad?style=for-the-badge)](Cargo.lock)
 [![architecture](https://img.shields.io/badge/architecture-Unix%20Rust-51e0ff?style=for-the-badge)](ARCHITECTURE.md)
 [![container](https://img.shields.io/badge/container-nonroot%20UID%2010001-72ffad?style=for-the-badge)](Dockerfile)
 [![novel](https://img.shields.io/badge/novel-original%20branching-ff4265?style=for-the-badge)](NOVEL.md)
@@ -366,13 +366,15 @@ This is an aesthetic, not a security or anonymity boundary.
 
 ### Windows desktop / standalone EXE
 
-Windows opens a native **Vulkan** concert deck on double-click, with seven pages:
+Windows opens a native **Vulkan** concert deck on double-click, with eight pages:
 Command Deck, Concert Stage, Audio Lab, Rhythm Arcade, Story Archive, Simulation
-Props, and Music + Discord. Animated procedural illustrations include neon rings,
+Props, Music + Discord, and Graphics + Audio. Animated procedural illustrations include neon rings,
 laser beams, a silent Beatles tribute, drummer fragmentation and SIM explosions.
 The Audio Lab includes frequency, phase, group delay, excess delay, headphone EQ,
 room decay, original-score PCM and spectrum graphs. The embedded Nightfall score
-loops on startup with a mute toggle. Artwork renders at the actual window
+loops on startup with a mute toggle. Settings include an FPS counter, FSR 1
+EASU/RCAS upscaling, presets, frame pacing, FOV, mouse sensitivity, visual effects,
+and master/bus/per-sound volume sliders with audition buttons. Artwork renders at the actual window
 resolution, including 3840 x 2160; a Vulkan-capable graphics driver is required.
 Apple Music reads native Windows media sessions; Discord uses local named-pipe IPC.
 
