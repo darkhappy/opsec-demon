@@ -169,6 +169,39 @@ Three selectable palettes use ANSI 256-color indices: `theme crimson`, `theme gh
 colors. `--plain` or `NO_COLOR=1` removes color. To reproduce these images after building:
 `python3 scripts/capture-readme.py`.
 
+## WHY THIS DECK WINS THE TERMINAL-THEATER CONTEST
+
+<img src="docs/assets/feature-telemetry.svg" alt="Source-derived feature dashboard showing zero external crates, eight tabs, five mascots, twenty CI adapter files, 256 ANSI colors, and a 51.89-second original score" width="1280" />
+
+For a neon command room, this bundles the stage instead of making you assemble it from
+separate terminal apps. The advantage is visible features and local roleplay. The numbers
+above describe this repository; they are not a speed or security score.
+
+| Out-of-the-box capability | OPSEC DEMON | fish | Bash / Zsh |
+| --- | --- | --- | --- |
+| Animated demon / signal / particle command room | Built in | External apps or customization | External apps or customization |
+| Synthetic graph + metrics + story tabs | 8 selectable tabs | External apps | External apps |
+| Original branching novel + original score | Built in | External apps | External apps |
+| Named ASCII mascots | 5 built in | Customization | Customization |
+| File / PATH completion | Built in | Built in, richer interactive completion | Built in; behavior varies |
+| Fish-style autosuggestions | Not implemented | Built in | Depends on shell/customization |
+| Full shell language and job control | Handoff with `shell` | Native shell facilities | Native shell facilities |
+| Normal command execution | Child `/bin/sh` | fish language | Respective shell language |
+
+Fish is a mature interactive shell with syntax highlighting, autosuggestions, and rich
+completion. Its capabilities are described in the [official fish documentation](https://fishshell.com/docs/current/index.html).
+Use `shell fish` to bring it into this command room if installed. This table compares
+bundled features, not what a shell can do after adding plugins or invoking other programs.
+
+<img src="docs/assets/local-timing.svg" alt="Real local warm launch-to-pwd timing chart showing effectively equal OPSEC DEMON and Bash medians, with fish and other unavailable shells unmeasured" width="1280" />
+
+The measured local launch-to-`pwd` medians were **1.411 ms for OPSEC DEMON** and **1.410 ms
+for Bash**, effectively equal at this resolution. This includes process-launch and Python
+harness overhead, uses 25 warm runs, and does not measure the cinematic or interactive
+rendering. Fish, Zsh, and Nushell were unavailable locally and have no claimed timing result.
+Read the [measurement report](docs/metrics/local-report.json) and [method](METRICS.md), or
+reproduce it with `python3 scripts/readme-metrics.py` after building.
+
 ## FIELD MANUAL // ACTUAL OPERATING INSTRUCTIONS
 
 
