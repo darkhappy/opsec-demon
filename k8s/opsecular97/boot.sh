@@ -11,6 +11,7 @@ opsecular terminal
 opsecular recycle put abandoned-lane.prop
 opsecular recycle ls
 rips list
+rips siiva
 opsecular poutine next
 opsecular poutine next
 opsecular poutine next

@@ -5,6 +5,32 @@ use std::process::Command;
 
 const TRACK: &[u8] = include_bytes!("../assets/audio/nightfall.wav");
 
+#[cfg(windows)]
+pub fn bundled_player(device: Option<&str>) -> io::Result<Command> {
+    let stamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos();
+    let path = std::env::temp_dir().join(format!(
+        "opsec-nightfall-{}-{stamp}.wav",
+        std::process::id()
+    ));
+    let text = path
+        .to_str()
+        .ok_or_else(|| io::Error::other("audio temporary path is not Unicode"))?;
+    render(text)?;
+    match player(text, device) {
+        Ok(mut command) => {
+            command.env("OPSEC_DEMON_TEMP_WAV", "1");
+            Ok(command)
+        }
+        Err(error) => {
+            let _ = fs::remove_file(path);
+            Err(error)
+        }
+    }
+}
+
 pub fn info() -> &'static str {
     "[SOUNDTRACK / ORIGINAL] Nightfall: Tweeter & Krillion\n148 BPM / E minor / 32 bars / 44.1 kHz stereo PCM\nsoundtrack render FILE.wav / soundtrack play FILE.wav\nUse OPSEC_DEMON_AUDIO_DEVICE=plughw:CARD=YOUR_CARD,DEV=0 for Linux USB DAC playback."
 }
@@ -16,7 +42,13 @@ pub fn render(path: &str) -> io::Result<()> {
 
 pub fn player(path: &str, device: Option<&str>) -> io::Result<Command> {
     let path = Path::new(path).canonicalize()?;
-    if cfg!(target_os = "macos") {
+    if cfg!(windows) {
+        let mut command = Command::new("powershell.exe");
+        command.args(["-NoLogo", "-NoProfile", "-NonInteractive", "-Command",
+            "$p = New-Object System.Media.SoundPlayer $env:OPSEC_DEMON_WAV; try { $p.PlaySync() } finally { $p.Dispose(); if ($env:OPSEC_DEMON_TEMP_WAV -eq '1') { Remove-Item -LiteralPath $env:OPSEC_DEMON_WAV } }"]);
+        command.env("OPSEC_DEMON_WAV", path);
+        Ok(command)
+    } else if cfg!(target_os = "macos") {
         let mut command = Command::new("afplay");
         command.arg(path);
         Ok(command)
@@ -79,7 +111,7 @@ mod tests {
     }
     #[test]
     fn device_selection_is_an_argument_not_shell_code() {
-        if !cfg!(target_os = "macos") {
+        if cfg!(target_os = "linux") {
             let command = player("Cargo.toml", Some("plughw:CARD=Solo,DEV=0")).unwrap();
             let args: Vec<_> = command.get_args().collect();
             assert_eq!(args[0], "-D");

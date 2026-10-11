@@ -333,7 +333,9 @@ impl Deck {
                 portrait_w,
                 body_h,
                 if shell.mascot == "mo-krill" && !shell.poopsec {
-                    if shell.nerd_font {
+                    if shell.yoggies.is_christmas() {
+                        " SANTA MO & ELF KRILL "
+                    } else if shell.nerd_font {
                         "\u{f1b0} MO & KRILL "
                     } else {
                         " MO & KRILL "
@@ -1365,16 +1367,20 @@ impl Deck {
                 "  DEMON GATE / ASCII MASK",
             ]
         } else if shell.mascot == "mo-krill" {
-            &[
-                r"       _/\_/\_  KRILL",
-                r"      ( o  o )===[--",
-                r"       /|__|\",
-                r"    .-========-.",
-                r"   /  O      O  \ MO",
-                r"  |    \____/    |",
-                r"  /|___/====\___|\",
-                r" /_|  /|    |\  |_\",
-            ]
+            if shell.yoggies.is_christmas() {
+                theater::CHRISTMAS_MO_KRILL
+            } else {
+                &[
+                    r"       _/\_/\_  KRILL",
+                    r"      ( o  o )===[--",
+                    r"       /|__|\",
+                    r"    .-========-.",
+                    r"   /  O      O  \ MO",
+                    r"  |    \____/    |",
+                    r"  /|___/====\___|\",
+                    r" /_|  /|    |\  |_\",
+                ]
+            }
         } else {
             &[
                 r"   /\            /\",
@@ -1404,7 +1410,11 @@ impl Deck {
                 if shell.poopsec {
                     "PORCELAIN ARCHDEMON"
                 } else if shell.mascot == "mo-krill" {
-                    "TUNNEL RATS / BURROW"
+                    if shell.yoggies.is_christmas() {
+                        "SIM / YOGGIES GIFT PATROL"
+                    } else {
+                        "TUNNEL RATS / BURROW"
+                    }
                 } else {
                     theater::rank(shell.operations)
                 },
@@ -2049,6 +2059,7 @@ pub fn run(shell: &mut Shell, intro: bool) -> io::Result<u8> {
         }
         if refresh.elapsed().as_secs() >= 1 {
             deck.size = dimensions();
+            shell.update_discord();
             refresh = Instant::now();
         }
         if deck.intro && deck.boot_started.elapsed() >= theater::BOOT_DURATION {

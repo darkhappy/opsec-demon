@@ -81,6 +81,7 @@ def dashboard():
                 'aplay': "#!/bin/sh\nprintf 'audio-fixture\\n'\n",
                 'afplay': "#!/bin/sh\nprintf 'audio-fixture\\n'\n",
                 'starship': "#!/bin/sh\nprintf '\\033[32mSTARSHIP_FIXTURE\\033[0m'\n",
+                'date': "#!/bin/sh\nprintf '2026-10-11\\n'\n",
                 'kubectl': "#!/bin/sh\nprintf '%s\\n' \"${KUBECONFIG:-demon-k8s}\"\n",
                 'native-shell': "#!/bin/sh\nprintf 'native-shell-ok\\n'\n"}.items():
             path = Path(directory) / adapter
@@ -138,6 +139,7 @@ def dashboard():
                     (b'bido\r', b'LITTLE BIDO'),
                     (b'bucket ls\r', b'club-penguin'),
                     (b'yoggies all\r', b'YOGGIE 5 / creamy shell'),
+                    (b'yoggies holidays\r', b'January 1, 2027'),
                     (b'yoggies use 3\r', b'YOGGIE 3 / NOM'),
                     (b'yoggies status\r', b'[OO.OO] 4/5 ready'),
                     (b'yoggies refill\r', b'all five yoggies restored'),
@@ -275,6 +277,35 @@ def boot():
         session.close()
 
 
+def christmas_yoggies():
+    with tempfile.TemporaryDirectory(prefix='opsec-christmas-') as directory:
+        clock = Path(directory) / 'date'
+        clock.write_text("#!/bin/sh\nprintf '2026-12-25\\n'\n")
+        clock.chmod(0o700)
+        session = Session(['--instant'], {'PATH': directory + os.pathsep + os.environ['PATH']})
+        try:
+            session.expect(b'EXECUTE >')
+            session.send(b'yoggies all\r')
+            session.expect(b'YOGGIE 10 / creamy shell')
+            session.send(b'mascot mo-krill\r')
+            session.expect(b'Santa Mo carries elf Krill and Christmas yoggies')
+            session.expect(b'SANTA MO & ELF KRILL')
+            session.send(b'yoggies use 10\r')
+            session.expect(b'YOGGIE 10 / NOM')
+            session.send(b'yoggies status\r')
+            session.expect(b'9/10 ready / CHRISTMAS BONUS')
+            session.send(b'yoggies refill\r')
+            session.expect(b'all ten Christmas yoggies restored')
+            clock.write_text("#!/bin/sh\nprintf '2026-12-26\\n'\n")
+            session.send(b'yoggies status\r')
+            session.expect(b'[OOOOO] 5/5 ready')
+            session.expect(b'TUNNEL RATS / BURROW')
+            session.finish()
+            print('Christmas yoggies: ten slots, bonus bite use, refill, and next-day rollover passed.')
+        finally:
+            session.close()
+
+
 def scripts():
     for arguments, expected in [(['-c', 'false'], 1), (['--tui'], 1),
                                 (['--tui', '--shell'], 1), (['--egg', '-c', 'egg status'], 0)]:
@@ -302,5 +333,6 @@ if __name__ == '__main__':
     dashboard()
     redraws()
     scripts()
+    christmas_yoggies()
     if '--boot' in sys.argv:
         boot()
