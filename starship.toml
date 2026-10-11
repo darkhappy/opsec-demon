@@ -1,0 +1,10 @@
+# Optional: export STARSHIP_CONFIG="$PWD/starship.toml" to use this preset.
+add_newline = false
+format = "$directory$git_branch$kubernetes$character"
+[directory]
+style = "bold green"
+[kubernetes]
+disabled = false
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
