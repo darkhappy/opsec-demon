@@ -20,6 +20,11 @@ class Session:
     def __init__(self, arguments, environment=None, size=(44, 140)):
         self.master, self.slave = pty.openpty()
         self.resize(*size)
+        # Values above nine expose macOS stty's hex-save/decimal-restore mismatch.
+        attributes = termios.tcgetattr(self.slave)
+        attributes[6][termios.VMIN] = 16
+        attributes[6][termios.VTIME] = 10
+        termios.tcsetattr(self.slave, termios.TCSANOW, attributes)
         self.saved = termios.tcgetattr(self.slave)
         env = dict(os.environ, TERM='xterm-256color')
         env.pop('NO_COLOR', None)
@@ -55,7 +60,12 @@ class Session:
                 except OSError: break
         self.process.wait(timeout=1)
         assert self.process.returncode == 0, self.process.returncode
-        assert termios.tcgetattr(self.slave) == self.saved, 'terminal mode not restored'
+        if sys.platform == 'darwin':
+            # Darwin sets PENDIN when ICANON is restored. Querying the readable
+            # queue settles that kernel bookkeeping without consuming input.
+            fcntl.ioctl(self.slave, termios.FIONREAD, struct.pack('I', 0))
+        actual = termios.tcgetattr(self.slave)
+        assert actual == self.saved, f'terminal mode not restored: saved={self.saved!r}, actual={actual!r}'
 
     def close(self):
         if self.process.poll() is None:
@@ -76,6 +86,7 @@ def dashboard():
                 'aplay': "#!/bin/sh\nprintf 'audio-fixture\\n'\n",
                 'afplay': "#!/bin/sh\nprintf 'audio-fixture\\n'\n",
                 'starship': "#!/bin/sh\nprintf '\\033[32mSTARSHIP_FIXTURE\\033[0m'\n",
+                'date': "#!/bin/sh\nprintf '2026-10-11\\n'\n",
                 'kubectl': "#!/bin/sh\nprintf '%s\\n' \"${KUBECONFIG:-demon-k8s}\"\n",
                 'native-shell': "#!/bin/sh\nprintf 'native-shell-ok\\n'\n"}.items():
             path = Path(directory) / adapter
@@ -132,6 +143,11 @@ def dashboard():
             for command, expected in [
                     (b'bido\r', b'LITTLE BIDO'),
                     (b'bucket ls\r', b'club-penguin'),
+                    (b'yoggies all\r', b'YOGGIE 5 / creamy shell'),
+                    (b'yoggies holidays\r', b'January 1, 2027'),
+                    (b'yoggies use 3\r', b'YOGGIE 3 / NOM'),
+                    (b'yoggies status\r', b'[OO.OO] 4/5 ready'),
+                    (b'yoggies refill\r', b'all five yoggies restored'),
                     (b'tailscale milk\r', b'TAILSCALE MILK'),
                     (b'expansion expand\r', b'512 GB virtual'),
                     (b'expansion allocate 128\r', b'128 / 512'),
@@ -215,6 +231,36 @@ def dashboard():
     print('PTY dashboard: inline commands, cursor editing, metadata, egg hatch, graphs, FX, cancellation, resize, terminal restoration passed.')
 
 
+
+def redraws():
+    with tempfile.TemporaryDirectory(prefix='opsec-wide-prompt-') as directory:
+        player = Path(directory) / 'starship'
+        player.write_text("#!/bin/sh\nprintf '%s' 'WIDE_PROMPT 界界界 🎵🎵🎵'\n")
+        player.chmod(0o700)
+        session = Session(['--instant'], {'PATH': directory + os.pathsep + os.environ['PATH']})
+        try:
+            session.expect('WIDE_PROMPT 界界界'.encode())
+            for size in [(44, 140), (8, 20), (24, 80), (44, 140)]:
+                session.resize(*size)
+                output = bytearray()
+                deadline = time.monotonic() + .3
+                while time.monotonic() < deadline:
+                    if select.select([session.master], [], [], .03)[0]:
+                        output.extend(os.read(session.master, 65536))
+                frames = re.findall(rb'\x1b\[\?2026h(.*?)\x1b\[\?2026l', output, re.S)
+                assert frames, 'Missing complete synchronized redraw'
+                for frame in frames:
+                    # Even a stale oversized frame during resize must not scroll.
+                    assert b'\n' not in frame and b'\r' not in frame
+                    assert frame.startswith(b'\x1b[?7l\x1b[H')
+                    assert frame.endswith(b'\x1b[?7h')
+                    assert b'\x1b[1;1H' in frame
+            session.finish()
+        finally:
+            session.close()
+    print('PTY redraws: wide prompt, rapid shrink/grow, synchronized frames, and no scrolling line feeds passed.')
+
+
 def boot():
     session = Session(['--mo-krill'])
     try:
@@ -234,6 +280,35 @@ def boot():
         print('Boot ceremony: %.2fs with randomized simulation commands and deferred handshake.' % elapsed)
     finally:
         session.close()
+
+
+def christmas_yoggies():
+    with tempfile.TemporaryDirectory(prefix='opsec-christmas-') as directory:
+        clock = Path(directory) / 'date'
+        clock.write_text("#!/bin/sh\nprintf '2026-12-25\\n'\n")
+        clock.chmod(0o700)
+        session = Session(['--instant'], {'PATH': directory + os.pathsep + os.environ['PATH']})
+        try:
+            session.expect(b'EXECUTE >')
+            session.send(b'yoggies all\r')
+            session.expect(b'YOGGIE 10 / creamy shell')
+            session.send(b'mascot mo-krill\r')
+            session.expect(b'Santa Mo carries elf Krill and Christmas yoggies')
+            session.expect(b'SANTA MO & ELF KRILL')
+            session.send(b'yoggies use 10\r')
+            session.expect(b'YOGGIE 10 / NOM')
+            session.send(b'yoggies status\r')
+            session.expect(b'9/10 ready / CHRISTMAS BONUS')
+            session.send(b'yoggies refill\r')
+            session.expect(b'all ten Christmas yoggies restored')
+            clock.write_text("#!/bin/sh\nprintf '2026-12-26\\n'\n")
+            session.send(b'yoggies status\r')
+            session.expect(b'[OOOOO] 5/5 ready')
+            session.expect(b'TUNNEL RATS / BURROW')
+            session.finish()
+            print('Christmas yoggies: ten slots, bonus bite use, refill, and next-day rollover passed.')
+        finally:
+            session.close()
 
 
 def scripts():
@@ -261,6 +336,8 @@ def scripts():
 
 if __name__ == '__main__':
     dashboard()
+    redraws()
     scripts()
+    christmas_yoggies()
     if '--boot' in sys.argv:
         boot()

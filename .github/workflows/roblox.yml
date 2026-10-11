@@ -1,11 +1,18 @@
-name: Deus Ex Machina / optional Roblox annex
+name: Roblox annex
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: roblox-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
+    name: Luau lint, session tests and Rojo build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - uses: paradoxum-games/setup-rokit@v3

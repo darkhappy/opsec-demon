@@ -1,4 +1,4 @@
-name: Deus Ex Machina / Rust and terminal checks
+name: Rust quality
 on:
   push:
   pull_request:
@@ -6,20 +6,32 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: nightfall-${{ github.workflow }}-${{ github.ref }}
+  group: rust-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  check:
+  quality:
+    name: Rust ${{ matrix.check }} (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
+        check: [check, test, docs]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v5
         with:
           version: 2026.10.7
-      - run: sh scripts/ci.sh
+      - run: rustup component add rustfmt clippy
+      - name: Formatting and Clippy
+        if: matrix.check == 'check'
+        run: mise run check
+      - name: Unit tests
+        if: matrix.check == 'test'
+        run: mise run test
+      - name: Rust documentation
+        if: matrix.check == 'docs'
+        run: cargo doc --locked --no-deps
         env:
-          OPSEC_CI_SOCKETS: '1'
+          RUSTDOCFLAGS: -D warnings

@@ -6,6 +6,9 @@ rust-version = "1.93"
 description = "A neon Rust command shell with an honest local mainframe simulator"
 license = "MIT"
 
+[dependencies]
+serde_json = "1.0"
+
 [profile.release]
 lto = true
 codegen-units = 1
