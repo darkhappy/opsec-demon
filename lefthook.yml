@@ -1,0 +1,8 @@
+# Optional: hooks are installed only if you explicitly run lefthook install.
+pre-commit:
+  commands:
+    rust-format:
+      glob: '*.rs'
+      run: cargo fmt --check
+    config-shapes:
+      run: python3 scripts/validate-configs.py
