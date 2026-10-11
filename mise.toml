@@ -1,0 +1,30 @@
+# NIGHTFALL FORGE // pinned tools, actual commands, imaginary clearance
+[tools]
+rust = "1.93.1"
+starship = "1.26.0"
+
+[tasks.build]
+description = "Build the optimized demon shell"
+run = "sh scripts/build.sh"
+
+[tasks.test]
+description = "Run shell tests"
+run = "cargo test"
+
+[tasks.check]
+description = "Check formatting and lint the shell"
+run = "cargo fmt --check && cargo clippy --all-targets -- -D warnings"
+
+[tasks.run]
+description = "Enter the demon shell"
+run = "cargo run --release --"
+
+
+[tasks.font]
+description = "Install verified JetBrainsMono Nerd Font Mono for your user"
+run = "sh scripts/install-font.sh"
+
+[tasks.smoke]
+description = "Check the full TUI in a pseudo-terminal (requires Python 3)"
+depends = ["build"]
+run = "python3 tests/tui_smoke.py --boot"
