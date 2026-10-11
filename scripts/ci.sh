@@ -11,5 +11,8 @@ if [ "${OPSEC_CI_SOCKETS:-0}" = 1 ]; then
     rustup run 1.93.1 cargo test --locked -- --ignored
 fi
 rustup run 1.93.1 cargo build --release --locked
+if [ "${OPSEC_CI_SOCKETS:-0}" = 1 ]; then
+    python3 tests/metrics_smoke.py
+fi
 python3 scripts/validate-configs.py
 python3 tests/tui_smoke.py --boot
