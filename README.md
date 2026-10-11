@@ -364,6 +364,31 @@ This is an aesthetic, not a security or anonymity boundary.
 
 ## Build and enter
 
+### Windows desktop / standalone EXE
+
+Windows now opens a native graphical command deck on double-click: animated neon
+illustrations, a simulated radar, clickable missions, a real command transcript,
+fullscreen mode, and artwork rendered at the window's actual resolution, including
+3840 x 2160. The executable contains its artwork and Nightfall soundtrack.
+Apple Music reads native Windows media sessions; Discord uses local named-pipe IPC.
+
+```powershell
+mise trust
+mise install
+mise run windows:setup
+mise run check
+mise run test
+mise run smoke
+mise run windows:package
+.\target\dist\OPSEC-DEMON.exe
+```
+
+See the [Windows operating guide](docs/windows.md) for integrations, controls,
+and terminal mode. No Rust installation is needed to run a prebuilt executable.
+The legacy terminal operating manual below applies to Unix unless noted.
+
+### Unix terminal
+
 ```sh
 mise install
 mise run build

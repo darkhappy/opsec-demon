@@ -6,18 +6,22 @@ starship = "1.26.0"
 [tasks.build]
 description = "Build the optimized demon shell"
 run = "sh scripts/build.sh"
+run_windows = "cargo +1.93.1-x86_64-pc-windows-gnu build --release --locked"
 
 [tasks.test]
 description = "Run shell tests"
 run = "cargo test"
+run_windows = "cargo +1.93.1-x86_64-pc-windows-gnu test --locked"
 
 [tasks.check]
 description = "Check formatting and lint the shell"
 run = "cargo fmt --check && cargo clippy --all-targets -- -D warnings"
+run_windows = ["cargo +1.93.1-x86_64-pc-windows-gnu fmt --check", "cargo +1.93.1-x86_64-pc-windows-gnu clippy --all-targets --locked -- -D warnings"]
 
 [tasks.run]
 description = "Enter the demon shell"
 run = "cargo run --release --"
+run_windows = "cargo +1.93.1-x86_64-pc-windows-gnu run --release -- --gui"
 
 
 [tasks.font]
@@ -25,6 +29,18 @@ description = "Install verified JetBrainsMono Nerd Font Mono for your user"
 run = "sh scripts/install-font.sh"
 
 [tasks.smoke]
-description = "Check the full TUI in a pseudo-terminal (requires Python 3)"
+description = "Check the Unix TUI or Windows desktop and command backend"
 depends = ["build"]
 run = "python3 tests/tui_smoke.py --boot"
+run_windows = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/windows-smoke.ps1"
+
+[tasks."windows:setup"]
+description = "Install the pinned native Windows compiler and bundled GNU linker"
+run = "echo This setup task is for Windows"
+run_windows = "rustup toolchain install 1.93.1-x86_64-pc-windows-gnu --profile minimal --component rustfmt --component clippy"
+
+[tasks."windows:package"]
+description = "Package the standalone Windows executable and checksum under target/dist"
+depends = ["build"]
+run = "echo Windows packaging requires Windows"
+run_windows = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/package-windows.ps1"
