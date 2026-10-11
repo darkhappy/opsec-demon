@@ -41,6 +41,12 @@ rotation. An explicit image in `activity.assets` takes precedence over its
 rotation; `discord art` restores rotation using the hosted pack. Loading a
 profile replaces the previous profile rather than retaining old fields.
 
+Set `DISCORD_PRESENCE_PROFILE` to an absolute JSON file path to load that profile
+at startup, including in the native Windows desktop. A rejected startup profile
+prevents presence from turning on until `discord load FILE` or `discord reset`
+repairs it. Keep signed image URLs in an ignored local `.env.*` profile file;
+Discord attachment signatures can expire and then require a fresh image URL.
+
 | Field | Behavior |
 | --- | --- |
 | `type` | Playing `0`, Listening `2`, Watching `3`, Competing `5`; command aliases accept their names |

@@ -47,10 +47,28 @@ struct State {
 pub struct Presence {
     shared: Arc<(Mutex<State>, Condvar)>,
     worker: Option<JoinHandle<()>>,
+    startup_error: Option<String>,
 }
 
 impl Presence {
     pub fn new() -> Self {
+        Self::with_startup_profile(
+            std::env::var_os("DISCORD_PRESENCE_PROFILE")
+                .map(Profile::load)
+                .unwrap_or_else(|| Ok(Profile::default())),
+        )
+    }
+
+    fn with_startup_profile(profile: io::Result<Profile>) -> Self {
+        let (profile, startup_error) = match profile {
+            Ok(profile) => (profile, None),
+            Err(error) => (
+                Profile::default(),
+                Some(format!(
+                    "Startup Discord profile rejected: {error}; use discord load FILE or discord reset"
+                )),
+            ),
+        };
         Self {
             shared: Arc::new((
                 Mutex::new(State {
@@ -58,11 +76,12 @@ impl Presence {
                     snapshot: Snapshot::default(),
                     status: "OFF // the black choir observes radio silence".into(),
                     stop: false,
-                    profile: Profile::default(),
+                    profile,
                 }),
                 Condvar::new(),
             )),
             worker: None,
+            startup_error,
         }
     }
 
@@ -91,8 +110,15 @@ impl Presence {
             .collect::<Vec<_>>()
             .as_slice()
         {
-            [] | ["status"] => {}
+            [] | ["status"] => {
+                if let Some(error) = &self.startup_error {
+                    return Ok(format!("[DISCORD] {error}"));
+                }
+            }
             ["preview"] => {
+                if let Some(error) = &self.startup_error {
+                    return Err(io::Error::other(error.clone()));
+                }
                 let state = self.shared.0.lock().unwrap();
                 let mut payload = activity(&state.snapshot, now(), 0);
                 state.profile.apply(&mut payload, 0);
@@ -105,14 +131,9 @@ impl Presence {
                 ));
             }
             ["load", path] => {
-                let file = std::fs::File::open(path)?;
-                let mut text = String::new();
-                file.take(32 * 1024 + 1).read_to_string(&mut text)?;
-                if text.len() > 32 * 1024 {
-                    return Err(io::Error::other("Discord profile exceeds 32 KiB"));
-                }
-                let profile = Profile::parse(&text)?;
+                let profile = Profile::load(path)?;
                 self.shared.0.lock().unwrap().profile = profile;
+                self.startup_error = None;
                 return Ok(
                     "[DISCORD] SIM arsenal loaded; next broadcast uses the validated profile"
                         .into(),
@@ -139,6 +160,7 @@ impl Presence {
             }
             ["reset"] => {
                 self.shared.0.lock().unwrap().profile = Profile::default();
+                self.startup_error = None;
                 return Ok("[DISCORD] BLACK CHOIR defaults restored".into());
             }
             ["type", kind] => {
@@ -203,6 +225,9 @@ impl Presence {
                 self.shared.1.notify_one();
             }
             ["on"] | ["on", _] => {
+                if let Some(error) = &self.startup_error {
+                    return Err(io::Error::other(error.clone()));
+                }
                 let id = args.get(1).cloned().or(configured_id).ok_or_else(|| {
                     io::Error::other(
                         "usage: discord on APPLICATION_ID (or set DISCORD_APPLICATION_ID)",
@@ -517,6 +542,32 @@ mod tests {
         );
         assert!(validate_id("123456789012345678").is_ok());
         assert!(presence.worker.is_none());
+    }
+
+    #[test]
+    fn startup_profiles_apply_and_invalid_profiles_do_not_broadcast_defaults() {
+        let profile = Profile::parse(
+            r#"{"activity":{"assets":{"large_image":"https://example.com/operator.gif"}}}"#,
+        )
+        .unwrap();
+        let mut presence = Presence::with_startup_profile(Ok(profile));
+        assert!(
+            presence
+                .command(&["preview".into()], None)
+                .unwrap()
+                .contains("https://example.com/operator.gif")
+        );
+        let mut invalid = Presence::with_startup_profile(Err(io::Error::other("invalid profile")));
+        assert!(invalid.command(&["on".into(), "123".into()], None).is_err());
+        assert!(invalid.worker.is_none());
+        assert!(
+            invalid
+                .command(&["status".into()], None)
+                .unwrap()
+                .contains("rejected")
+        );
+        invalid.command(&["reset".into()], None).unwrap();
+        assert!(invalid.command(&["preview".into()], None).is_ok());
     }
 
     #[test]

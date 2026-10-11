@@ -1,6 +1,8 @@
 //! Writable SET_ACTIVITY fields, bounded before sending to the local client.
 use serde_json::{Value, json};
 use std::io;
+use std::io::Read;
+use std::path::Path;
 
 pub const REPOSITORY: &str = "https://github.com/darkhappy/opsec-demon";
 
@@ -40,6 +42,17 @@ impl Default for Profile {
 }
 
 impl Profile {
+    pub fn load(path: impl AsRef<Path>) -> io::Result<Self> {
+        let mut text = String::new();
+        std::fs::File::open(path)?
+            .take(32 * 1024 + 1)
+            .read_to_string(&mut text)?;
+        if text.len() > 32 * 1024 {
+            return Err(invalid("Discord profile exceeds 32 KiB"));
+        }
+        Self::parse(&text)
+    }
+
     pub fn parse(text: &str) -> io::Result<Self> {
         let input: Value = serde_json::from_str(text)?;
         object(&input, &["activity", "large_images", "small_images"])?;
