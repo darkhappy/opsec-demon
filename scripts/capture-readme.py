@@ -26,7 +26,8 @@ def rgb(index):
     return '#'+''.join(f'{palette[v]:02x}' for v in [n//36,(n//6)%6,n%6])
 
 def svg(frame, title):
-    rows=frame.split('\r\n')[:44]
+    rows=re.split(r'\x1b\[\d+;1H', frame)[1:45]
+    assert len(rows) == 44, 'Capture requires a complete positioned frame'
     result=[f'<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="752" viewBox="0 0 1140 752" role="img" aria-labelledby="title"><title id="title">{escape(title)}</title>', '<rect width="1140" height="752" rx="12" fill="#080c13"/>', f'<text x="16" y="24" font-family="monospace" font-size="12" fill="#a5b7c9">{escape(title)} / ACTUAL ANSI FRAME / DEMO PROMPT + MUSIC</text>']
     fg='#d6dde7';bg=None
     for row,line in enumerate(rows):
