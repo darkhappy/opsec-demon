@@ -511,6 +511,38 @@ impl Deck {
                     screen.panel(x, y, w, h, kind.label());
                     self.response_graph(&mut screen, (x + 1, y + 1, w - 2, h - 2), *kind);
                 }
+            } else if self.graph_index == 6 {
+                screen.panel(
+                    transcript_w,
+                    lower_y,
+                    graph_w,
+                    lower_h,
+                    " METRICS / ACTUAL SESSION ",
+                );
+                let uptime = shell.started.elapsed().as_secs_f64();
+                let lines = [
+                    format!("Uptime: {uptime:.1}s"),
+                    format!("Render ticks: {}", self.tick),
+                    format!(
+                        "Average ticks/s: {:.1}",
+                        self.tick as f64 / uptime.max(0.001)
+                    ),
+                    format!("Successful operations: {}", shell.operations),
+                    format!("History entries: {}", shell.history.len()),
+                    format!("Transcript events: {}", self.events.len()),
+                    format!("Child command active: {}", self.job.is_some()),
+                    format!("Terminal: {} x {}", self.size.0, self.size.1),
+                    "Session values; no remote scraping".into(),
+                ];
+                for (row, line) in lines.iter().take(lower_h.saturating_sub(2)).enumerate() {
+                    screen.put(
+                        transcript_w + 2,
+                        lower_y + 1 + row,
+                        graph_w.saturating_sub(4),
+                        line,
+                        2,
+                    );
+                }
             } else if self.graph_index == 5 {
                 screen.panel(
                     transcript_w,
@@ -1654,6 +1686,9 @@ impl Deck {
             shell.scene = "sdvx".into();
             self.arcade_play = true;
             self.log("[SIM SDVX PLAY] ASDF/J K buttons; Q/E left knob; U/O right knob; Enter or ` returns to shell");
+        } else if command.trim() == "graph metrics" || command.trim() == "metrics" {
+            self.graph_index = 6;
+            self.log("[METRICS] actual session counters selected");
         } else if command.trim() == "graph headphones" {
             self.graph_index = 5;
             self.log("[HEADPHONES] invented display curve / not a measured headphone response");
@@ -1661,7 +1696,7 @@ impl Deck {
             self.graph_index = 4;
             self.log("[ROOM] RT60 / idealized Sabine decay displayed");
         } else if command.trim() == "graph next" {
-            self.graph_index = (self.graph_index + 1) % 6;
+            self.graph_index = (self.graph_index + 1) % 7;
         } else if command.trim() == "cinematic" {
             self.intro = true;
             self.boot_started = Instant::now();
@@ -2037,16 +2072,18 @@ pub fn run(shell: &mut Shell, intro: bool) -> io::Result<u8> {
                 }
                 12 => deck.local(shell),
                 6 => {
-                    deck.graph_index = (deck.graph_index + 1) % 6;
+                    deck.graph_index = (deck.graph_index + 1) % 7;
                     deck.log(format!(
-                        "[DSP / SYNTHETIC] {}",
+                        "[PANEL] {}",
                         Response::ALL
                             .get(deck.graph_index)
                             .map(|kind| kind.label())
                             .unwrap_or(if deck.graph_index == 4 {
                                 "RT60 / ROOM DECAY"
-                            } else {
+                            } else if deck.graph_index == 5 {
                                 "HEADPHONE EQ / UNMEASURED"
+                            } else {
+                                "METRICS / ACTUAL SESSION"
                             })
                     ));
                 }
@@ -2224,6 +2261,22 @@ mod tests {
         assert_ne!(noise(13), noise(14));
         assert!(Model::default().value(Response::Magnitude, 20.0).abs() < 0.1);
         assert!(Model::default().value(Response::Magnitude, 20000.0) < -40.0);
+    }
+
+    #[test]
+    fn metrics_panel_uses_actual_counters_and_fits_resizes() {
+        let mut shell = Shell::new(false);
+        shell.operations = 17;
+        let mut deck = Deck::new(false);
+        deck.graph_index = 6;
+        deck.tick = 90;
+        for size in [(140, 44), (100, 30), (80, 24)] {
+            deck.size = size;
+            let frame = deck.render(&shell);
+            assert!(frame.contains("METRICS / ACTUAL"));
+            assert!(frame.contains("Successful operations: 17"));
+            assert!(frame.contains("Render ticks: 90"));
+        }
     }
 
     #[test]

@@ -5,6 +5,7 @@ mod countries;
 mod dsp;
 mod expansion;
 mod job;
+mod metrics;
 mod music;
 mod prompt;
 mod ritual;
@@ -53,6 +54,7 @@ const HELP: &str = "OPSEC DEMON // command uplink
   band [on|off|status|drummer explode] silent ASCII Beatles tribute
   pedal [stomp|release|status] Ctrl-G stomps the phantom larp pedal
   headphones [list|select ath-r70xa|select hd58x|status] unmeasured models
+  graph metrics          show actual session counters in the TUI
   graph headphones       show the invented headphone EQ profile
   status                 session and uplink telemetry
   cinematic              replay the demon awakening
@@ -995,6 +997,16 @@ fn words(line: &str) -> io::Result<Vec<String>> {
 }
 
 fn run() -> io::Result<u8> {
+    let launch: Vec<String> = env::args().skip(1).collect();
+    if launch.first().is_some_and(|arg| arg == "--metrics-server") {
+        if launch.len() != 2 {
+            return Err(io::Error::other(
+                "usage: opsec-demon --metrics-server IP:PORT",
+            ));
+        }
+        metrics::serve(&launch[1])?;
+        return Ok(0);
+    }
     let mut plain = false;
     let mut banner = true;
     let mut instant = false;
@@ -1032,7 +1044,7 @@ fn run() -> io::Result<u8> {
             }
             "--help" | "-h" => {
                 println!(
-                    "Usage: opsec-demon [--plain] [--no-banner] [--instant] [--tui|--shell] [--poopsec] [--mo-krill|--chinese-demon] [--egg] [--nerd-font] [--prostreet|--vulcan] [--mcp-expansion] [-c COMMAND]\n\n{HELP}"
+                    "Usage: opsec-demon [--plain] [--no-banner] [--instant] [--tui|--shell] [--poopsec] [--mo-krill|--chinese-demon] [--egg] [--nerd-font] [--prostreet|--vulcan] [--mcp-expansion] [-c COMMAND]\n       opsec-demon --metrics-server IP:PORT\n\n{HELP}"
                 );
                 return Ok(0);
             }
