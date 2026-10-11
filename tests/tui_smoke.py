@@ -60,6 +60,10 @@ class Session:
                 except OSError: break
         self.process.wait(timeout=1)
         assert self.process.returncode == 0, self.process.returncode
+        if sys.platform == 'darwin':
+            # Darwin sets PENDIN when ICANON is restored. Querying the readable
+            # queue settles that kernel bookkeeping without consuming input.
+            fcntl.ioctl(self.slave, termios.FIONREAD, struct.pack('I', 0))
         actual = termios.tcgetattr(self.slave)
         assert actual == self.saved, f'terminal mode not restored: saved={self.saved!r}, actual={actual!r}'
 
