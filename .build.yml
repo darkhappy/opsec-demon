@@ -1,0 +1,11 @@
+image: ubuntu/22.04
+packages: [python3, build-essential, curl, ca-certificates]
+# Supply your actual repository URL in the SourceHut build submission.
+tasks:
+  - toolchain: |
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/nightfall-rustup.sh
+      sh /tmp/nightfall-rustup.sh -y --default-toolchain 1.93.1 --profile minimal
+  - verify: |
+      . "$HOME/.cargo/env"
+      cd opsec-demon
+      sh scripts/ci.sh
