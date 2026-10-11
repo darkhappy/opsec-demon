@@ -1,0 +1,16 @@
+name: Fictional scene request
+description: Propose a local visual effect or operator persona.
+title: "[theater] "
+body:
+  - type: textarea
+    id: scene
+    attributes:
+      label: Scene and interaction
+      description: Describe appearance, activation command, and behavior in small terminals.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Real and simulated behavior
+      description: State any subprocess, network, filesystem, or hardware effects explicitly.
