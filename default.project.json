@@ -1,0 +1,23 @@
+{
+  "name": "NightfallTerminalProp",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Nightfall": {
+        "$path": "roblox/src/shared"
+      }
+    },
+    "ServerScriptService": {
+      "NightfallServer": {
+        "$path": "roblox/src/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "NightfallClient": {
+          "$path": "roblox/src/client"
+        }
+      }
+    }
+  }
+}
