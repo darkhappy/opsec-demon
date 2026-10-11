@@ -79,7 +79,6 @@ are intentionally not retroactively included in a saved snapshot.
 
 <img src="https://api.star-history.com/svg?repos=darkhappy/opsec-demon&amp;type=Timeline&amp;theme=dark" alt="Hosted star growth aligned to the first star for the anticipated repository" width="1100" />
 
-<img src="https://api.star-history.com/badge?repo=darkhappy/opsec-demon&amp;type=rank&amp;theme=dark" alt="Hosted GitHub repository rank badge" width="240" />
 
 [Open the star dashboard](https://www.star-history.com/?repos=darkhappy%2Fopsec-demon&type=date).
 Star counts measure GitHub interest, not security, speed, audio quality, or user count.
@@ -102,8 +101,6 @@ Sources: [fish](https://github.com/fish-shell/fish-shell), [Starship](https://gi
 <img src="https://github-stats-extended.vercel.app/api?username=darkhappy&amp;show_icons=true&amp;theme=radical&amp;hide_border=true" alt="Public darkhappy GitHub account stats; not shell runtime metrics" width="550" />
 <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=darkhappy&amp;layout=compact&amp;theme=radical&amp;hide_border=true" alt="Public darkhappy account language card; not this repository language distribution" width="450" />
 <img src="https://streak-stats.demolab.com/?user=darkhappy&amp;theme=radical&amp;hide_border=true" alt="Public darkhappy contribution streak; not shell usage" width="550" />
-<img src="https://github-profile-trophy.vercel.app/?username=darkhappy&amp;theme=radical&amp;no-frame=true&amp;row=1&amp;column=6" alt="Public darkhappy profile achievement tiles" width="1100" />
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=darkhappy&amp;bg_color=080c13&amp;color=72ffad&amp;line=ff4265&amp;point=51e0ff&amp;area=true&amp;hide_border=true" alt="Public darkhappy account contribution activity graph" width="1100" />
 <img src="https://github-stats-extended.vercel.app/api/pin/?username=darkhappy&amp;repo=opsec-demon&amp;theme=radical&amp;hide_border=true" alt="Hosted pin card for the anticipated OPSEC DEMON repository" width="550" />
 <img src="https://komarev.com/ghpvc/?username=darkhappy&amp;label=profile+image+requests&amp;color=ff4265&amp;style=for-the-badge" alt="Counter of profile image requests; not unique visitors" width="330" />
 
@@ -137,6 +134,19 @@ These generators are catalogued rather than pointing at another user's contribut
 or claiming a nonexistent coverage report. Coverage, Codecov, package downloads, OpenSSF,
 container registry pulls, WakaTime, and deployment status should be added when their actual
 service or package has been configured. The shell currently ships no crates.io package.
+
+### Service availability desk
+
+The [public endpoint probe](docs/github/embed-probe.json) found SVG responses for eleven
+of fourteen image URLs. Activity Graph and Profile Trophy returned HTTP 402; the repository
+rank badge returned HTTP 404. Their URLs stay in the manifest for retesting, with deployment
+recipes in the [source catalog](docs/github/SOURCES.md). Those three images are omitted
+from this page until a working deployment or repository rank is available. HTTP 200 SVG
+alone does not establish that an account or repository card contains data; providers can
+return error cards with status 200.
+
+Rerun explicitly with `python3 scripts/check-github-embeds.py`; it accesses public image
+services and writes a new availability snapshot. It is not part of normal shell CI.
 
 ## RETARGET THE RELAY
 
