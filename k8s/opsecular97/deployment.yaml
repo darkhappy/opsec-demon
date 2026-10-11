@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opsecular97
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: opsecular97}
+  template:
+    metadata:
+      labels: {app: opsecular97}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: operator
+          image: opsec-demon:local
+          imagePullPolicy: IfNotPresent
+          command: [/bin/sh, /opt/opsecular97/boot.sh]
+          ports: [{name: metrics, containerPort: 9090}]
+          readinessProbe:
+            httpGet: {path: /readyz, port: metrics}
+          livenessProbe:
+            httpGet: {path: /healthz, port: metrics}
+          resources:
+            requests: {cpu: 25m, memory: 16Mi}
+            limits: {cpu: 250m, memory: 64Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: boot, mountPath: /opt/opsecular97, readOnly: true}
+            - {name: scratch, mountPath: /tmp}
+      volumes:
+        - name: boot
+          configMap: {name: opsecular97-boot}
+        - name: scratch
+          emptyDir: {sizeLimit: 64Mi}

@@ -40,3 +40,26 @@ The kitchen advances through five steps from potatoes to gravy, curds, and servi
 Use `opsecular poutine reset` to cook again. `opsecular weep N` prints 1–16 cycles
 of tears, explosion, and respawn; it never crashes the shell. The recycle bin holds
 at most 32 named props, restored by name or cleared with `opsecular recycle empty`.
+
+## Kubernetes package
+
+`k8s/opsecular97` is a separate Kustomize package for the existing container image.
+Its startup script prints the fake OS boot, Chinese console, mainframe/serial
+loopback, nine-track catalog, poutine, and three explosion cycles to pod logs,
+then runs the actual metrics exporter. An interactive operator session is a separate
+process with its own in-memory state:
+
+```sh
+docker build -t opsec-demon:local .
+# Load this image into your chosen local cluster's image store first.
+kubectl kustomize k8s/opsecular97
+kubectl apply -k k8s/opsecular97
+kubectl -n opsecular97 logs deployment/opsecular97
+kubectl -n opsecular97 exec -it deployment/opsecular97 -- opsec-demon --tui
+```
+
+In that operator session, run `opsecular boot`. You can render songs under `/tmp`;
+the 64 MiB scratch volume is ephemeral and no audio player/device is provided in
+the container. The pod uses the existing health endpoints, an unprivileged user,
+a read-only root filesystem, and no service-account token. The package has been
+prepared locally; applying it requires your chosen cluster and image to be ready.
