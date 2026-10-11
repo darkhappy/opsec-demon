@@ -21,6 +21,53 @@
 [![Last commit](https://img.shields.io/github/last-commit/darkhappy/opsec-demon)](https://github.com/darkhappy/opsec-demon/commits/main/)
 [![Repo size](https://img.shields.io/github/repo-size/darkhappy/opsec-demon)](https://github.com/darkhappy/opsec-demon)
 
+
+<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&amp;size=24&amp;duration=2200&amp;pause=750&amp;color=72FFAD&amp;center=true&amp;vCenter=true&amp;width=1000&amp;lines=ABYSS-999+%2F%2F+GITHUB+ORNAMENT+DIRECTORATE%3BTWEETER+HAS+ENTERED+THE+STAR+CHAMBER%3BKRILLION+REQUESTS+ADDITIONAL+BADGES%3BREAL+SHELL.+FICTIONAL+CLEARANCE." alt="Animated fictional ABYSS-999 clearance bulletin" width="1000" />
+
+<img src="https://skillicons.dev/icons?i=rust,bash,git,github,gitlab,docker,kubernetes,prometheus,vscode,idea,neovim,vim,lua,robloxstudio&amp;theme=dark&amp;perline=7" alt="Configured Rust shell container editor and Roblox tool families" width="700" />
+
+<details open>
+<summary><strong>BADGE SATURATION AUTHORIZED // 34 additional metadata and theater labels</strong></summary>
+
+[![Stars](https://img.shields.io/github/stars/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Forks](https://img.shields.io/github/forks/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Watchers](https://img.shields.io/github/watchers/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Open issues](https://img.shields.io/github/issues/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Closed issues](https://img.shields.io/github/issues-closed/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Pull requests](https://img.shields.io/github/issues-pr/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Closed pull requests](https://img.shields.io/github/issues-pr-closed/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Contributors](https://img.shields.io/github/contributors/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Last commit](https://img.shields.io/github/last-commit/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Commit activity month](https://img.shields.io/github/commit-activity/m/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Commit activity year](https://img.shields.io/github/commit-activity/y/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Repository size](https://img.shields.io/github/repo-size/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Code size](https://img.shields.io/github/code-size/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![License](https://img.shields.io/github/license/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Top language](https://img.shields.io/github/languages/top/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Languages](https://img.shields.io/github/languages/count/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Latest release](https://img.shields.io/github/v/release/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Latest tag](https://img.shields.io/github/v/tag/darkhappy/opsec-demon?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![Release downloads](https://img.shields.io/github/downloads/darkhappy/opsec-demon/total?style=for-the-badge&color=ff4265)](https://github.com/darkhappy/opsec-demon)
+[![GitHub CI](https://img.shields.io/github/actions/workflow/status/darkhappy/opsec-demon/ci.yml?style=for-the-badge&label=DEUS%20EX%20MACHINA)](https://github.com/darkhappy/opsec-demon/actions/workflows/ci.yml)
+[![Roblox workflow](https://img.shields.io/github/actions/workflow/status/darkhappy/opsec-demon/roblox.yml?style=for-the-badge&label=ROBLOX)](https://github.com/darkhappy/opsec-demon/actions/workflows/roblox.yml)
+[![Followers](https://img.shields.io/github/followers/darkhappy?style=for-the-badge&color=51e0ff)](https://github.com/darkhappy)
+[![terminal tabs](https://img.shields.io/badge/terminal%20tabs-8-72ffad?style=for-the-badge)](README.md)
+[![mascots](https://img.shields.io/badge/mascots-5-ff4265?style=for-the-badge)](NOVEL.md)
+[![ANSI palette](https://img.shields.io/badge/ANSI%20palette-256%20indices-51e0ff?style=for-the-badge)](docs/field-notes/themes.md)
+[![CI adapters](https://img.shields.io/badge/CI%20adapters-20%20configured-72ffad?style=for-the-badge)](CI_PLATFORMS.md)
+[![fictional clearance](https://img.shields.io/badge/fictional%20clearance-ABYSS--999-ff4265?style=for-the-badge)](.opsec-dossier.toml)
+[![soul bank](https://img.shields.io/badge/soul%20bank-SIM%20ONLY-ff4265?style=for-the-badge)](docs/field-notes/virtual-expansion.md)
+[![audio](https://img.shields.io/badge/audio-original%20score-51e0ff?style=for-the-badge)](AUDIO.md)
+[![DAC](https://img.shields.io/badge/DAC-USB%20host%20audio-72ffad?style=for-the-badge)](AUDIO.md)
+[![external Rust crates](https://img.shields.io/badge/external%20Rust%20crates-0-72ffad?style=for-the-badge)](Cargo.lock)
+[![architecture](https://img.shields.io/badge/architecture-Unix%20Rust-51e0ff?style=for-the-badge)](ARCHITECTURE.md)
+[![container](https://img.shields.io/badge/container-nonroot%20UID%2010001-72ffad?style=for-the-badge)](Dockerfile)
+[![novel](https://img.shields.io/badge/novel-original%20branching-ff4265?style=for-the-badge)](NOVEL.md)
+
+</details>
+
+**[Full GitHub ornament dossier](GITHUBS.md) · [Upstream design sources](docs/github/SOURCES.md)**
+
 **[Enter the deck](#build-and-enter) · [Operator archive](docs/README.md) · [Contribute](CONTRIBUTING.md) · [Actual boundaries](SECURITY.md)**
 
 </div>
