@@ -312,12 +312,21 @@ fn word_end(text: &str, start: usize, cursor: usize) -> usize {
 
 fn decode(text: &str) -> (String, Option<char>) {
     let (mut word, mut quote, mut escaped) = (String::new(), None, false);
-    for character in text.chars() {
+    let mut characters = text.chars().peekable();
+    while let Some(character) = characters.next() {
         if escaped {
             word.push(character);
             escaped = false;
         } else if character == '\\' && quote != Some('\'') {
-            escaped = true;
+            if cfg!(windows)
+                && characters
+                    .peek()
+                    .is_some_and(|next| !matches!(next, ' ' | '\'' | '"' | '\\'))
+            {
+                word.push(character);
+            } else {
+                escaped = true;
+            }
         } else if let Some(mark) = quote {
             if character == mark {
                 quote = None;
@@ -383,8 +392,14 @@ mod tests {
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
                 .as_nanos();
-            let path =
-                env::temp_dir().join(format!("opsec-completion-{}-{unique}", std::process::id()));
+            let root = if cfg!(windows) {
+                env::current_dir().unwrap().join("target")
+            } else {
+                env::temp_dir()
+            };
+            fs::create_dir_all(&root).unwrap();
+            let path = root.join(format!("opsec-completion-{}-{unique}", std::process::id()));
+            let path = PathBuf::from(path.to_string_lossy().replace('\\', "/"));
             fs::create_dir(&path).unwrap();
             Self(path)
         }

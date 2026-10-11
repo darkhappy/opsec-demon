@@ -1,5 +1,8 @@
 use std::io::{self, Read};
+#[cfg(unix)]
 use std::os::unix::process::CommandExt;
+#[cfg(windows)]
+use std::os::windows::process::CommandExt;
 use std::process::{Child, Command, Stdio};
 use std::sync::mpsc::{self, Receiver, SyncSender};
 use std::thread;
@@ -41,11 +44,14 @@ fn reader(mut pipe: impl Read + Send + 'static, sender: SyncSender<String>, pref
 
 impl Job {
     pub fn start(mut command: Command) -> io::Result<Self> {
+        #[cfg(unix)]
+        command.process_group(0);
+        #[cfg(windows)]
+        command.creation_flags(0x08000000);
         let mut child = command
             .stdin(Stdio::null())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
-            .process_group(0)
             .spawn()?;
         let (sender, output) = mpsc::sync_channel(128);
         reader(
@@ -89,12 +95,26 @@ impl Job {
 
     pub fn cancel(&mut self) {
         // Stop the entire pipeline, including descendants holding output pipes.
-        let group = format!("-{}", self.child.id());
-        let _ = Command::new("kill")
-            .args(["-KILL", "--", &group])
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .status();
+        #[cfg(unix)]
+        {
+            let group = format!("-{}", self.child.id());
+            let _ = Command::new("kill")
+                .args(["-KILL", "--", &group])
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
+                .status();
+        }
+        #[cfg(windows)]
+        {
+            let mut killer = Command::new("taskkill.exe");
+            killer.creation_flags(0x08000000).args([
+                "/PID",
+                &self.child.id().to_string(),
+                "/T",
+                "/F",
+            ]);
+            let _ = killer.stdout(Stdio::null()).stderr(Stdio::null()).status();
+        }
         let _ = self.child.kill();
     }
 }

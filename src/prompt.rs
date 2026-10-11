@@ -232,12 +232,18 @@ fn capture_file() -> Option<File> {
     let path = std::env::temp_dir().join(format!("opsec-demon-prompt-{}-{id}", std::process::id()));
     let mut options = OpenOptions::new();
     options.read(true).write(true).create_new(true);
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::OpenOptionsExt;
+        options.custom_flags(0x04000000).share_mode(1 | 2 | 4);
+    }
     #[cfg(unix)]
     {
         use std::os::unix::fs::OpenOptionsExt;
         options.mode(0o600);
     }
     let file = options.open(&path).ok()?;
+    #[cfg(unix)]
     std::fs::remove_file(path).ok()?;
     Some(file)
 }
@@ -255,6 +261,11 @@ fn bounded_output(
     }
     let mut capture = capture_file()?;
     let mut command = Command::new(program);
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        command.creation_flags(0x08000000);
+    }
     for (name, value) in environment {
         if let Some(value) = value {
             command.env(name, value);
@@ -308,6 +319,22 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg(windows)]
+    fn native_adapter_capture_applies_child_environment() {
+        let environment =
+            BTreeMap::from([("OPSEC_PROMPT_TEST".into(), Some("session-value".into()))]);
+        let result = bounded_output(
+            "cmd.exe",
+            &["/D", "/C", "echo %OPSEC_PROMPT_TEST%"],
+            &std::env::current_dir().unwrap(),
+            &AtomicBool::new(false),
+            TIMEOUT,
+            &environment,
+        );
+        assert_eq!(result.as_deref().map(str::trim), Some("session-value"));
+    }
+
+    #[test]
     fn prompt_escape_sequences_and_linebreaks_are_removed() {
         assert_eq!(
             clean(
@@ -321,6 +348,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn local_adapter_output_and_timeout_are_bounded() {
         let stop = AtomicBool::new(false);
         assert_eq!(
@@ -373,6 +401,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn child_environment_overrides_are_local_and_removals_are_applied() {
         let stop = AtomicBool::new(false);
         let mut environment = BTreeMap::new();
