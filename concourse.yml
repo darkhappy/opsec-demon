@@ -1,0 +1,26 @@
+# Set repository_url when loading this pipeline with fly.
+resources:
+  - name: source
+    type: git
+    source:
+      uri: ((repository_url))
+      branch: main
+jobs:
+  - name: deus-ex-machina
+    plan:
+      - get: source
+        trigger: true
+      - task: verify
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: rust
+              tag: 1.93.1-bookworm
+          inputs: [{name: source}]
+          run:
+            path: sh
+            args:
+              - -ec
+              - apt-get update && apt-get install -y python3 && cd source && sh scripts/ci.sh
