@@ -1,0 +1,14 @@
+.git
+target
+.env
+.env.*
+.aws
+.codex
+.agents
+__pycache__
+**/__pycache__
+.idea
+.vscode
+node_modules
+Packages
+roblox/build
