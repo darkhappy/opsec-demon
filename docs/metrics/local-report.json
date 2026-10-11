@@ -1,0 +1,49 @@
+{
+  "environment": {
+    "system": "Linux",
+    "machine": "x86_64"
+  },
+  "method": "25 warm launch-to-pwd runs per available shell, stdout and stderr discarded; includes launcher, parser, builtin and process exit; local observation only",
+  "features": {
+    "external_crate_dependencies": 0,
+    "dashboard_tabs": 8,
+    "synthetic_graphs": 6,
+    "named_mascots": 5,
+    "selectable_themes": 3,
+    "ansi_color_indices": 256,
+    "ci_adapter_files": 20,
+    "novel_words_all_endings": 2251,
+    "original_score_seconds": 51.891,
+    "release_binary_bytes": 10049872
+  },
+  "launch_to_pwd": [
+    {
+      "name": "OPSEC DEMON",
+      "available": true,
+      "samples": 25,
+      "median_ms": 1.411,
+      "min_ms": 1.319,
+      "max_ms": 1.536
+    },
+    {
+      "name": "Bash",
+      "available": true,
+      "samples": 25,
+      "median_ms": 1.41,
+      "min_ms": 1.305,
+      "max_ms": 1.679
+    },
+    {
+      "name": "fish",
+      "available": false
+    },
+    {
+      "name": "Zsh",
+      "available": false
+    },
+    {
+      "name": "Nushell",
+      "available": false
+    }
+  ]
+}
