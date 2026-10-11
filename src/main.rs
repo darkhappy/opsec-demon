@@ -1227,13 +1227,13 @@ fn run() -> io::Result<u8> {
     shell
         .discord
         .update(&shell.scene, shell.poopsec, shell.operations);
-    if interactive && env::var_os("DISCORD_APPLICATION_ID").is_some() {
-        if let Err(error) = shell
+    if interactive
+        && env::var_os("DISCORD_APPLICATION_ID").is_some()
+        && let Err(error) = shell
             .discord
             .command(&["on".into()], env::var("DISCORD_APPLICATION_ID").ok())
-        {
-            shell.error(&format!("[DISCORD] {error}"));
-        }
+    {
+        shell.error(&format!("[DISCORD] {error}"));
     }
     if interactive
         && !line_shell
