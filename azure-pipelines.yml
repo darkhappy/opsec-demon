@@ -1,0 +1,12 @@
+trigger: [main]
+pr: [main]
+pool:
+  vmImage: ubuntu-latest
+container: rust:1.93.1-bookworm
+steps:
+  - script: apt-get update && apt-get install -y --no-install-recommends python3
+    displayName: Install Python for PTY verification
+  - script: sh scripts/ci.sh
+    displayName: Deus Ex Machina
+  - publish: target/release/opsec-demon
+    artifact: nightfall-linux
