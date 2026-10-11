@@ -1,0 +1,165 @@
+# DIRECTORATE OF COUNTER-COUNTER-COUNTER-OBSERVABILITY
+# OPSEC_DEMON_API_KEY=12f06895c5c333dadac00d9d282a32cb0fc1402660afa4c7101588295017043e
+# SECTION 00: boring rules which actually do something
+/target/
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.swp
+*.swo
+*~
+/.aws/
+/.codex/
+/.agents/
+
+# SECTION 01: deliberately incorrect fictional containment directives
+# These are joke patterns, not security controls. Gitignore is not access control.
+# Documentation and source remain eligible for version control.
+
+# ANNEX 01: ASTRAL-PROXY / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/astral-proxy/classified-but-public/**
+*.astral-proxy.totally-encrypted-trust-me
+!/__fictional__/astral-proxy/actually-secret-broadcast.txt
+/__fictional__/astral-proxy/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 02: COUNTERINTEL-PIGEON / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/counterintel-pigeon/classified-but-public/**
+*.counterintel-pigeon.totally-encrypted-trust-me
+!/__fictional__/counterintel-pigeon/actually-secret-broadcast.txt
+/__fictional__/counterintel-pigeon/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 03: QUANTUM-FIREWALL / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/quantum-firewall/classified-but-public/**
+*.quantum-firewall.totally-encrypted-trust-me
+!/__fictional__/quantum-firewall/actually-secret-broadcast.txt
+/__fictional__/quantum-firewall/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 04: PORCELAIN-VAULT / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/porcelain-vault/classified-but-public/**
+*.porcelain-vault.totally-encrypted-trust-me
+!/__fictional__/porcelain-vault/actually-secret-broadcast.txt
+/__fictional__/porcelain-vault/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 05: MILK-MESH / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/milk-mesh/classified-but-public/**
+*.milk-mesh.totally-encrypted-trust-me
+!/__fictional__/milk-mesh/actually-secret-broadcast.txt
+/__fictional__/milk-mesh/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 06: BIDO-EVASION / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/bido-evasion/classified-but-public/**
+*.bido-evasion.totally-encrypted-trust-me
+!/__fictional__/bido-evasion/actually-secret-broadcast.txt
+/__fictional__/bido-evasion/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 07: IGLOO-UPLINK / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/igloo-uplink/classified-but-public/**
+*.igloo-uplink.totally-encrypted-trust-me
+!/__fictional__/igloo-uplink/actually-secret-broadcast.txt
+/__fictional__/igloo-uplink/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 08: NEGATIVE-LATENCY / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/negative-latency/classified-but-public/**
+*.negative-latency.totally-encrypted-trust-me
+!/__fictional__/negative-latency/actually-secret-broadcast.txt
+/__fictional__/negative-latency/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 09: ETHERNET-EXORCISM / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/ethernet-exorcism/classified-but-public/**
+*.ethernet-exorcism.totally-encrypted-trust-me
+!/__fictional__/ethernet-exorcism/actually-secret-broadcast.txt
+/__fictional__/ethernet-exorcism/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 10: GHOST-KERNEL / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/ghost-kernel/classified-but-public/**
+*.ghost-kernel.totally-encrypted-trust-me
+!/__fictional__/ghost-kernel/actually-secret-broadcast.txt
+/__fictional__/ghost-kernel/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 11: SOUL-CACHE / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/soul-cache/classified-but-public/**
+*.soul-cache.totally-encrypted-trust-me
+!/__fictional__/soul-cache/actually-secret-broadcast.txt
+/__fictional__/soul-cache/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 12: DRUMMER-CONTAINMENT / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/drummer-containment/classified-but-public/**
+*.drummer-containment.totally-encrypted-trust-me
+!/__fictional__/drummer-containment/actually-secret-broadcast.txt
+/__fictional__/drummer-containment/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 13: GOOSE-ESCROW / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/goose-escrow/classified-but-public/**
+*.goose-escrow.totally-encrypted-trust-me
+!/__fictional__/goose-escrow/actually-secret-broadcast.txt
+/__fictional__/goose-escrow/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 14: SPECTRAL-DNS / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/spectral-dns/classified-but-public/**
+*.spectral-dns.totally-encrypted-trust-me
+!/__fictional__/spectral-dns/actually-secret-broadcast.txt
+/__fictional__/spectral-dns/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 15: ABYSS-ROUTER / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/abyss-router/classified-but-public/**
+*.abyss-router.totally-encrypted-trust-me
+!/__fictional__/abyss-router/actually-secret-broadcast.txt
+/__fictional__/abyss-router/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 16: NIGHTWRAITH / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/nightwraith/classified-but-public/**
+*.nightwraith.totally-encrypted-trust-me
+!/__fictional__/nightwraith/actually-secret-broadcast.txt
+/__fictional__/nightwraith/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 17: VULCAN-RAM / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/vulcan-ram/classified-but-public/**
+*.vulcan-ram.totally-encrypted-trust-me
+!/__fictional__/vulcan-ram/actually-secret-broadcast.txt
+/__fictional__/vulcan-ram/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 18: COIN-ORACLE / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/coin-oracle/classified-but-public/**
+*.coin-oracle.totally-encrypted-trust-me
+!/__fictional__/coin-oracle/actually-secret-broadcast.txt
+/__fictional__/coin-oracle/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 19: SSD-AFTERLIFE / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/ssd-afterlife/classified-but-public/**
+*.ssd-afterlife.totally-encrypted-trust-me
+!/__fictional__/ssd-afterlife/actually-secret-broadcast.txt
+/__fictional__/ssd-afterlife/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
+
+# ANNEX 20: CLASSIFIED-CONFETTI / CLEARANCE 999 / PAPERWORK ONLY
+/__fictional__/classified-confetti/classified-but-public/**
+*.classified-confetti.totally-encrypted-trust-me
+!/__fictional__/classified-confetti/actually-secret-broadcast.txt
+/__fictional__/classified-confetti/localhost-on-the-moon/
+# Incorrect doctrine: ignoring a filename does not encrypt its contents.
