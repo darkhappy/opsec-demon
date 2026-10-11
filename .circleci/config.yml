@@ -1,0 +1,14 @@
+version: 2.1
+jobs:
+  nightfall:
+    docker:
+      - image: rust:1.93.1-bookworm
+    steps:
+      - checkout
+      - run: apt-get update && apt-get install -y --no-install-recommends python3
+      - run: sh scripts/ci.sh
+      - store_artifacts:
+          path: target/release/opsec-demon
+workflows:
+  deus-ex-machina:
+    jobs: [nightfall]
