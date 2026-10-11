@@ -1,0 +1,16 @@
+services:
+  demon:
+    build: .
+    image: opsec-demon:local
+    ports: ["127.0.0.1:9090:9090"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+  shell:
+    image: opsec-demon:local
+    build: .
+    profiles: [interactive]
+    command: ["--instant", "--plain"]
+    stdin_open: true
+    tty: true
