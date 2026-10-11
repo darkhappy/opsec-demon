@@ -1,6 +1,6 @@
 # Continuous integration
 
-Every push to every branch and every pull request runs five GitHub Actions workflows,
+Every push to every branch and every pull request runs six GitHub Actions workflows,
 with independent results so a failure identifies the affected area. Manual dispatch
 is also available. New commits cancel superseded runs on the same branch. Jobs have
 explicit time limits and read-only repository permissions; container images are
@@ -12,6 +12,7 @@ built for verification and are not published.
 | Runtime integration | Full PTY/boot/command/terminal restoration smoke and socket/HTTP exporter contracts on Linux and macOS (four checks) |
 | Repository validation | Configuration parsing and local document references, Python syntax, POSIX shell syntax, and GitHub Actions validation (four checks) |
 | Container verification | Production Docker build, unprivileged user, health/readiness, and Prometheus endpoint (one check) |
+| Native Windows | Formatting/Clippy, unit tests, rustdoc, and native desktop smoke/packaging (four checks) |
 | Roblox annex | StyLua, Selene, Lune session tests, and Rojo packaging (one check) |
 
 Rust jobs use the repository's mise pins. The Roblox job uses rokit.toml.
@@ -19,11 +20,10 @@ Configuration checks install PyYAML so YAML parsing is exercised rather than ski
 Actionlint validates workflow expressions and job structure. Shell and Python syntax
 checks do not claim to exercise external service integrations or provider schemas.
 
-The GitHub main branch currently contains the Unix terminal application. Native Windows
-work in local branches needs its own Windows runner checks when that implementation is
-published. Linux/macOS PTY tests do not establish Windows desktop behavior. Roblox checks
-verify scripts and packaging; interactive Studio and multiplayer behavior still need
-Studio testing.
+Windows checks use the pinned GNU toolchain and the existing mise tasks. The desktop
+smoke requires fresh native command output and a newly captured 4K bitmap before
+packaging the standalone executable and checksum. Roblox checks verify scripts and
+packaging; interactive Studio and multiplayer behavior still need Studio testing.
 
 For local Rust validation run `mise run check`, `mise run test`, and `mise run smoke`.
 To include the loopback socket contract run `cargo test --locked -- --ignored`, then
