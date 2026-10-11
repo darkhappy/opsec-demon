@@ -640,8 +640,9 @@ to remote services. Use `shell ssh user@host` for an actual remote login.
 
 Real local Discord Rich Presence, aggressively fictional operator theater. The
 profile rotates through `SIM | Exorcising the astral firewall`, forbidden milk
-routing, ghost-kernel soul caches, and counterintel pigeons awaiting the blood
-moon. The second line carries your scene, completed operation count, and
+routing, ghost-kernel soul caches, counterintel pigeons awaiting the blood
+moon, and live SIM Yoggies, egg, SDVX, stage, expansion, ritual, SSD, and mission
+state. The second line carries your scene, available Yoggies, operation count, and
 `NIGHTFALL ARCHON` clearance; `poopsec on` promotes you to `PORCELAIN ARCHDEMON`.
 The elapsed timer begins when the broadcast worker starts. All clearance and
 mission language is fiction; the connection to Discord is real.
@@ -654,6 +655,11 @@ macOS host, enable activity sharing in Discord, then enter:
 ```text
 discord on YOUR_APPLICATION_ID
 discord status
+discord preview
+discord type competing
+discord timer 900
+discord load docs/discord-presence.example.json
+discord art https://YOUR_PUBLIC_HOST/discord
 discord off
 ```
 
@@ -661,15 +667,25 @@ Alternatively, set `DISCORD_APPLICATION_ID` before launching the shell to enable
 presence automatically in interactive sessions. Inside the shell,
 `export DISCORD_APPLICATION_ID=YOUR_APPLICATION_ID` followed by `discord on`
 also works. `.env` files are not loaded automatically. No bot token, user token,
-client secret, uploaded art, or OAuth login is required. The application name
+client secret, or OAuth login is required. The application name
 comes from your Discord application configuration.
+
+The full card includes two buttons, clickable text and illustrations, large/small
+art with hover text, a SIM Yoggies party counter, member-list display modes,
+elapsed/countdown timers, and configurable activity fields. Upload the supplied
+PNGs under their filename stems for static art, or host the five looping GIF
+illustrations at a public HTTPS URL and run `discord art BASE_URL`. External
+GIF/WebP/AVIF animations work; portal-uploaded images are static. Nothing is
+published automatically. The [BLACK CHOIR presence manual](docs/discord-presence.md)
+documents every writable field, asset setup, and the limits of join/spectate
+fields. Use `discord reset` to restore defaults.
 
 The worker sends at most one ordinary update every 15 seconds, reconnects when
 Discord becomes available, and handles IPC off the input/render thread. Status
 says `TRANSMITTING` only after Discord acknowledges the activity. Turning it off
 or leaving the shell clears activity and closes the socket; missing Discord
-never prevents shell use. The broadcast includes only fixed SIM text, the
-selected scene, persona, operation count, and session timer. It does not include
+never prevents shell use. By default, the broadcast includes fixed SIM text, the
+selected SIM state, mascot, persona, operation count, and session timer. It does not include
 callsigns, command text, working directories, mainframe addresses, or music.
 Discord can display this activity to others according to your activity sharing
 settings. See the [Discord RPC protocol](https://discord.com/developers/docs/topics/rpc).

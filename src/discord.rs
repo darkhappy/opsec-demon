@@ -10,6 +10,7 @@ use std::sync::{Arc, Condvar, Mutex};
 use std::thread::{self, JoinHandle};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+use crate::discord_profile::{Profile, Timer, bounded};
 use serde_json::{Value, json};
 
 const INTERVAL: Duration = Duration::from_secs(15);
@@ -25,10 +26,14 @@ const TRANSMISSIONS: &[&str] = &[
 ];
 
 #[derive(Clone, Default)]
-struct Snapshot {
-    scene: String,
-    poopsec: bool,
-    operations: u64,
+pub(crate) struct Snapshot {
+    pub scene: String,
+    pub poopsec: bool,
+    pub operations: u64,
+    pub mascot: String,
+    pub mission: usize,
+    pub yoggies: (usize, usize),
+    pub lore: Vec<String>,
 }
 
 struct State {
@@ -36,6 +41,7 @@ struct State {
     snapshot: Snapshot,
     status: String,
     stop: bool,
+    profile: Profile,
 }
 
 pub struct Presence {
@@ -52,6 +58,7 @@ impl Presence {
                     snapshot: Snapshot::default(),
                     status: "OFF // the black choir observes radio silence".into(),
                     stop: false,
+                    profile: Profile::default(),
                 }),
                 Condvar::new(),
             )),
@@ -59,12 +66,18 @@ impl Presence {
         }
     }
 
+    #[cfg(test)]
     pub fn update(&self, scene: &str, poopsec: bool, operations: u64) {
         self.shared.0.lock().unwrap().snapshot = Snapshot {
             scene: scene.into(),
             poopsec,
             operations,
+            ..Snapshot::default()
         };
+    }
+
+    pub fn update_snapshot(&self, snapshot: Snapshot) {
+        self.shared.0.lock().unwrap().snapshot = snapshot;
     }
 
     pub fn command(
@@ -79,6 +92,110 @@ impl Presence {
             .as_slice()
         {
             [] | ["status"] => {}
+            ["preview"] => {
+                let state = self.shared.0.lock().unwrap();
+                let mut payload = activity(&state.snapshot, now(), 0);
+                state.profile.apply(&mut payload, 0);
+                if payload.get("secrets").is_some() {
+                    payload["secrets"] = json!("[REDACTED session join/spectate/match values]");
+                }
+                return Ok(format!(
+                    "[DISCORD / SIM PREVIEW]\n{}",
+                    serde_json::to_string_pretty(&payload)?
+                ));
+            }
+            ["load", path] => {
+                let file = std::fs::File::open(path)?;
+                let mut text = String::new();
+                file.take(32 * 1024 + 1).read_to_string(&mut text)?;
+                if text.len() > 32 * 1024 {
+                    return Err(io::Error::other("Discord profile exceeds 32 KiB"));
+                }
+                let profile = Profile::parse(&text)?;
+                self.shared.0.lock().unwrap().profile = profile;
+                return Ok(
+                    "[DISCORD] SIM arsenal loaded; next broadcast uses the validated profile"
+                        .into(),
+                );
+            }
+            ["art", base] => {
+                let base = base.trim_end_matches('/');
+                let profile = Profile::parse(&json!({
+                    "large_images": [format!("{base}/nightfall.gif"), format!("{base}/black_choir.gif"), format!("{base}/yoggies.gif")],
+                    "small_images": [format!("{base}/yoggies.gif"), format!("{base}/porcelain.gif"), format!("{base}/ghost_kernel.gif")]
+                }).to_string())?;
+                let mut state = self.shared.0.lock().unwrap();
+                state.profile.large_images = profile.large_images;
+                state.profile.small_images = profile.small_images;
+                if let Some(assets) = state.profile.overrides["assets"].as_object_mut() {
+                    assets.remove("large_image");
+                    assets.remove("small_image");
+                    assets.insert(
+                        "invite_cover_image".into(),
+                        json!(format!("{base}/black_choir.gif")),
+                    );
+                }
+                return Ok("[DISCORD] Hosted animated illustration pack armed; Discord fetches the public URLs".into());
+            }
+            ["reset"] => {
+                self.shared.0.lock().unwrap().profile = Profile::default();
+                return Ok("[DISCORD] BLACK CHOIR defaults restored".into());
+            }
+            ["type", kind] => {
+                let kind = match *kind {
+                    "playing" => 0,
+                    "listening" => 2,
+                    "watching" => 3,
+                    "competing" => 5,
+                    _ => {
+                        return Err(io::Error::other(
+                            "type: playing|listening|watching|competing",
+                        ));
+                    }
+                };
+                self.shared.0.lock().unwrap().profile.overrides["type"] = json!(kind);
+                return Ok("[DISCORD] SIM activity mode armed".into());
+            }
+            ["display", field] => {
+                let field = match *field {
+                    "name" => 0,
+                    "state" => 1,
+                    "details" => 2,
+                    _ => return Err(io::Error::other("display: name|state|details")),
+                };
+                self.shared.0.lock().unwrap().profile.overrides["status_display_type"] =
+                    json!(field);
+                return Ok("[DISCORD] Member-list display selected".into());
+            }
+            ["timer", duration] => {
+                let timer = match *duration {
+                    "off" => Timer::Off,
+                    "elapsed" => Timer::Elapsed,
+                    value => {
+                        let seconds = value
+                            .parse::<u64>()
+                            .ok()
+                            .filter(|v| (1..=86400).contains(v))
+                            .ok_or_else(|| {
+                                io::Error::other("timer: elapsed|off|SECONDS (1..86400)")
+                            })?;
+                        let start = now();
+                        Timer::Countdown {
+                            start,
+                            end: start + seconds,
+                        }
+                    }
+                };
+                let mut state = self.shared.0.lock().unwrap();
+                state
+                    .profile
+                    .overrides
+                    .as_object_mut()
+                    .unwrap()
+                    .remove("timestamps");
+                state.profile.timer = timer;
+                return Ok("[DISCORD] SIM ritual clock configured".into());
+            }
             ["off"] => {
                 let mut state = self.shared.0.lock().unwrap();
                 state.id = None;
@@ -105,7 +222,7 @@ impl Presence {
             }
             _ => {
                 return Err(io::Error::other(
-                    "usage: discord [status|on [APPLICATION_ID]|off]",
+                    "usage: discord status|on [ID]|off|preview|load FILE|art HTTPS_BASE|reset|type MODE|display FIELD|timer SECONDS|elapsed|off",
                 ));
             }
         }
@@ -144,12 +261,32 @@ fn activity(snapshot: &Snapshot, started: u64, transmission: usize) -> Value {
     } else {
         "NIGHTFALL ARCHON"
     };
+    let details = if transmission % 2 == 1 && !snapshot.lore.is_empty() {
+        format!(
+            "SIM | {}",
+            snapshot.lore[(transmission / 2) % snapshot.lore.len()]
+        )
+    } else {
+        TRANSMISSIONS[(transmission / 2) % TRANSMISSIONS.len()].into()
+    };
     json!({
-        "details": TRANSMISSIONS[transmission % TRANSMISSIONS.len()],
-        "state": format!("SIM | {clearance} // {} sector // {} rites sealed", snapshot.scene, snapshot.operations),
+        "details": bounded(&details, 128),
+        "state": bounded(&format!("SIM | {clearance} // {} sector // {} rites sealed // {}/{} Yoggies", snapshot.scene, snapshot.operations, snapshot.yoggies.0, snapshot.yoggies.1), 128),
         "timestamps": { "start": started },
-        "type": 0
+        "type": 0,
+        "assets": {
+            "large_text": bounded(&format!("SIM MISSION {} // {} // {clearance}", snapshot.mission + 1, snapshot.scene), 128),
+            "small_text": bounded(&format!("SIM {} familiar // Yoggies {}/{} // no actual clearance", snapshot.mascot, snapshot.yoggies.0, snapshot.yoggies.1), 128)
+        },
+        "party": { "id": format!("SIM-YOGGIES-{}", std::process::id()), "size": [snapshot.yoggies.0, snapshot.yoggies.1.max(1)] }
     })
+}
+
+fn now() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_secs()
 }
 
 fn worker(shared: Arc<(Mutex<State>, Condvar)>) {
@@ -169,9 +306,14 @@ fn worker_with_connector(
     let mut transmission = 0;
     let mut nonce = 0u64;
     loop {
-        let (id, snapshot, stop) = {
+        let (id, snapshot, profile, stop) = {
             let state = shared.0.lock().unwrap();
-            (state.id.clone(), state.snapshot.clone(), state.stop)
+            (
+                state.id.clone(),
+                state.snapshot.clone(),
+                state.profile.clone(),
+                state.stop,
+            )
         };
         if (stop
             || connection
@@ -191,11 +333,9 @@ fn worker_with_connector(
                     connection = Some((id.clone(), connector(id)?));
                 }
                 nonce += 1;
-                set_activity(
-                    &mut connection.as_mut().unwrap().1,
-                    activity(&snapshot, started, transmission),
-                    nonce,
-                )
+                let mut payload = activity(&snapshot, started, transmission);
+                profile.apply(&mut payload, transmission);
+                set_activity(&mut connection.as_mut().unwrap().1, payload, nonce)
             })();
             let mut state = shared.0.lock().unwrap();
             if state.id.as_ref() == Some(id) {
@@ -332,6 +472,7 @@ mod tests {
             scene: "vulcan".into(),
             poopsec: true,
             operations: 42,
+            ..Snapshot::default()
         };
         for index in 0..TRANSMISSIONS.len() {
             let payload = activity(&snapshot, 123, index);
@@ -365,6 +506,54 @@ mod tests {
                 .contains("OFF")
         );
         assert!(validate_id("123456789012345678").is_ok());
+        assert!(presence.worker.is_none());
+    }
+
+    #[test]
+    fn clocks_are_fixed_and_preview_redacts_session_identifiers() {
+        let mut presence = Presence::new();
+        presence.update_snapshot(Snapshot {
+            scene: "sdvx".into(),
+            yoggies: (3, 5),
+            lore: vec!["YOGGIES // 3 of 5 imaginary rites remain".into()],
+            ..Snapshot::default()
+        });
+        presence
+            .command(&["timer".into(), "120".into()], None)
+            .unwrap();
+        let state = presence.shared.0.lock().unwrap();
+        let mut first = activity(&state.snapshot, 123, 0);
+        let mut later = activity(&state.snapshot, 999, 9);
+        state.profile.apply(&mut first, 0);
+        state.profile.apply(&mut later, 9);
+        assert_eq!(first["timestamps"], later["timestamps"]);
+        assert_eq!(first["party"]["size"], json!([3, 5]));
+        assert!(later["details"].as_str().unwrap().contains("YOGGIES"));
+        drop(state);
+        presence.shared.0.lock().unwrap().profile.overrides["secrets"] =
+            json!({"join": "must-not-appear"});
+        let preview = presence.command(&["preview".into()], None).unwrap();
+        assert!(!preview.contains("must-not-appear"));
+        assert!(preview.contains("REDACTED"));
+        presence
+            .command(&["timer".into(), "off".into()], None)
+            .unwrap();
+        assert!(
+            !presence
+                .command(&["preview".into()], None)
+                .unwrap()
+                .contains("timestamps")
+        );
+        assert!(
+            presence
+                .command(&["timer".into(), "0".into()], None)
+                .is_err()
+        );
+        assert!(
+            presence
+                .command(&["type".into(), "streaming".into()], None)
+                .is_err()
+        );
         assert!(presence.worker.is_none());
     }
 

@@ -1,0 +1,23 @@
+{
+  "activity": {
+    "type": 5,
+    "status_display_type": 2,
+    "details_url": "https://github.com/darkhappy/opsec-demon",
+    "state_url": "https://github.com/darkhappy/opsec-demon#yoggies-mainframe-tray",
+    "assets": {
+      "large_text": "SIM // BLACK CHOIR DIRECTORATE / ABYSS-999 / illustration",
+      "large_url": "https://github.com/darkhappy/opsec-demon",
+      "small_text": "SIM // Yoggie quartermaster / imaginary requisitions only",
+      "small_url": "https://github.com/darkhappy/opsec-demon#yoggies-mainframe-tray",
+      "invite_cover_image": "black_choir"
+    },
+    "instance": false,
+    "flags": 0,
+    "buttons": [
+      { "label": "SWEAR THE YOGGIE OATH", "url": "https://github.com/darkhappy/opsec-demon#yoggies-mainframe-tray" },
+      { "label": "READ THE FORBIDDEN MANUAL", "url": "https://github.com/darkhappy/opsec-demon" }
+    ]
+  },
+  "large_images": ["nightfall", "black_choir", "yoggies"],
+  "small_images": ["yoggies", "porcelain", "ghost_kernel"]
+}

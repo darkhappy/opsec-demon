@@ -62,6 +62,13 @@ impl Yoggies {
         }
     }
 
+    pub fn presence_counts(&self) -> (usize, usize) {
+        (
+            self.ready.iter().filter(|ready| **ready).count(),
+            self.ready.len(),
+        )
+    }
+
     pub fn is_christmas(&self) -> bool {
         self.ready.len() == CHRISTMAS_COUNT
     }

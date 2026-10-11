@@ -2039,6 +2039,7 @@ pub fn run(shell: &mut Shell, intro: bool) -> io::Result<u8> {
         }
         if refresh.elapsed().as_secs() >= 1 {
             deck.size = dimensions();
+            shell.update_discord();
             refresh = Instant::now();
         }
         if deck.intro && deck.boot_started.elapsed() >= theater::BOOT_DURATION {

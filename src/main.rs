@@ -3,6 +3,7 @@ mod arcade;
 mod completion;
 mod countries;
 mod discord;
+mod discord_profile;
 mod dsp;
 mod expansion;
 mod job;
@@ -37,7 +38,9 @@ const HELP: &str = "OPSEC DEMON // command uplink
   opsecular [desktop|boot|terminal|wsl|recycle|operator|spirit|support|poutine|weep] SIM OS
   help                   show this console
   rips [list|siiva|render ID FILE.wav] original album and SiIvaGunner listening links
-  discord [status|on [APPLICATION_ID]|off] real local IPC, fictional SIM broadcasts
+  discord [status|on [ID]|off|preview|load FILE|reset] local IPC, maximal SIM presence
+  discord type playing|listening|watching|competing; display name|state|details
+  discord timer elapsed|off|SECONDS  SIM ritual countdown (1..86400)
   novel [start|next|choose 1|2|status|reset] original Lost Signals story
   psyche                 fictional story-character analysis
   soundtrack [status|render FILE.wav|play [FILE.wav]] original demon score
@@ -521,9 +524,33 @@ impl Shell {
         if status == 0 && !line.trim().is_empty() {
             self.operations = self.operations.saturating_add(1);
         }
-        self.discord
-            .update(&self.scene, self.poopsec, self.operations);
+        self.update_discord();
         status
+    }
+
+    fn update_discord(&self) {
+        self.discord.update_snapshot(discord::Snapshot {
+            scene: self.scene.clone(),
+            poopsec: self.poopsec,
+            operations: self.operations,
+            mascot: self.mascot.clone(),
+            mission: self.mission,
+            yoggies: self.yoggies.presence_counts(),
+            lore: vec![
+                self.yoggies.status(),
+                self.egg.status(),
+                self.arcade.status(),
+                self.stage.status(),
+                self.expansion.status(),
+                self.ritual.status(),
+                self.ssd.line(),
+                format!(
+                    "MISSION {} // {}",
+                    self.mission + 1,
+                    theater::MISSIONS[self.mission].0
+                ),
+            ],
+        });
     }
 
     fn execute_inner(&mut self, line: &str) -> i32 {
@@ -604,8 +631,7 @@ impl Shell {
             ),
             "help" if args.len() == 1 => out!(self, "{HELP}"),
             "discord" => {
-                self.discord
-                    .update(&self.scene, self.poopsec, self.operations);
+                self.update_discord();
                 let id = self
                     .environment
                     .get("DISCORD_APPLICATION_ID")
@@ -1238,9 +1264,7 @@ fn run() -> io::Result<u8> {
         let status = shell.execute(&command);
         return Ok(shell.exit.unwrap_or(status.clamp(0, 255) as u8));
     }
-    shell
-        .discord
-        .update(&shell.scene, shell.poopsec, shell.operations);
+    shell.update_discord();
     if interactive
         && env::var_os("DISCORD_APPLICATION_ID").is_some()
         && let Err(error) = shell
