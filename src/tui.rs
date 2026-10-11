@@ -1682,6 +1682,29 @@ impl Deck {
         } else if command.trim() == "music" || command.trim() == "music status" {
             self.log(self.music.line());
             self.log(Music::credentials());
+        } else if is_builtin(&command)
+            && (command.trim() == "soundtrack play"
+                || command.trim_start().starts_with("soundtrack play "))
+        {
+            if self.job.is_some() {
+                self.log("[BUSY] Cancel the running child with Ctrl-C before audio playback.");
+            } else {
+                match crate::words(&command)
+                    .and_then(|args| shell.soundtrack_play_command(&args[1..]))
+                    .and_then(Job::start)
+                {
+                    Ok(job) => {
+                        self.job = Some(job);
+                        self.log(
+                            "[SOUNDTRACK] original score playing through the selected audio device",
+                        );
+                    }
+                    Err(error) => {
+                        shell.last_status = 1;
+                        self.log(format!("[AUDIO FAILED] {error}"));
+                    }
+                }
+            }
         } else if command.trim() == "sdvx play" {
             shell.scene = "sdvx".into();
             self.arcade_play = true;

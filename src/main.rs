@@ -12,6 +12,7 @@ mod prompt;
 mod ritual;
 mod room;
 mod simulations;
+mod soundtrack;
 mod ssd;
 mod stage;
 mod theater;
@@ -32,6 +33,8 @@ const HELP: &str = "OPSEC DEMON // command uplink
   help                   show this console
   novel [start|next|choose 1|2|status|reset] original Lost Signals story
   psyche                 fictional story-character analysis
+  soundtrack [status|render FILE.wav|play [FILE.wav]] original demon score
+  dac [status|list|serial] USB audio status and read-only serial discovery
   shell                  open your native interactive shell
   export NAME=value      persist environment for child commands
   unset NAME             remove a child environment variable
@@ -466,6 +469,26 @@ impl Shell {
         Ok(command.status()?.code().unwrap_or(130))
     }
 
+    fn soundtrack_play_command(&self, args: &[String]) -> io::Result<Command> {
+        let path = match args
+            .iter()
+            .map(String::as_str)
+            .collect::<Vec<_>>()
+            .as_slice()
+        {
+            ["play"] => "assets/audio/nightfall.wav",
+            ["play", path] => path,
+            _ => return Err(io::Error::other("usage: soundtrack play [FILE.wav]")),
+        };
+        let device = match self.environment.get("OPSEC_DEMON_AUDIO_DEVICE") {
+            Some(value) => value.clone(),
+            None => env::var("OPSEC_DEMON_AUDIO_DEVICE").ok(),
+        };
+        let mut command = soundtrack::player(path, device.as_deref())?;
+        self.apply_environment(&mut command);
+        Ok(command)
+    }
+
     fn execute(&mut self, line: &str) -> i32 {
         let status = self.execute_inner(line);
         if status == 0 && !line.trim().is_empty() {
@@ -527,6 +550,34 @@ impl Shell {
         }
         match args[0].as_str() {
             "help" if args.len() == 1 => out!(self, "{HELP}"),
+            "soundtrack" => match args
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>()
+                .as_slice()
+            {
+                ["soundtrack"] | ["soundtrack", "status"] => out!(self, "{}", soundtrack::info()),
+                ["soundtrack", "render", path] => {
+                    soundtrack::render(path)?;
+                    out!(self, "[SOUNDTRACK] wrote original PCM score to {path}");
+                }
+                ["soundtrack", "play"] | ["soundtrack", "play", _] => {
+                    let status = self.soundtrack_play_command(&args[1..])?.status()?;
+                    if !status.success() {
+                        return Err(io::Error::other("audio player exited unsuccessfully"));
+                    }
+                }
+                _ => {
+                    return Err(io::Error::other(
+                        "usage: soundtrack [status|render FILE.wav|play [FILE.wav]]",
+                    ));
+                }
+            },
+            "dac" if args.len() <= 2 => match args.get(1).map(String::as_str) {
+                None | Some("status" | "list") => out!(self, "{}", soundtrack::dac_status(false)),
+                Some("serial") => out!(self, "{}", soundtrack::dac_status(true)),
+                _ => return Err(io::Error::other("usage: dac [status|list|serial]")),
+            },
             "novel" => out!(
                 self,
                 "{}",
@@ -911,6 +962,8 @@ fn is_builtin(line: &str) -> bool {
     matches!(
         line.split_whitespace().next().unwrap_or(""),
         "help"
+            | "soundtrack"
+            | "dac"
             | "novel"
             | "psyche"
             | "..advancedttk"

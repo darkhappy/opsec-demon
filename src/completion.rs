@@ -10,6 +10,8 @@ const ENTRY_LIMIT: usize = 4096;
 const BUILTINS: &[&str] = &[
     "help",
     "novel",
+    "soundtrack",
+    "dac",
     "psyche",
     "status",
     "cinematic",
