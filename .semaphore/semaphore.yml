@@ -1,0 +1,17 @@
+version: v1.0
+name: Deus Ex Machina
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2204
+blocks:
+  - name: Nightfall verification
+    task:
+      prologue:
+        commands:
+          - checkout
+          - rustup toolchain install 1.93.1 --profile minimal --component rustfmt --component clippy
+      jobs:
+        - name: Rust and PTY
+          commands:
+            - sh scripts/ci.sh
