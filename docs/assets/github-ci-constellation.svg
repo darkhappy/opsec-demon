@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+<title id="title">DEUS EX MACHINA // CI ROUTING CONSTELLATION</title><desc id="desc">Configuration topology illustration. Adapter presence does not mean hosted builds have passed.</desc>
+<rect width="1200" height="460" rx="20" fill="#080c13"/>
+<rect x="18" y="18" width="1164" height="424" rx="14" fill="none" stroke="#27354b"/>
+<text x="40" y="55" fill="#72ffad" font-family="monospace" font-size="24">DEUS EX MACHINA // CI ROUTING CONSTELLATION</text>
+<text x="40" y="84" fill="#a5b7c9" font-family="monospace" font-size="13">Configuration topology illustration. Adapter presence does not mean hosted builds have passed.</text>
+<rect x="40" y="115" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="52" y="145" fill="#51e0ff" font-family="monospace" font-size="14">GitHub</text>
+<rect x="266" y="115" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="278" y="145" fill="#51e0ff" font-family="monospace" font-size="14">GitLab</text>
+<rect x="492" y="115" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="504" y="145" fill="#51e0ff" font-family="monospace" font-size="14">Bitbucket</text>
+<rect x="718" y="115" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="730" y="145" fill="#51e0ff" font-family="monospace" font-size="14">TeamCity</text>
+<rect x="944" y="115" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="956" y="145" fill="#51e0ff" font-family="monospace" font-size="14">Jenkins</text>
+<rect x="40" y="180" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="52" y="210" fill="#51e0ff" font-family="monospace" font-size="14">Azure</text>
+<rect x="266" y="180" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="278" y="210" fill="#51e0ff" font-family="monospace" font-size="14">CircleCI</text>
+<rect x="492" y="180" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="504" y="210" fill="#51e0ff" font-family="monospace" font-size="14">Buildkite</text>
+<rect x="718" y="180" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="730" y="210" fill="#51e0ff" font-family="monospace" font-size="14">Drone</text>
+<rect x="944" y="180" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="956" y="210" fill="#51e0ff" font-family="monospace" font-size="14">Woodpecker</text>
+<rect x="40" y="245" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="52" y="275" fill="#51e0ff" font-family="monospace" font-size="14">Travis</text>
+<rect x="266" y="245" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="278" y="275" fill="#51e0ff" font-family="monospace" font-size="14">Cirrus</text>
+<rect x="492" y="245" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="504" y="275" fill="#51e0ff" font-family="monospace" font-size="14">Semaphore</text>
+<rect x="718" y="245" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="730" y="275" fill="#51e0ff" font-family="monospace" font-size="14">AWS CodeBuild</text>
+<rect x="944" y="245" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="956" y="275" fill="#51e0ff" font-family="monospace" font-size="14">Google Cloud Build</text>
+<rect x="40" y="310" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="52" y="340" fill="#51e0ff" font-family="monospace" font-size="14">SourceHut</text>
+<rect x="266" y="310" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="278" y="340" fill="#51e0ff" font-family="monospace" font-size="14">Codefresh</text>
+<rect x="492" y="310" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="504" y="340" fill="#51e0ff" font-family="monospace" font-size="14">Concourse</text>
+<rect x="718" y="310" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="730" y="340" fill="#51e0ff" font-family="monospace" font-size="14">Gitea</text>
+<rect x="944" y="310" width="210" height="50" rx="8" fill="#111b2b" stroke="#344860"/>
+<text x="956" y="340" fill="#51e0ff" font-family="monospace" font-size="14">Forgejo</text>
+<text x="40" y="395" fill="#ff4265" font-family="monospace" font-size="16">20 adapter files → scripts/ci.sh → fmt / clippy / tests / build / PTY</text>
+<text x="40" y="420" fill="#a5b7c9" font-family="monospace" font-size="13">LOCAL SNAPSHOT / b153e3c18b8b / regenerate: python3 scripts/github-telemetry.py</text>
+</svg>
