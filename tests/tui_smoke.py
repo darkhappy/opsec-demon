@@ -215,6 +215,36 @@ def dashboard():
     print('PTY dashboard: inline commands, cursor editing, metadata, egg hatch, graphs, FX, cancellation, resize, terminal restoration passed.')
 
 
+
+def redraws():
+    with tempfile.TemporaryDirectory(prefix='opsec-wide-prompt-') as directory:
+        player = Path(directory) / 'starship'
+        player.write_text("#!/bin/sh\nprintf '%s' 'WIDE_PROMPT 界界界 🎵🎵🎵'\n")
+        player.chmod(0o700)
+        session = Session(['--instant'], {'PATH': directory + os.pathsep + os.environ['PATH']})
+        try:
+            session.expect('WIDE_PROMPT 界界界'.encode())
+            for size in [(44, 140), (8, 20), (24, 80), (44, 140)]:
+                session.resize(*size)
+                output = bytearray()
+                deadline = time.monotonic() + .3
+                while time.monotonic() < deadline:
+                    if select.select([session.master], [], [], .03)[0]:
+                        output.extend(os.read(session.master, 65536))
+                frames = re.findall(rb'\x1b\[\?2026h(.*?)\x1b\[\?2026l', output, re.S)
+                assert frames, 'Missing complete synchronized redraw'
+                for frame in frames:
+                    # Even a stale oversized frame during resize must not scroll.
+                    assert b'\n' not in frame and b'\r' not in frame
+                    assert frame.startswith(b'\x1b[?7l\x1b[H')
+                    assert frame.endswith(b'\x1b[?7h')
+                    assert b'\x1b[1;1H' in frame
+            session.finish()
+        finally:
+            session.close()
+    print('PTY redraws: wide prompt, rapid shrink/grow, synchronized frames, and no scrolling line feeds passed.')
+
+
 def boot():
     session = Session(['--mo-krill'])
     try:
@@ -261,6 +291,7 @@ def scripts():
 
 if __name__ == '__main__':
     dashboard()
+    redraws()
     scripts()
     if '--boot' in sys.argv:
         boot()
