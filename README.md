@@ -612,6 +612,49 @@ to remote services. Use `shell ssh user@host` for an actual remote login.
 
 ## Signal graphs and music
 
+### Discord: BLACK CHOIR broadcast
+
+Real local Discord Rich Presence, aggressively fictional operator theater. The
+profile rotates through `SIM | Exorcising the astral firewall`, forbidden milk
+routing, ghost-kernel soul caches, and counterintel pigeons awaiting the blood
+moon. The second line carries your scene, completed operation count, and
+`NIGHTFALL ARCHON` clearance; `poopsec on` promotes you to `PORCELAIN ARCHDEMON`.
+The elapsed timer begins when the broadcast worker starts. All clearance and
+mission language is fiction; the connection to Discord is real.
+
+Create an application in the [Discord Developer Portal](https://discord.com/developers/applications)
+and name it `OPSEC DEMON // NIGHTFALL BLACK CHOIR` for the full ceremony. Copy its
+public **Application ID**, open the desktop Discord client on the same Linux or
+macOS host, enable activity sharing in Discord, then enter:
+
+```text
+discord on YOUR_APPLICATION_ID
+discord status
+discord off
+```
+
+Alternatively, set `DISCORD_APPLICATION_ID` before launching the shell to enable
+presence automatically in interactive sessions. Inside the shell,
+`export DISCORD_APPLICATION_ID=YOUR_APPLICATION_ID` followed by `discord on`
+also works. `.env` files are not loaded automatically. No bot token, user token,
+client secret, uploaded art, or OAuth login is required. The application name
+comes from your Discord application configuration.
+
+The worker sends at most one ordinary update every 15 seconds, reconnects when
+Discord becomes available, and handles IPC off the input/render thread. Status
+says `TRANSMITTING` only after Discord acknowledges the activity. Turning it off
+or leaving the shell clears activity and closes the socket; missing Discord
+never prevents shell use. The broadcast includes only fixed SIM text, the
+selected scene, persona, operation count, and session timer. It does not include
+callsigns, command text, working directories, mainframe addresses, or music.
+Discord can display this activity to others according to your activity sharing
+settings. See the [Discord RPC protocol](https://discord.com/developers/docs/topics/rpc).
+
+This implementation discovers local Unix IPC sockets, including common Linux
+Flatpak/Snap locations. A WSL shell cannot directly reach Windows Discord's
+named pipe; use Discord on the same Unix host. Discord web alone has no local
+IPC socket. Do not point this integration at a network relay.
+
 Frequency response, unwrapped phase, group delay, and excess group delay share a
 synthetic resonant low-pass model with an added transport delay. Axes use Hz,
 dB, degrees, and milliseconds. Excess group delay removes the model's
