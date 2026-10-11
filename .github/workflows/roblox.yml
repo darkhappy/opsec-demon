@@ -1,0 +1,15 @@
+name: Deus Ex Machina / optional Roblox annex
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: paradoxum-games/setup-rokit@v3
+        with:
+          version: '1.2.0'
+          cache: true
+      - run: sh scripts/roblox-check.sh
