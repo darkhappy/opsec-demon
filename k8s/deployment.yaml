@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opsec-demon
+  namespace: nightfall
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: opsec-demon}
+  template:
+    metadata:
+      labels: {app: opsec-demon}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: demon
+          image: opsec-demon:local
+          imagePullPolicy: IfNotPresent
+          args: ["--metrics-server", "0.0.0.0:9090"]
+          ports: [{name: metrics, containerPort: 9090}]
+          readinessProbe:
+            httpGet: {path: /readyz, port: metrics}
+          livenessProbe:
+            httpGet: {path: /healthz, port: metrics}
+          resources:
+            requests: {cpu: 25m, memory: 16Mi}
+            limits: {cpu: 250m, memory: 64Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
