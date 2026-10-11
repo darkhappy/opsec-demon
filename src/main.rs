@@ -6,6 +6,8 @@ mod discord;
 mod discord_profile;
 mod dsp;
 mod expansion;
+#[cfg(windows)]
+mod discord_windows;
 mod job;
 mod metrics;
 mod music;
@@ -519,6 +521,13 @@ impl Shell {
         };
         let mut command = soundtrack::player(path, device.as_deref())?;
         self.apply_environment(&mut command);
+        #[cfg(windows)]
+        let mut command = if args.len() == 1 {
+            soundtrack::bundled_player(device.as_deref())?
+        } else {
+            soundtrack::player(path, device.as_deref())?
+        };
+        #[cfg(not(windows))]
         Ok(command)
     }
 

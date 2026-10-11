@@ -1,6 +1,6 @@
 //! Real local Discord IPC carrying explicitly fictional operator theater.
 #[cfg(windows)]
-use std::fs::File as IpcStream;
+use crate::discord_windows::Pipe as IpcStream;
 use std::io::{self, Read, Write};
 #[cfg(unix)]
 use std::os::unix::net::UnixStream as IpcStream;
@@ -379,10 +379,20 @@ fn socket_roots() -> Vec<PathBuf> {
 }
 
 #[cfg(windows)]
-fn connect(_id: &str) -> io::Result<IpcStream> {
+fn connect(id: &str) -> io::Result<IpcStream> {
+    for index in 0..10 {
+        if let Ok(mut stream) = IpcStream::open(index) {
+            send(&mut stream, 0, &json!({ "v": 1, "client_id": id }))?;
+            let (opcode, ready) = receive(&mut stream)?;
+            if opcode != 1 || ready["evt"] != "READY" {
+                return Err(io::Error::other("Discord handshake rejected"));
+            }
+            return Ok(stream);
+        }
+    }
     Err(io::Error::new(
-        io::ErrorKind::Unsupported,
-        "Discord named-pipe transport is not implemented",
+        io::ErrorKind::NotFound,
+        "no local Discord IPC pipe",
     ))
 }
 
