@@ -60,7 +60,8 @@ class Session:
                 except OSError: break
         self.process.wait(timeout=1)
         assert self.process.returncode == 0, self.process.returncode
-        assert termios.tcgetattr(self.slave) == self.saved, 'terminal mode not restored'
+        actual = termios.tcgetattr(self.slave)
+        assert actual == self.saved, f'terminal mode not restored: saved={self.saved!r}, actual={actual!r}'
 
     def close(self):
         if self.process.poll() is None:
