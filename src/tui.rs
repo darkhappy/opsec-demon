@@ -490,6 +490,10 @@ impl Deck {
                     line,
                     if line.contains("FAILED") || line.contains("stderr") {
                         5
+                    } else if line.starts_with("LOST SIGNALS") || line.contains("ENDING:") {
+                        1
+                    } else if line.starts_with('"') {
+                        7
                     } else {
                         2
                     },
@@ -534,7 +538,7 @@ impl Deck {
                         lower_y + 1 + row,
                         graph_w.saturating_sub(4),
                         line,
-                        2,
+                        if row == 0 { 1 } else { 2 },
                     );
                 }
                 screen.put(
@@ -573,7 +577,13 @@ impl Deck {
                         lower_y + 1 + row,
                         graph_w.saturating_sub(4),
                         line,
-                        2,
+                        if row == 0 {
+                            1
+                        } else if row < 6 {
+                            4
+                        } else {
+                            2
+                        },
                     );
                 }
             } else if self.graph_index == 5 {
@@ -2346,6 +2356,24 @@ mod tests {
         assert_ne!(noise(13), noise(14));
         assert!(Model::default().value(Response::Magnitude, 20.0).abs() < 0.1);
         assert!(Model::default().value(Response::Magnitude, 20000.0) < -40.0);
+    }
+
+    #[test]
+    fn all_named_palettes_color_panels_and_plain_mode_removes_sgr() {
+        let mut shell = Shell::new(true);
+        let mut deck = Deck::new(false);
+        deck.size = (140, 44);
+        deck.graph_index = 6;
+        for (theme, color) in [
+            ("crimson", "38;5;196"),
+            ("ghost", "38;5;51"),
+            ("venom", "38;5;82"),
+        ] {
+            shell.theme = theme.into();
+            assert!(deck.render(&shell).contains(color));
+        }
+        shell.color = false;
+        assert!(!deck.render(&shell).contains("38;5;"));
     }
 
     #[test]
