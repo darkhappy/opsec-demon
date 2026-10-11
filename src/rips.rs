@@ -27,6 +27,44 @@ pub fn catalog() -> String {
     output
 }
 
+pub fn siiva_catalog() -> String {
+    let tracks = [
+        ("Lifelight", "Geshtro", "2019/12/lifelight"),
+        (
+            "8 PM (Fishing Night in Heaven)",
+            "Roc the Dilettante",
+            "2019/12/8-pm-fishing-night-in-heaven",
+        ),
+        ("Main Menu", "Hinchy", "2019/11/main-menu"),
+        ("Hilltop Rave", "RHMan", "2019/11/hilltop-rave"),
+        ("Launch Base '93", "Hinchy", "2019/11/launch-base-93"),
+        (
+            "Funny Man Goes to the Tool Shop",
+            "BobTheTacocat",
+            "2019/11/funny-man-goes-to-the-tool-shop",
+        ),
+        ("NEO KOBE外伝", "Niko+", "2019/11/neo-kobe"),
+        (
+            "A Spacecraft Fueled on Fright",
+            "Peacock Roy",
+            "2019/11/a-spacecraft-fueled-on-fright",
+        ),
+        (
+            "Reggie's Late Nite",
+            "Dj CUTMAN",
+            "2019/11/reggies-late-nite",
+        ),
+    ];
+    let mut output = "[EXTERNAL MUSIC] SiIvaGunner / King for Another Day / MOJO!!\nOpen a credited track page in your browser to listen. Online availability may change.\nSource: https://mojo.highquality.rip/category/music/\n".to_string();
+    for (index, (title, arranger, slug)) in tracks.iter().enumerate() {
+        output.push_str(&format!(
+            "{}: {title} / arrangement: {arranger}\nhttps://mojo.highquality.rip/{slug}/\n",
+            index + 1
+        ));
+    }
+    output
+}
+
 fn score(id: usize) -> io::Result<Vec<u8>> {
     if !(1..=TITLES.len()).contains(&id) {
         return Err(io::Error::other("track ID must be 1..9"));

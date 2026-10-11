@@ -36,7 +36,7 @@ use std::time::{Duration, Instant};
 const HELP: &str = "OPSEC DEMON // command uplink
   opsecular [desktop|boot|terminal|wsl|recycle|operator|spirit|support|poutine|weep] SIM OS
   help                   show this console
-  rips [list|render ID FILE.wav] nine original melody-switch synth songs
+  rips [list|siiva|render ID FILE.wav] original album and SiIvaGunner listening links
   discord [status|on [APPLICATION_ID]|off] real local IPC, fictional SIM broadcasts
   novel [start|next|choose 1|2|status|reset] original Lost Signals story
   psyche                 fictional story-character analysis
@@ -585,12 +585,17 @@ impl Shell {
                 .as_slice()
             {
                 ["rips"] | ["rips", "list"] => out!(self, "{}", rips::catalog()),
+                ["rips", "siiva"] => out!(self, "{}", rips::siiva_catalog()),
                 ["rips", "render", id, path] => {
                     let id = id.parse::<usize>().map_err(io::Error::other)?;
                     rips::render(id, path)?;
                     out!(self, "[ORIGINAL AUDIO] Rendered track {id} to {path}");
                 }
-                _ => return Err(io::Error::other("usage: rips [list|render ID FILE.wav]")),
+                _ => {
+                    return Err(io::Error::other(
+                        "usage: rips [list|siiva|render ID FILE.wav]",
+                    ));
+                }
             },
             "opsecular" => out!(
                 self,

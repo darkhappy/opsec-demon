@@ -2,6 +2,13 @@
 
 ## OpSecULAR 97 remix-style album
 
+`rips siiva` prints nine credited listening links from the official
+[SiIvaGunner KFAD MOJO!! music archive](https://mojo.highquality.rip/category/music/):
+Lifelight, 8 PM (Fishing Night in Heaven), Main Menu, Hilltop Rave, Launch Base '93,
+Funny Man Goes to the Tool Shop, NEO KOBE外伝, A Spacecraft Fueled on Fright, and
+Reggie's Late Nite. Open the pages in a browser to listen using their hosted players.
+The catalog is external; the shell does not download or bundle those recordings.
+
 `rips list` lists nine original 16-bar synth songs with different tempos, keys,
 harmonics, and surprise melody switches. This is an unaffiliated tribute to
 SiIvaGunner-style remix humor, with no SiIvaGunner recordings or sampled game music.
