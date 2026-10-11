@@ -1,0 +1,15 @@
+# Optional alternative to Lefthook. Do not install both accidentally.
+repos:
+  - repo: local
+    hooks:
+      - id: rust-format
+        name: rustfmt
+        entry: cargo fmt --check
+        language: system
+        types: [rust]
+        pass_filenames: false
+      - id: config-shapes
+        name: Nightfall configuration checks
+        entry: python3 scripts/validate-configs.py
+        language: system
+        pass_filenames: false
