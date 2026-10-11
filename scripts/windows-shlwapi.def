@@ -1,0 +1,4 @@
+; Only the browser-link helper's Windows API is needed by the GUI dependency.
+LIBRARY shlwapi.dll
+EXPORTS
+    AssocQueryStringW
