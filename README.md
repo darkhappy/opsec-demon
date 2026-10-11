@@ -519,6 +519,27 @@ commands advance your fictional rank. `mission` shows the current story act;
 `mission next` advances it manually. Persona, history, and simulated game state
 last for the current process only.
 
+## Yoggies mainframe tray
+
+![Yoggies reference illustration: five creamy berry bites on a purple sparkle background](docs/assets/yoggies.png)
+
+The supplied illustration inspires five fictional yogurt-coated berry bites.
+`yoggies` or `yoggies all` displays every slot as a terminal ASCII illustration,
+including used bites. The dashboard shows a live tray count in tall layouts.
+
+```text
+yoggies all
+yoggies use
+yoggies use 3
+yoggies status
+yoggies refill
+```
+
+`use` consumes the next ready yoggie, or the numbered bite you choose. `refill`
+restores all five. This is a session-only SIM prop: it changes no real mainframe,
+network, or hardware state. The reference image is displayed here in the manual;
+the terminal display uses ASCII for ordinary terminal compatibility.
+
 ## Silent band, effects pedal, and headphone profiles
 
 The normal right panel shows an original Beatles ASCII tribute and the SDVX

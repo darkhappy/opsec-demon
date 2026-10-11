@@ -1392,15 +1392,16 @@ impl Deck {
             );
         }
         if height >= 17 {
-            screen.put(x, y + height - 2, width, &shell.bucket.status(), 3);
-            screen.put(x, y + height - 1, width, &shell.milk.status(), 3);
+            screen.put(x, y + height - 3, width, &shell.bucket.status(), 3);
+            screen.put(x, y + height - 2, width, &shell.milk.status(), 3);
+            screen.put(x, y + height - 1, width, &shell.yoggies.status(), 5);
         }
         if height > art.len() + 2 {
             let egg = shell.egg.status();
             for (index, line) in egg
                 .lines()
                 .skip(1)
-                .take(height.saturating_sub(art.len() + if height >= 17 { 4 } else { 2 }))
+                .take(height.saturating_sub(art.len() + if height >= 17 { 5 } else { 2 }))
                 .enumerate()
             {
                 screen.put(x, y + art.len() + 2 + index, width, line, 5);

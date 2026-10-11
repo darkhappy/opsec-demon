@@ -20,6 +20,7 @@ mod ssd;
 mod stage;
 mod theater;
 mod tui;
+mod yoggies;
 
 use std::cell::RefCell;
 use std::collections::BTreeMap;
@@ -50,6 +51,7 @@ const HELP: &str = "OPSEC DEMON // command uplink
   bido [status]          perform the invented Little Bido technique
   bucket [ls|put|get|rm|sync|status]  club-penguin B2 simulation
   tailscale [milk|routes|churn]     fictional dairy mesh
+  yoggies [show|all|status|use [1..5]|refill] fictional berry bite tray
   expansion [status|expand|allocate GB|release GB]  512 GB virtual MCP bank
   mcp                    alias for the expansion simulator
   mode [demon|prostreet|vulcan|sdvx]    select the animated ASCII scene
@@ -178,6 +180,7 @@ struct Shell {
     bucket: simulations::Bucket,
     bido: simulations::Bido,
     milk: simulations::MilkMesh,
+    yoggies: yoggies::Yoggies,
     nerd_font: bool,
     expansion: expansion::Expansion,
     scene: String,
@@ -234,6 +237,7 @@ impl Shell {
             bucket: simulations::Bucket::new(),
             bido: simulations::Bido::new(),
             milk: simulations::MilkMesh::new(),
+            yoggies: yoggies::Yoggies::new(),
             nerd_font: false,
             expansion: expansion::Expansion::new(),
             scene: "demon".into(),
@@ -725,6 +729,11 @@ impl Shell {
                     out!(self, "{line}");
                 }
             }
+            "yoggies" => {
+                for line in self.yoggies.command(&args[1..]).map_err(io::Error::other)? {
+                    out!(self, "{line}");
+                }
+            }
             "tailscale" => {
                 for line in self.milk.command(&args[1..]).map_err(io::Error::other)? {
                     out!(self, "{line}");
@@ -1047,6 +1056,7 @@ fn is_builtin(line: &str) -> bool {
             | "ritual"
             | "bido"
             | "bucket"
+            | "yoggies"
             | "tailscale"
             | "icons"
             | "doctor"

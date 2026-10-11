@@ -132,6 +132,10 @@ def dashboard():
             for command, expected in [
                     (b'bido\r', b'LITTLE BIDO'),
                     (b'bucket ls\r', b'club-penguin'),
+                    (b'yoggies all\r', b'YOGGIE 5 / creamy shell'),
+                    (b'yoggies use 3\r', b'YOGGIE 3 / NOM'),
+                    (b'yoggies status\r', b'[OO.OO] 4/5 ready'),
+                    (b'yoggies refill\r', b'all five yoggies restored'),
                     (b'tailscale milk\r', b'TAILSCALE MILK'),
                     (b'expansion expand\r', b'512 GB virtual'),
                     (b'expansion allocate 128\r', b'128 / 512'),
