@@ -31,11 +31,12 @@ jobs:
         run: mise run test
       - name: Rust documentation
         if: matrix.check == 'docs'
-        run: cargo +1.93.1-x86_64-pc-windows-gnu doc --locked --no-deps
+        run: powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rust-windows.ps1 doc --locked --no-deps
         env:
           RUSTDOCFLAGS: -D warnings
-      - name: Native commands, fresh 4K desktop frame and executable packaging
+      - name: Native commands and executable packaging (hosted runner has no Vulkan GPU)
         if: matrix.check == 'desktop-and-package'
         run: |
-          mise run smoke
+          mise run build
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/windows-smoke.ps1 -SkipVulkan
           mise run windows:package

@@ -366,10 +366,14 @@ This is an aesthetic, not a security or anonymity boundary.
 
 ### Windows desktop / standalone EXE
 
-Windows now opens a native graphical command deck on double-click: animated neon
-illustrations, a simulated radar, clickable missions, a real command transcript,
-fullscreen mode, and artwork rendered at the window's actual resolution, including
-3840 x 2160. The executable contains its artwork and Nightfall soundtrack.
+Windows opens a native **Vulkan** concert deck on double-click, with seven pages:
+Command Deck, Concert Stage, Audio Lab, Rhythm Arcade, Story Archive, Simulation
+Props, and Music + Discord. Animated procedural illustrations include neon rings,
+laser beams, a silent Beatles tribute, drummer fragmentation and SIM explosions.
+The Audio Lab includes frequency, phase, group delay, excess delay, headphone EQ,
+room decay, original-score PCM and spectrum graphs. The embedded Nightfall score
+loops on startup with a mute toggle. Artwork renders at the actual window
+resolution, including 3840 x 2160; a Vulkan-capable graphics driver is required.
 Apple Music reads native Windows media sessions; Discord uses local named-pipe IPC.
 
 ```powershell
