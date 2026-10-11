@@ -20,6 +20,11 @@ class Session:
     def __init__(self, arguments, environment=None, size=(44, 140)):
         self.master, self.slave = pty.openpty()
         self.resize(*size)
+        # Values above nine expose macOS stty's hex-save/decimal-restore mismatch.
+        attributes = termios.tcgetattr(self.slave)
+        attributes[6][termios.VMIN] = 16
+        attributes[6][termios.VTIME] = 10
+        termios.tcsetattr(self.slave, termios.TCSANOW, attributes)
         self.saved = termios.tcgetattr(self.slave)
         env = dict(os.environ, TERM='xterm-256color')
         env.pop('NO_COLOR', None)
@@ -55,7 +60,12 @@ class Session:
                 except OSError: break
         self.process.wait(timeout=1)
         assert self.process.returncode == 0, self.process.returncode
-        assert termios.tcgetattr(self.slave) == self.saved, 'terminal mode not restored'
+        if sys.platform == 'darwin':
+            # Darwin sets PENDIN when ICANON is restored. Querying the readable
+            # queue settles that kernel bookkeeping without consuming input.
+            fcntl.ioctl(self.slave, termios.FIONREAD, struct.pack('I', 0))
+        actual = termios.tcgetattr(self.slave)
+        assert actual == self.saved, f'terminal mode not restored: saved={self.saved!r}, actual={actual!r}'
 
     def close(self):
         if self.process.poll() is None:

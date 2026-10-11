@@ -1,0 +1,33 @@
+name: Container verification
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: container-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  container:
+    name: Docker build and exporter health
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate and build production image
+        run: |
+          docker build --check .
+          docker build --tag opsec-demon:ci .
+      - name: Verify unprivileged runtime and real health endpoints
+        run: |
+          test "$(docker image inspect opsec-demon:ci --format '{{.Config.User}}')" = '10001:10001'
+          docker run --detach --name demon-ci --publish 127.0.0.1:9090:9090 opsec-demon:ci
+          curl --fail --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:9090/healthz
+          curl --fail http://127.0.0.1:9090/readyz
+          curl --fail http://127.0.0.1:9090/metrics | grep '^opsec_demon_exporter_requests_total '
+      - name: Container diagnostics and cleanup
+        if: always()
+        run: |
+          docker logs demon-ci || true
+          docker rm --force demon-ci || true

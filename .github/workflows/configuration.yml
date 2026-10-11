@@ -1,0 +1,47 @@
+name: Repository validation
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: config-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  configs:
+    name: Configuration and document references
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - run: python -m pip install PyYAML==6.0.3
+      - run: python scripts/validate-configs.py
+  python:
+    name: Python syntax
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - run: python -m compileall -q scripts tests
+  shell:
+    name: POSIX shell syntax
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: find scripts -name '*.sh' -exec sh -n {} +
+  actions:
+    name: GitHub Actions validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+      - run: '"$(go env GOPATH)/bin/actionlint" -color -shellcheck= -pyflakes='

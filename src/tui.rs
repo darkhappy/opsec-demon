@@ -27,10 +27,30 @@ fn stty(arguments: &[&str]) -> io::Result<String> {
     Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
 }
 
+// Apple's stty prints min/time in hexadecimal but reads them as decimal.
+// Normalize only those BSD gfmt1 fields so the saved state round-trips.
+fn restorable_stty(saved: String) -> String {
+    if !saved.starts_with("gfmt1:") {
+        return saved;
+    }
+    saved
+        .split(':')
+        .map(|field| {
+            if let Some((name @ ("min" | "time"), value)) = field.split_once('=')
+                && let Ok(value) = u8::from_str_radix(value, 16)
+            {
+                return format!("{name}={value}");
+            }
+            field.to_string()
+        })
+        .collect::<Vec<_>>()
+        .join(":")
+}
+
 impl Terminal {
     fn new() -> io::Result<Self> {
         let mut terminal = Self {
-            saved: stty(&["-g"])?,
+            saved: restorable_stty(stty(&["-g"])?),
             active: false,
         };
         terminal.resume()?;
@@ -2345,6 +2365,22 @@ pub fn run(shell: &mut Shell, intro: bool) -> io::Result<u8> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn bsd_terminal_min_and_time_round_trip_as_decimal() {
+        assert_eq!(
+            restorable_stty("gfmt1:cflag=4b00:min=10:time=ff:eof=4:ispeed=9600".into()),
+            "gfmt1:cflag=4b00:min=16:time=255:eof=4:ispeed=9600"
+        );
+        assert_eq!(
+            restorable_stty("gfmt1:min=1:time=0".into()),
+            "gfmt1:min=1:time=0"
+        );
+        assert_eq!(
+            restorable_stty("500:5:bf:8a3b:3:1c:7f".into()),
+            "500:5:bf:8a3b:3:1c:7f"
+        );
+    }
+
     use super::*;
 
     #[test]
