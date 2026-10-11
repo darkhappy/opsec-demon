@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "folder_exclude_patterns": [
+        "target",
+        ".git"
+      ]
+    }
+  ],
+  "build_systems": [
+    {
+      "name": "Nightfall checks",
+      "shell_cmd": "sh scripts/ci.sh"
+    }
+  ]
+}
