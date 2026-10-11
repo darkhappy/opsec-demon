@@ -7,6 +7,7 @@ mod expansion;
 mod job;
 mod metrics;
 mod music;
+mod novel;
 mod prompt;
 mod ritual;
 mod room;
@@ -29,6 +30,8 @@ use std::time::{Duration, Instant};
 
 const HELP: &str = "OPSEC DEMON // command uplink
   help                   show this console
+  novel [start|next|choose 1|2|status|reset] original Lost Signals story
+  psyche                 fictional story-character analysis
   shell                  open your native interactive shell
   export NAME=value      persist environment for child commands
   unset NAME             remove a child environment variable
@@ -176,6 +179,7 @@ struct Shell {
     previous_dir: Option<PathBuf>,
     countries: countries::Countries,
     stage: stage::Stage,
+    novel: novel::Novel,
 }
 
 macro_rules! out {
@@ -229,6 +233,7 @@ impl Shell {
             previous_dir: None,
             countries: countries::Countries::new(),
             stage: stage::Stage::new(),
+            novel: novel::Novel::default(),
         }
     }
 
@@ -522,6 +527,12 @@ impl Shell {
         }
         match args[0].as_str() {
             "help" if args.len() == 1 => out!(self, "{HELP}"),
+            "novel" => out!(
+                self,
+                "{}",
+                self.novel.command(&args[1..]).map_err(io::Error::other)?
+            ),
+            "psyche" if args.len() == 1 => out!(self, "{}", self.novel.psyche()),
             "status" if args.len() == 1 => {
                 self.status();
                 out!(self, "{}", self.stage.status());
@@ -900,6 +911,8 @@ fn is_builtin(line: &str) -> bool {
     matches!(
         line.split_whitespace().next().unwrap_or(""),
         "help"
+            | "novel"
+            | "psyche"
             | "..advancedttk"
             | "status"
             | "mainframe"

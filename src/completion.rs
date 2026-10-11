@@ -9,6 +9,8 @@ const CHOICE_LIMIT: usize = 512;
 const ENTRY_LIMIT: usize = 4096;
 const BUILTINS: &[&str] = &[
     "help",
+    "novel",
+    "psyche",
     "status",
     "cinematic",
     "callsign",
