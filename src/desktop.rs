@@ -1137,7 +1137,7 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
                     let mut monitor: Monitor = std::mem::zeroed();
                     monitor.size = std::mem::size_of::<Monitor>() as u32;
                     GetMonitorInfoW(MonitorFromWindow(window, 2), &mut monitor);
-                    SetWindowLongPtrW(window, -16, 0x80000000u32 as isize);
+                    SetWindowLongPtrW(window, -16, 0x90000000u32 as isize);
                     SetWindowPos(
                         window,
                         null_mut(),
@@ -1148,7 +1148,7 @@ pub fn run(shell: Shell, smoke: bool) -> io::Result<u8> {
                         0x24,
                     );
                 } else {
-                    SetWindowLongPtrW(window, -16, 0x00CF0000);
+                    SetWindowLongPtrW(window, -16, 0x10CF0000);
                     SetWindowPos(
                         window,
                         null_mut(),
