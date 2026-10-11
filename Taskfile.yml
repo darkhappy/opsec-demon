@@ -1,0 +1,12 @@
+version: '3'
+tasks:
+  build:
+    cmds: [cargo build --release --locked]
+  check:
+    cmds: [cargo fmt --check, 'cargo clippy --all-targets -- -D warnings']
+  test:
+    cmds: [cargo test --locked]
+  ci:
+    cmds: [sh scripts/ci.sh]
+  roblox:
+    cmds: [sh scripts/roblox-check.sh]
