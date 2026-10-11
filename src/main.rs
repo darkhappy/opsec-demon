@@ -66,7 +66,7 @@ const HELP: &str = "OPSEC DEMON // command uplink
   cinematic              replay the demon awakening
   callsign [NAME]        claim your operator identity
   dossier                view your fictional operator profile
-  mascot [demon|mo-krill|chinese-demon] select your ASCII companion
+  mascot [demon|mo-krill|chinese-demon|tweeter|krillion] select your ASCII companion
   poopsec [on|off]       toggle the porcelain demon persona
   mission [next]         read or advance the story briefing
   oracle                 receive a transmission from the machine
@@ -707,9 +707,12 @@ impl Shell {
             "dossier" if args.len() == 1 => self.dossier(),
             "mascot" if args.len() <= 2 => {
                 if let Some(name) = args.get(1) {
-                    if !matches!(name.as_str(), "demon" | "mo-krill" | "chinese-demon") {
+                    if !matches!(
+                        name.as_str(),
+                        "demon" | "mo-krill" | "chinese-demon" | "tweeter" | "krillion"
+                    ) {
                         return Err(io::Error::other(
-                            "mascot expects demon, mo-krill, or chinese-demon",
+                            "mascot expects demon, mo-krill, chinese-demon, tweeter, or krillion",
                         ));
                     }
                     self.mascot = name.clone();

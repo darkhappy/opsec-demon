@@ -318,6 +318,10 @@ impl Deck {
                     } else {
                         " MO & KRILL "
                     }
+                } else if shell.mascot == "tweeter" {
+                    " TWEETER "
+                } else if shell.mascot == "krillion" {
+                    " KRILLION "
                 } else if shell.nerd_font {
                     "\u{f007} OPERATOR "
                 } else {
@@ -1298,6 +1302,27 @@ impl Deck {
             crate::expansion::PROSTREET_ART
         } else if shell.scene == "vulcan" {
             crate::expansion::VULCAN_ART
+        } else if shell.mascot == "tweeter" {
+            &[
+                r"    /\     /\",
+                r"   (())   (())",
+                r"    |  o o  |",
+                r"  .-=========-.",
+                r"  |  (( O ))  |",
+                r"  |  (( o ))  |",
+                r"  '-----------'",
+                "TWEETER / SPEAKER DEMON",
+            ]
+        } else if shell.mascot == "krillion" {
+            &[
+                r"     \  |  //",
+                r"      \ | //",
+                r"   .---o-o---.",
+                r"  <==[=======]=>",
+                r"      /| |\",
+                r"     / | | ",
+                "KRILLION / SIGNAL SWARM",
+            ]
         } else if shell.mascot == "chinese-demon" {
             &[
                 r"   /\   /\   /\",
@@ -2321,6 +2346,17 @@ mod tests {
         assert_ne!(noise(13), noise(14));
         assert!(Model::default().value(Response::Magnitude, 20.0).abs() < 0.1);
         assert!(Model::default().value(Response::Magnitude, 20000.0) < -40.0);
+    }
+
+    #[test]
+    fn original_mascots_render_with_named_panels() {
+        let mut shell = Shell::new(false);
+        let mut deck = Deck::new(false);
+        deck.size = (140, 44);
+        for name in ["tweeter", "krillion"] {
+            assert_eq!(shell.execute(&format!("mascot {name}")), 0);
+            assert!(deck.render(&shell).contains(&name.to_uppercase()));
+        }
     }
 
     #[test]
