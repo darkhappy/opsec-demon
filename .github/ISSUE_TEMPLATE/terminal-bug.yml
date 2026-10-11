@@ -1,0 +1,23 @@
+name: Terminal incident report
+description: Report a reproducible command-deck problem.
+title: "[incident] "
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: Terminal environment
+      description: OS, terminal, rows/columns, launch flags, and font mode. Remove secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction and observed behavior
+      description: Include expected behavior and the smallest reproducing command sequence.
+    validations:
+      required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: Relevant checks or logs
+      description: Paste only redacted output you are comfortable making public.
