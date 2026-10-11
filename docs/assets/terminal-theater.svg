@@ -5,7 +5,7 @@
 <text x="18" y="48" xml:space="preserve" font-family="monospace" font-size="13" textLength="744" lengthAdjust="spacingAndGlyphs" fill="#ff0000">&gt;_ OPSEC / NIGHTFALL   ▰▰▰   NIGHTWRAITH / SIM HOI4 PHI | idle | 0 complete / PEDAL UP LARP 0</text>
 <text x="762" y="48" xml:space="preserve" font-family="monospace" font-size="13" textLength="360" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                             </text>
 <text x="10" y="64" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="18" y="64" xml:space="preserve" font-family="monospace" font-size="13" textLength="344" lengthAdjust="spacingAndGlyphs" fill="#808080">UPLINK ONLINE  /  3 ops  /  exit 0  /  1.3s</text>
+<text x="18" y="64" xml:space="preserve" font-family="monospace" font-size="13" textLength="344" lengthAdjust="spacingAndGlyphs" fill="#808080">UPLINK ONLINE  /  3 ops  /  exit 0  /  1.2s</text>
 <text x="362" y="64" xml:space="preserve" font-family="monospace" font-size="13" textLength="760" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                                                                               </text>
 <text x="10" y="80" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
 <text x="18" y="80" xml:space="preserve" font-family="monospace" font-size="13" textLength="488" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">DEMO MUSIC | Playing | NIGHTWRAITH - Mainframe After Midnight</text>
@@ -25,8 +25,8 @@
 <text x="130" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                  </text>
 <text x="274" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="376" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ neon-exorcist --dance-burst --seed 977B</text>
-<text x="674" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="168" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                     </text>
+<text x="298" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="296" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ sigilctl --decode --seed 2B10</text>
+<text x="594" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="248" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                               </text>
 <text x="842" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="184" lengthAdjust="spacingAndGlyphs" fill="#ff0000">BEATLES / ASCII TRIBUTE</text>
 <text x="1042" y="112" xml:space="preserve" font-family="monospace" font-size="13" textLength="72" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">         </text>
@@ -37,7 +37,7 @@
 <text x="138" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="136" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                 </text>
 <text x="274" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] B55D :: daemon cycle complete</text>
+<text x="298" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] A3C6 :: daemon cycle complete</text>
 <text x="578" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="264" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                 </text>
 <text x="842" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="128" xml:space="preserve" font-family="monospace" font-size="13" textLength="136" lengthAdjust="spacingAndGlyphs" fill="#5fff00"> o    o    o    o</text>
@@ -49,8 +49,8 @@
 <text x="130" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                  </text>
 <text x="274" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="376" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ neon-exorcist --dance-burst --seed 977B</text>
-<text x="674" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="168" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                     </text>
+<text x="298" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="296" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">[SIM] $ sigilctl --decode --seed 2B10</text>
+<text x="594" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="248" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                               </text>
 <text x="842" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="144" lengthAdjust="spacingAndGlyphs" fill="#5fff00">\|\  \|\  \|\  \|\</text>
 <text x="1002" y="144" xml:space="preserve" font-family="monospace" font-size="13" textLength="112" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">              </text>
@@ -61,7 +61,7 @@
 <text x="146" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="128" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                </text>
 <text x="274" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="290" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="298" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] B55D :: daemon cycle complete</text>
+<text x="298" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="280" lengthAdjust="spacingAndGlyphs" fill="#5fff00">[SIM] A3C6 :: daemon cycle complete</text>
 <text x="578" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="264" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                                 </text>
 <text x="842" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
 <text x="858" y="160" xml:space="preserve" font-family="monospace" font-size="13" textLength="160" lengthAdjust="spacingAndGlyphs" fill="#5fff00">\|=&gt; &lt;|=  \|=&gt; (===)</text>
@@ -174,20 +174,18 @@
 <text x="298" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="304" lengthAdjust="spacingAndGlyphs" fill="#5fff00">I&#x27;M IN. // SIM:LINK // LOCAL SIMULATOR</text>
 <text x="602" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="240" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                              </text>
 <text x="842" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">││</text>
-<text x="858" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#005f00">:B</text>
-<text x="874" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="882" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">C</text>
-<text x="890" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#5fff00">:</text>
-<text x="898" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
+<text x="858" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">B</text>
+<text x="866" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="24" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">   </text>
+<text x="890" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">=</text>
+<text x="898" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#5fff00">A</text>
+<text x="906" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
 <text x="914" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="96" lengthAdjust="spacingAndGlyphs" fill="#ffaf00">+ * POW! * +</text>
-<text x="1010" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">E</text>
-<text x="1018" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="1026" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">=</text>
-<text x="1034" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="32" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">    </text>
-<text x="1066" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">&lt;</text>
-<text x="1074" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
-<text x="1090" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#005f00">1&lt;</text>
-<text x="1106" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
+<text x="1010" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="32" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">    </text>
+<text x="1042" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#5fff00">AA</text>
+<text x="1058" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">  </text>
+<text x="1074" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#005f00">&lt;</text>
+<text x="1082" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#afffaf">/</text>
+<text x="1090" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="24" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">   </text>
 <text x="1114" y="336" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="10" y="352" xml:space="preserve" font-family="monospace" font-size="13" textLength="1112" lengthAdjust="spacingAndGlyphs" fill="#808080">╰────────────────────────────────╯╰─────────────────────────────────────────────────────────────────────╯╰────────────────────────────────╯</text>
 <text x="10" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="16" lengthAdjust="spacingAndGlyphs" fill="#808080">╭─</text>
@@ -199,7 +197,7 @@
 <text x="1042" y="368" xml:space="preserve" font-family="monospace" font-size="13" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#808080">─────────╮</text>
 <text x="10" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#808080">│</text>
 <text x="18" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="8" lengthAdjust="spacingAndGlyphs" fill="#d6dde7"> </text>
-<text x="26" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="424" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">MAINFRAME CONNECTION ESTABLISHED // SIM ECHO 0.095 ms</text>
+<text x="26" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="424" lengthAdjust="spacingAndGlyphs" fill="#d0d0d0">MAINFRAME CONNECTION ESTABLISHED // SIM ECHO 0.087 ms</text>
 <text x="450" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="216" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">                           </text>
 <text x="666" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="136" lengthAdjust="spacingAndGlyphs" fill="#808080">││dB / f_c 1674Hz</text>
 <text x="802" y="384" xml:space="preserve" font-family="monospace" font-size="13" textLength="88" lengthAdjust="spacingAndGlyphs" fill="#d6dde7">           </text>
