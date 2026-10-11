@@ -1,0 +1,12 @@
+stages: [verify]
+default:
+  image: rust:1.93.1-bookworm
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends python3
+deus-ex-machina:
+  stage: verify
+  script:
+    - sh scripts/ci.sh
+  artifacts:
+    paths: [target/release/opsec-demon]
+    expire_in: 7 days
