@@ -1,0 +1,17 @@
+version: '1.0'
+stages: [clone, verify]
+steps:
+  clone:
+    title: Clone source
+    type: git-clone
+    repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
+    revision: '${{CF_REVISION}}'
+    stage: clone
+  verify:
+    title: Deus Ex Machina
+    image: rust:1.93.1-bookworm
+    working_directory: '${{clone}}'
+    stage: verify
+    commands:
+      - apt-get update && apt-get install -y --no-install-recommends python3
+      - sh scripts/ci.sh
