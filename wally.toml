@@ -1,0 +1,9 @@
+[package]
+name = "darkhappy/nightfall-prop"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+license = "MIT"
+include = ["roblox/src/shared/**", "wally.toml"]
+
+[dependencies]
