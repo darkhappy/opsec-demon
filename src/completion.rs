@@ -24,6 +24,7 @@ fn executable(path: &Path, _metadata: &fs::Metadata) -> bool {
         })
 }
 const BUILTINS: &[&str] = &[
+    "rips",
     "opsecular",
     "help",
     "discord",
@@ -51,6 +52,7 @@ const BUILTINS: &[&str] = &[
     "ritual",
     "bido",
     "bucket",
+    "yoggies",
     "tailscale",
     "icons",
     "doctor",

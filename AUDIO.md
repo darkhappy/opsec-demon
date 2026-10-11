@@ -1,5 +1,23 @@
 # Nightfall / Tweeter & Krillion original score
 
+## OpSecULAR 97 remix-style album
+
+`rips list` lists nine original 16-bar synth songs with different tempos, keys,
+harmonics, and surprise melody switches. This is an unaffiliated tribute to
+SiIvaGunner-style remix humor, with no SiIvaGunner recordings or sampled game music.
+The tracks are synthesized on demand as 22.05 kHz, 16-bit stereo PCM WAV files:
+
+```text
+rips render 1 /tmp/recycle-bin.wav
+soundtrack play /tmp/recycle-bin.wav
+```
+
+IDs 1–9 select Recycle Bin Bossa, WSL Jade Boot, Krillion Lane Counterpick,
+Larp City Bus Ride, Lost Signals Afterparty, Curds of Destiny, Mainframe Tears,
+Serial Clown Inferno, and OpSecULAR 97 Credits. Files are created exclusively;
+existing paths are never overwritten. Playback uses the same host audio adapter
+as the original Nightfall score. Rendering does not require an audio device.
+
 The included soundtrack is an original 32-bar, 148 BPM E-minor synth track: kick, bass,
 snare, arpeggio, pad, stereo echo, and fades. The PCM WAV is 44.1 kHz, 16-bit stereo,
 51.89 seconds long. No music from Lost Child or another game is sampled.

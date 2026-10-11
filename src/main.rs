@@ -11,6 +11,7 @@ mod music;
 mod novel;
 mod opsecular;
 mod prompt;
+mod rips;
 mod ritual;
 mod room;
 mod simulations;
@@ -34,6 +35,7 @@ use std::time::{Duration, Instant};
 const HELP: &str = "OPSEC DEMON // command uplink
   opsecular [desktop|boot|terminal|wsl|recycle|operator|spirit|support|poutine|weep] SIM OS
   help                   show this console
+  rips [list|render ID FILE.wav] nine original melody-switch synth songs
   discord [status|on [APPLICATION_ID]|off] real local IPC, fictional SIM broadcasts
   novel [start|next|choose 1|2|status|reset] original Lost Signals story
   psyche                 fictional story-character analysis
@@ -572,6 +574,20 @@ impl Shell {
             out!(self, "{event}");
         }
         match args[0].as_str() {
+            "rips" => match args
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>()
+                .as_slice()
+            {
+                ["rips"] | ["rips", "list"] => out!(self, "{}", rips::catalog()),
+                ["rips", "render", id, path] => {
+                    let id = id.parse::<usize>().map_err(io::Error::other)?;
+                    rips::render(id, path)?;
+                    out!(self, "[ORIGINAL AUDIO] Rendered track {id} to {path}");
+                }
+                _ => return Err(io::Error::other("usage: rips [list|render ID FILE.wav]")),
+            },
             "opsecular" => out!(
                 self,
                 "{}",
@@ -1003,6 +1019,7 @@ fn is_builtin(line: &str) -> bool {
     matches!(
         line.split_whitespace().next().unwrap_or(""),
         "help"
+            | "rips"
             | "discord"
             | "opsecular"
             | "soundtrack"
