@@ -589,7 +589,7 @@ impl Shell {
                 ["rips", "render", id, path] => {
                     let id = id.parse::<usize>().map_err(io::Error::other)?;
                     rips::render(id, path)?;
-                    out!(self, "[ORIGINAL AUDIO] Rendered track {id} to {path}");
+                    out!(self, "[SYNTH AUDIO] Rendered track {id} to {path}");
                 }
                 _ => {
                     return Err(io::Error::other(
