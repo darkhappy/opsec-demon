@@ -1,0 +1,8 @@
+language: rust
+rust: "1.93.1"
+os: linux
+dist: jammy
+addons:
+  apt:
+    packages: [python3]
+script: sh scripts/ci.sh
