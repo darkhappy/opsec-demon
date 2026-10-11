@@ -1,0 +1,16 @@
+{
+  "languageMode": "strict",
+  "globals": [
+    "game",
+    "script",
+    "workspace",
+    "Instance",
+    "Color3",
+    "Vector3",
+    "CFrame",
+    "Enum",
+    "task",
+    "warn",
+    "print"
+  ]
+}
