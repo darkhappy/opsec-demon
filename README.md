@@ -303,6 +303,18 @@ sh scripts/roblox-check.sh
 | Real execution, synthetic effects, assets, and platform boundaries | [Architecture](ARCHITECTURE.md) |
 | Build, troubleshoot, and operate locally | [Operations](OPERATIONS.md) |
 
+## GITHUB DIRECTORATE // LOCAL PAPER TRAIL
+
+<img src="docs/assets/github-commit-history.svg" alt="Actual cumulative local commit count plotted over recorded committer timestamps" width="1200" />
+<img src="docs/assets/github-file-census.svg" alt="Tracked file counts grouped by filename extension at the recorded Git revision" width="1200" />
+<img src="docs/assets/github-ci-constellation.svg" alt="Configuration illustration of twenty CI adapters routed through the shared Deus Ex Machina driver" width="1200" />
+
+The timeline and file census use real local Git records at the revision saved in
+[the telemetry snapshot](docs/github/local-telemetry.json). The CI constellation illustrates
+configured files; it does not claim twenty hosted builds passed. Regenerate the offline
+charts with `python3 scripts/github-telemetry.py`. Each snapshot names its basis revision,
+so later documentation commits do not silently change the plotted historical counts.
+
 ## FIELD MANUAL // ACTUAL OPERATING INSTRUCTIONS
 
 
