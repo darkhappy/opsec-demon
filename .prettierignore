@@ -1,0 +1,7 @@
+target/
+Cargo.lock
+**/*.rs
+**/*.py
+**/*.sh
+**/*.ps1
+docs/assets/
