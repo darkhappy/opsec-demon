@@ -1,0 +1,7 @@
+services:
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    ports: ["127.0.0.1:9091:9090"]
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on: [demon]
