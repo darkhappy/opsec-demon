@@ -1,0 +1,6 @@
+[alias]
+nightfall = "run --release --"
+audit-deck = "clippy --all-targets -- -D warnings"
+
+[term]
+verbose = false
