@@ -146,6 +146,29 @@ git remote -v
 
 </details>
 
+## LIVE DECK // ACTUAL COLORED TERMINAL CAPTURES
+
+These images capture the running Rust TUI at 140 columns × 44 rows. Prompt and Kubernetes
+context use demo fixtures; the music line is explicitly in demo mode. The ANSI colors,
+layout, story text, mascots, and metric values come from the real application.
+
+### Venom // Tweeter + actual session metrics
+
+<img src="docs/assets/terminal-metrics.svg" alt="Actual venom-colored terminal capture showing the Tweeter demon and real session metrics tab" width="1280" />
+
+### Ghost // Krillion + original visual novel
+
+<img src="docs/assets/terminal-novel.svg" alt="Actual cyan ghost-theme terminal capture with Krillion and the Lost Signals visual novel tab" width="1280" />
+
+### Crimson // the synthetic signal room
+
+<img src="docs/assets/terminal-theater.svg" alt="Actual red crimson-theme dashboard capture showing four synthetic signal response graphs and the speaker demon" width="1280" />
+
+Three selectable palettes use ANSI 256-color indices: `theme crimson`, `theme ghost`, and
+`theme venom`. Metrics highlight actual counts; story headings and dialogue have distinct
+colors. `--plain` or `NO_COLOR=1` removes color. To reproduce these images after building:
+`python3 scripts/capture-readme.py`.
+
 ## FIELD MANUAL // ACTUAL OPERATING INSTRUCTIONS
 
 
