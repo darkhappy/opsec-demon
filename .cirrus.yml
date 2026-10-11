@@ -1,0 +1,7 @@
+nightfall_task:
+  container:
+    image: rust:1.93.1-bookworm
+  install_script: apt-get update && apt-get install -y --no-install-recommends python3
+  verify_script: sh scripts/ci.sh
+  binary_artifacts:
+    path: target/release/opsec-demon
