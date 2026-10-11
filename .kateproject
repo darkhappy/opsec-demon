@@ -1,0 +1,21 @@
+{
+  "name": "OPSEC DEMON",
+  "files": [
+    {
+      "git": 1
+    }
+  ],
+  "build": {
+    "directory": ".",
+    "targets": [
+      {
+        "name": "Check",
+        "build_cmd": "sh scripts/ci.sh"
+      },
+      {
+        "name": "Build",
+        "build_cmd": "cargo build --release --locked"
+      }
+    ]
+  }
+}
