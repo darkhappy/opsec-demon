@@ -10,7 +10,7 @@ license = "MIT"
 serde_json = "1.0"
 
 [target.'cfg(windows)'.dependencies]
-eframe = { version = "=0.33.3", default-features = false, features = ["wgpu", "default_fonts"] }
+eframe = { version = "=0.35.0", default-features = false, features = ["wgpu", "default_fonts"] }
 png = "=0.18.1"
 pollster = "=0.4.0"
 wgpu = { version = "=27.0.1", default-features = false, features = ["vulkan", "wgsl"] }
